@@ -21,37 +21,6 @@ class FriendRequest extends Model
     }
     /*****************************************************************************
      *custom functions
-     *****************************************************************************/
-//sending validation
-    public static function sendingValidation($sender_id, $receiver_id)
-    {
-        if ($sender_id == $receiver_id) {
-            return false;
-        }
-
-        if (self::where('sender_id', '=', $sender_id)->where('receiver_id', '=', $receiver_id)->first()) {
-            return false;
-        }
-
-        if (self::where('sender_id', '=', $receiver_id)->where('receiver_id', '=', $sender_id)->first()) {
-            return false;
-        }
-
-        return true;
-    }
-//check if a specific friend request has been sent
-    public static function isSent($sender_id, $receiver_id)
-    {
-
-        if (self::where('sender_id', '=', $sender_id)->where('receiver_id', '=', $receiver_id)->where('status', '=', 'sent')->first()) {
-            return true;
-        }
-
-        return false;
-
-    }
-    /****************************************************************************
-     * 12-2-2019 logic
      ***************************************************************************/
 //isSentTo
     public static function isSentTo($receiver_id)
