@@ -1,0 +1,83 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Intervention\Image\ImageManagerStatic as Image;
+
+class Photo extends Model
+{
+    /****************************************************************************
+     *variables
+     ****************************************************************************/
+    protected $fillable = ['photoable_id', 'photoable_type', 'file'];
+    protected $path = '/images/';
+    private $photoFile;
+    private $photoName;
+
+    /****************************************************************************
+     *relations
+     ****************************************************************************/
+    public function photoable()
+    {
+        return $this->morphTo();
+    }
+    /****************************************************************************
+     *models event
+     ****************************************************************************/
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($photo) {
+
+            $fullPath = './../storage/app/images/' . $photo->file;
+            unlink($fullPath);
+
+        });
+    }
+    /****************************************************************************
+     *custom functions
+     ****************************************************************************/
+//return  the url of photo
+    public function imageWithFolder()
+    {
+        return '/photos/' . $this->file;
+    }
+//handling the photo file--@return $this
+    public function handleFile($file)
+    {
+        $this->photoFile = $file;
+        return $this;
+    }
+//naming the photo file--@return $this
+    public function namingPhoto()
+    {
+        $this->photoName = time() . random_int(100000, 1000000000) . '.' . $this->photoFile->getClientOriginalExtension();
+        return $this;
+
+    }
+//saving photo to directory--@return $this
+    public function savingPhotoToDir()
+    {
+        $img = Image::make($this->photoFile)->resize(300, 300);
+        $img->save('./../storage/app/images/' . $this->photoName);
+        return $this;
+
+    }
+//saving photo details to photos table--@return $this
+    public function savingPhotoToDatabase($photoableType, $photoableId)
+    {
+
+        $this->file = $this->photoName;
+        $this->photoable_type = $photoableType;
+        $this->photoable_id = $photoableId;
+        $this->save();
+        return $this;
+
+    }
+
+}
+
+
+
