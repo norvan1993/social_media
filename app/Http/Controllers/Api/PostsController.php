@@ -194,11 +194,12 @@ class PostsController extends Controller
      **************************************************************************/
     public function userPosts($userId)
     {
-        $user = User::findOrFail($userId);
+
+        User::findOrFail($userId);
         if (Auth::user()->role_id == 1 || Auth::id() == $userId) {
-            return $user->posts->paginate(10);
+            return Post::where('user_id', '=', $userId)->paginate(10);
         }
-        Post::viewablePostsOfUser($userId);
+        return Post::viewablePostsOfUser($userId);
     }
 
 

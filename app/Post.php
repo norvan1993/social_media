@@ -76,7 +76,7 @@ class Post extends Model
 
     }
     //this will return all viewable posts of a user(given by id)
-    public function viewablePostsOfUser($userId)
+    public static function viewablePostsOfUser($userId)
     {
         return DB::table('posts')
             ->leftJoin('friend_requests AS sender', 'posts.user_id', '=', 'sender.sender_id')
