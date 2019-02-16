@@ -194,27 +194,11 @@ class PostsController extends Controller
      **************************************************************************/
     public function userPosts($userId)
     {
-        return DB::table('posts')
-            ->leftJoin('friend_requests AS sender', 'posts.user_id', '=', 'sender.sender_id')
-            ->leftJoin('friend_requests AS receiver', 'posts.user_id', '=', 'receiver.receiver_id')
-            ->leftJoin('post_privacy', 'posts.id', '=', 'post_privacy.post_id')
-            ->where('posts.user_id', '=', $userId)
-            ->where(function ($query1) {
-                $query1->where('posts.privacy', '=', 'public')
-                    ->orWhere('posts.privacy', '=', 'friends')
-                    ->where(function ($query2) {
-                        $query2->where('receiver.sender_id', '=', Auth::id())
-                            ->where('receiver.status', '=', 'friend')
-                            ->orWhere('sender.receiver_id', '=', Auth::id())
-                            ->where('sender.status', '=', 'friend');
-                    })
-                    ->orWhere('post_privacy.viewer_id', '=', Auth::id());
-            })
-            ->select('posts.*')
-            ->distinct()
-            ->paginate(10);
-
-
+        $user = User::findOrFail($userId);
+        if (Auth::user()->role_id == 1 || Auth::id() == $userId) {
+            return $user->posts->paginate(10);
+        }
+        Post::viewablePostsOfUser($userId);
     }
 
 

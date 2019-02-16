@@ -97,7 +97,6 @@ class Post extends Model
             ->select('posts.*')
             ->distinct()
             ->paginate(10);
-
     }
 
 
