@@ -54,7 +54,7 @@ class Post extends Model
      *custom functions
      *******************************************************************************/
     //this will return all viewable posts
-    public function viewablePosts()
+    public static function viewablePosts()
     {
         return DB::table('posts')
             ->leftJoin('post_privacy', 'posts.id', '=', 'post_privacy.post_id')
