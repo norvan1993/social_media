@@ -10,21 +10,33 @@ use App\Photo;
 use App\Rules\CheckPrivacy;
 use App\Rules\CheckDeletedPhotos;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\Rules\CheckDefaultPrivacy;
+use Illuminate\Support\Facades\DB;
+use App\User;
 
 class PostsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('is_auth')->only('update');
+        $this->middleware('is_auth')->only('update', 'updatePrivacy');
         $this->middleware('is_auth_or_admin')->only('delete');
+
     }
     /**************************************************************************
      * index
      **************************************************************************/
     public function index()
     {
-        $json = json_encode(Post::select('id', 'user_id', 'title', 'body', 'created_at', 'updated_at')->with('photos')->paginate(10));
-        return response($json, 200)->header('Content-Type', 'application/json');
+        switch (Auth::user()->role_id) {
+            case 1:
+                return Post::paginate(10);
+                break;
+
+            default:
+                return Post::viewablePosts();
+                break;
+        }
+
     }
     /**************************************************************************
      * store
@@ -36,18 +48,29 @@ class PostsController extends Controller
             [
                 'title' => 'required',
                 'body' => ['sometimes', 'required'],
-                'privacy' => ['required', new CheckPrivacy],
+                'privacy' => ['required', 'json', new CheckDefaultPrivacy],
                 'photos.*' => ['sometimes', 'required', 'image'],
 
             ]
         );
 //selecting the direct inputs from the user
-        $input = $request->only(['title', 'body', 'privacy']);
+        $input = $request->only(['title', 'body']);
 //setting user id
         $input['user_id'] = Auth::id();
+//converting json request(privacy field) to array
+        $array = json_decode($request->privacy, true);
+//saving the status in post table(inside privacy column in posts table)
+        $input['privacy'] = $array['status'];
 //storing the post
         $postModel = Post::create($input);
-
+//inserting  viewers id's in case of custom privacy
+        if ($array['status'] == 'custom') {
+            foreach ($array['id_list'] as $id) {
+                DB::table('post_privacy')->insert(
+                    ['post_id' => $postModel->id, 'viewer_id' => $id]
+                );
+            }
+        }
 //storing images
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $file) {
@@ -57,6 +80,8 @@ class PostsController extends Controller
                 }
             }
         }
+
+
         $json = json_encode(['status' => 1, 'message' => 'success']);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
@@ -81,14 +106,14 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
 //check post id
-        $postModel = Post::with('photos')->findOrFail($id);
+        $postModel = Post::findOrFail($id);
 
 //validate request
         $validatedData = $request->validate(
             [
                 'title' => ['sometimes', 'required'],
                 'body' => ['sometimes', 'required'],
-                'privacy' => ['sometimes', 'required', new CheckPrivacy],
+                'privacy' => ['sometimes', 'required', new CheckDefaultPrivacy],
                 'photos.*' => ['sometimes', 'required', 'image'],
                 'deleted_photos' => ['sometimes', 'required', 'array'],
                 'deleted_photos.*' => ['sometimes', 'required', new CheckDeletedPhotos],
@@ -96,7 +121,7 @@ class PostsController extends Controller
             ]
         );
 //set direct user inputs
-        $input = $request->only('title', 'body', 'privacy');
+        $input = $request->only('title', 'body');
 //set user id
         $input['user_id'] = Auth::id();
 //update post
@@ -134,5 +159,63 @@ class PostsController extends Controller
         $json = json_encode($array);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
+    /**************************************************************************
+     * updatePrivacy//via PUT:api/posts/{post}/update_privacy
+     **************************************************************************/
+    public function updatePrivacy(Request $request, $post)
+    {
+//validating request
+        $validatedData = $request->validate(
+            [
+                'privacy' => ['required', 'json', new CheckDefaultPrivacy],
+            ]
+        );
+//converting json request(privacy field) to array
+        $array = json_decode($request->privacy, true);
+//deleting old custom viewers
+        $old_viewers = DB::table('post_privacy')->where('post_id', '=', $post);
+        if ($old_viewers) {
+            $old_viewers->delete();
+        }
+//inserting  viewers id's in case of custom privacy
+        if ($array['status'] == 'custom') {
+            foreach ($array['id_list'] as $id) {
+                DB::table('post_privacy')->insert(
+                    ['post_id' => $post, 'viewer_id' => $id]
+                );
+            }
+        }
+//saving the status in post table(inside privacy column in posts table)
+        $input['privacy'] = $array['status'];
+
+    }
+    /**************************************************************************
+     * userPosts//via GET:api/users/{user}/posts
+     **************************************************************************/
+    public function userPosts($userId)
+    {
+        return DB::table('posts')
+            ->leftJoin('friend_requests AS sender', 'posts.user_id', '=', 'sender.sender_id')
+            ->leftJoin('friend_requests AS receiver', 'posts.user_id', '=', 'receiver.receiver_id')
+            ->leftJoin('post_privacy', 'posts.id', '=', 'post_privacy.post_id')
+            ->where('posts.user_id', '=', $userId)
+            ->where(function ($query1) {
+                $query1->where('posts.privacy', '=', 'public')
+                    ->orWhere('posts.privacy', '=', 'friends')
+                    ->where(function ($query2) {
+                        $query2->where('receiver.sender_id', '=', Auth::id())
+                            ->where('receiver.status', '=', 'friend')
+                            ->orWhere('sender.receiver_id', '=', Auth::id())
+                            ->where('sender.status', '=', 'friend');
+                    })
+                    ->orWhere('post_privacy.viewer_id', '=', Auth::id());
+            })
+            ->select('posts.*')
+            ->distinct()
+            ->paginate(10);
+
+
+    }
+
 
 }

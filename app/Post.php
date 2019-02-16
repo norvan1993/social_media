@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -51,6 +53,52 @@ class Post extends Model
     /*******************************************************************************
      *custom functions
      *******************************************************************************/
-//there are some functions should be here soon
+    //this will return all viewable posts
+    public function viewablePosts()
+    {
+        return DB::table('posts')
+            ->leftJoin('post_privacy', 'posts.id', '=', 'post_privacy.post_id')
+            ->leftJoin('friend_requests AS sender', 'posts.user_id', '=', 'sender.sender_id')
+            ->leftJoin('friend_requests AS receiver', 'posts.user_id', '=', 'receiver.receiver_id')
+            ->where('posts.user_id', '=', Auth::id())
+            ->orWhere('posts.privacy', '=', 'public')
+            ->orWhere('posts.privacy', '=', 'friends')
+            ->where(function ($query) {
+                $query->where('receiver.sender_id', '=', Auth::id())
+                    ->where('receiver.status', '=', 'friend')
+                    ->orWhere('sender.receiver_id', '=', Auth::id())
+                    ->where('sender.status', '=', 'friend');
+            })
+            ->orWhere('post_privacy.viewer_id', '=', Auth::id())
+            ->select('posts.*')
+            ->distinct()
+            ->paginate(10);
+
+    }
+    //this will return all viewable posts of a user(given by id)
+    public function viewablePostsOfUser($userId)
+    {
+        return DB::table('posts')
+            ->leftJoin('friend_requests AS sender', 'posts.user_id', '=', 'sender.sender_id')
+            ->leftJoin('friend_requests AS receiver', 'posts.user_id', '=', 'receiver.receiver_id')
+            ->leftJoin('post_privacy', 'posts.id', '=', 'post_privacy.post_id')
+            ->where('posts.user_id', '=', $userId)
+            ->where(function ($query1) {
+                $query1->where('posts.privacy', '=', 'public')
+                    ->orWhere('posts.privacy', '=', 'friends')
+                    ->where(function ($query2) {
+                        $query2->where('receiver.sender_id', '=', Auth::id())
+                            ->where('receiver.status', '=', 'friend')
+                            ->orWhere('sender.receiver_id', '=', Auth::id())
+                            ->where('sender.status', '=', 'friend');
+                    })
+                    ->orWhere('post_privacy.viewer_id', '=', Auth::id());
+            })
+            ->select('posts.*')
+            ->distinct()
+            ->paginate(10);
+
+    }
+
 
 }

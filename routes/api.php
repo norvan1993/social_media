@@ -23,7 +23,8 @@ Route::put('/users/{user}/admin_update', 'Api\UsersController@adminUpdate');
 
 //posts routes
 Route::resource('/posts', 'Api\PostsController')->except(['edit', 'create'])->middleware('auth:api');
-
+Route::put('/posts/{post}/update_privacy', 'Api\PostsController@updatePrivacy')->middleware('auth:api');
+Route::get('/users/{user}/posts', 'Api\PostsController@userPosts')->middleware('auth:api');
 //friend requests routes
 Route::post('/friendship/send', 'Api\FriendRequestsController@send')->middleware('auth:api');
 Route::delete('/friendship/cancel', 'Api\FriendRequestsController@cancel')->middleware('auth:api');
@@ -37,3 +38,4 @@ Route::get('/friendship/friends_list', 'Api\FriendRequestsController@friendsList
 //post privacy routes
 Route::put('/set_default_viewers', 'Api\DefaultPostViewersController@setViewers')->middleware('auth:api');
 Route::get('/get_default_viewers', 'Api\DefaultPostViewersController@getViewers')->middleware('auth:api');
+

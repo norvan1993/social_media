@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDefaultPostPrivacyTable extends Migration
+class CreatePostPrivacyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateDefaultPostPrivacyTable extends Migration
      */
     public function up()
     {
-        Schema::create('default_post_privacy', function (Blueprint $table) {
-            $table->integer('owner_id')->index();
+        Schema::create('post_privacy', function (Blueprint $table) {
+            $table->integer('post_id')->index();
             $table->integer('viewer_id');
         });
     }
@@ -26,6 +26,6 @@ class CreateDefaultPostPrivacyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('default_post_privacy');
+        Schema::dropIfExists('post_privacy');
     }
 }
