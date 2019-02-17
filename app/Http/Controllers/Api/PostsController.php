@@ -7,12 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Photo;
-use App\Rules\CheckPrivacy;
 use App\Rules\CheckDeletedPhotos;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Rules\CheckDefaultPrivacy;
 use Illuminate\Support\Facades\DB;
 use App\User;
+
 
 class PostsController extends Controller
 {
@@ -20,6 +20,7 @@ class PostsController extends Controller
     {
         $this->middleware('is_auth')->only('update', 'updatePrivacy');
         $this->middleware('is_auth_or_admin')->only('delete');
+        $this->middleware('is_viewable')->only('show');
 
     }
     /**************************************************************************
@@ -95,7 +96,11 @@ class PostsController extends Controller
 
     public function show($id)
     {
-        $postModel = Post::select('id', 'user_id', 'title', 'body')->find($id);
+
+        $post = Post::select('id', 'user_id', 'title', 'body')->find($id);
+        if (!$post->isViewable()) {
+
+        }
         $json = json_encode($post);
         return response($json, 200)->header('Content-Type', 'application/json');
 
@@ -201,6 +206,4 @@ class PostsController extends Controller
         }
         return Post::viewablePostsOfUser($userId);
     }
-
-
 }

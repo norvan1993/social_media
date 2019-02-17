@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'is_admin' => \App\Http\Middleware\IsAdmin::class,
         'is_auth' => \App\Http\Middleware\IsAuth::class,
         'is_admin_or_auth' => \App\Http\Middleware\IsAdminOrAuth::class,
+        'is_viewable' => \App\Http\Middleware\IsViewable::class,
 
     ];
 

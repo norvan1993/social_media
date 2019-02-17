@@ -52,6 +52,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Post');
     }
+//has many likes
+    public function likes()
+    {
+        return $this->hasMany('App\Like', 'sender_id');
+
+    }
 
     /***********************************************************************
      *model events

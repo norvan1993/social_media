@@ -28,6 +28,11 @@ class Post extends Model
     {
         return $this->morphMany('App\Photo', 'photoable');
     }
+//has many polymorphic likes
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likeable');
+    }
 //has many Default_allowed_viewers(many to many with users table)
     public function default_allowed_viewers()
     {
@@ -53,7 +58,7 @@ class Post extends Model
     /*******************************************************************************
      *custom functions
      *******************************************************************************/
-    //this will return all viewable posts
+//this will return all viewable posts
     public static function viewablePosts()
     {
         return DB::table('posts')
@@ -75,7 +80,7 @@ class Post extends Model
             ->paginate(10);
 
     }
-    //this will return all viewable posts of a user(given by id)
+//this will return all viewable posts of a user(given by id)
     public static function viewablePostsOfUser($userId)
     {
         return DB::table('posts')
@@ -83,6 +88,14 @@ class Post extends Model
             ->leftJoin('friend_requests AS receiver', 'posts.user_id', '=', 'receiver.receiver_id')
             ->leftJoin('post_privacy', 'posts.id', '=', 'post_privacy.post_id')
             ->where('posts.user_id', '=', $userId)
+            ->where(function ($query) {
+                $query->where('receiver.sender_id', '=', Auth::id())
+                    ->where('receiver.status', '!=', 'block')
+                    ->orWhere('sender.receiver_id', '=', Auth::id())
+                    ->where('sender.status', '!=', 'block')
+                    ->orWhere('sender.receiver_id', '!=', Auth::id())
+                    ->orWhere('receiver.sender_id', '!=', Auth::id());
+            })
             ->where(function ($query1) {
                 $query1->where('posts.privacy', '=', 'public')
                     ->orWhere('posts.privacy', '=', 'friends')
@@ -98,6 +111,29 @@ class Post extends Model
             ->distinct()
             ->paginate(10);
     }
+//return true if the post is viewable and false if not
+    public function isViewable()
+    {
+        if ($this->privacy == 'private' && $this->user_id == Auth::id()) {
+            return true;
+        }
+        if ($this->privacy == 'public' && !FriendRequest::isBlocked($this->user_id)) {
+            return true;
+        }
+        if ($this->privacy == 'friends') {
+            if (FriendRequest::isFriend($this->user_id)) {
+                return true;
+            }
+        }
+        if ($this->privacy == 'custom') {
+            $viewer = DB::table('post_privacy')->where('post_id', '=', $this->id)->where('viewer_id', '=', Auth::id())->first();
+            if ($viewer) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 }
