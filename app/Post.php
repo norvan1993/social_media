@@ -28,6 +28,11 @@ class Post extends Model
     {
         return $this->morphMany('App\Photo', 'photoable');
     }
+//has many polymorhic comments
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
 //has many polymorphic likes
     public function likes()
     {
@@ -44,7 +49,6 @@ class Post extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::deleting(function ($post) {
 //deleting post photos
             if ($post->photos) {

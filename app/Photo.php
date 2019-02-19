@@ -18,9 +18,15 @@ class Photo extends Model
     /****************************************************************************
      *relations
      ****************************************************************************/
+    //belongs to polymorphic parent
     public function photoable()
     {
         return $this->morphTo();
+    }
+    //has many polymorhic comments
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
     }
     /****************************************************************************
      *models event

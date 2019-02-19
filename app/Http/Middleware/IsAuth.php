@@ -6,6 +6,7 @@ use Closure;
 use App\User;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
+use App\Comment;
 
 class IsAuth
 {
@@ -18,18 +19,21 @@ class IsAuth
      */
     public function handle($request, Closure $next)
     {
-        $user_id = null;
+        $userId = null;
 //getting user id from different routes
         if ($request->is('api/users/*')) {
-            $user_id = $request->route('user');
+            $userId = $request->route('user');
         }
         if ($request->is('api/posts/*')) {
-
-            $post_id = $request->route('post');
-            $user_id = Post::findOrFail($post_id)->user_id;
+            $postId = $request->route('post');
+            $userId = Post::findOrFail($postId)->userId;
         }
-//checking if the user_id is same as the auth id
-        if (User::isSame($user_id, Auth::id())) {
+        if ($request->is('api/comments/*')) {
+            $commentId = $request->route('comment');
+            $userId = Comment::findOrFail($commentId)->post->user_id;
+        }
+//checking if the userId is same as the auth id
+        if (User::isSame($userId, Auth::id())) {
             return $next($request);
         }
 //sending a message if the url banned from authenticated user

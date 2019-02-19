@@ -64,6 +64,8 @@ class Kernel extends HttpKernel
         'is_auth' => \App\Http\Middleware\IsAuth::class,
         'is_admin_or_auth' => \App\Http\Middleware\IsAdminOrAuth::class,
         'is_viewable' => \App\Http\Middleware\IsViewable::class,
+        'is_not_blocked' => \App\Http\Middleware\IsNotBlocked::class,
+        'is_commentable' => \App\Http\Middleware\IsCommentable::class,
 
     ];
 

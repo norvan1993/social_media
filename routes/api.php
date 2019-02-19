@@ -43,5 +43,7 @@ Route::get('/get_default_viewers', 'Api\DefaultPostViewersController@getViewers'
 //likes routes
 Route::post('/post/add_like', 'Api\LikesController@addLikeToPost')->middleware('auth:api');
 Route::delete('/post/remove_like', 'Api\LikesController@removeLikeFromPost')->middleware('auth:api');
-
+//comment routes
+Route::resource('/comments', 'Api\CommentsController')->except(['edit', 'create', 'store', 'index'])->middleware('auth:api');
+Route::post('/posts/{post}/comment', 'Api\CommentsController@comment')->middleware('auth:api');
 

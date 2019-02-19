@@ -21,6 +21,7 @@ class PostsController extends Controller
         $this->middleware('is_auth')->only('update', 'updatePrivacy');
         $this->middleware('is_auth_or_admin')->only('delete');
         $this->middleware('is_viewable')->only('show');
+        $this->middleware('is_not_blocked')->only('userPosts');
 
     }
     /**************************************************************************
@@ -37,7 +38,6 @@ class PostsController extends Controller
                 return Post::viewablePosts();
                 break;
         }
-
     }
     /**************************************************************************
      * store
@@ -48,9 +48,9 @@ class PostsController extends Controller
         $validatedData = $request->validate(
             [
                 'title' => 'required',
-                'body' => ['sometimes', 'required'],
+                'body' => ['required_without:photos', 'required'],
                 'privacy' => ['required', 'json', new CheckDefaultPrivacy],
-                'photos.*' => ['sometimes', 'required', 'image'],
+                'photos.*' => ['required_without:body', 'image'],
 
             ]
         );
@@ -81,29 +81,18 @@ class PostsController extends Controller
                 }
             }
         }
-
-
+//sending json message
         $json = json_encode(['status' => 1, 'message' => 'success']);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
-
-
-
-
     /*************************************************************************
      * show
      **************************************************************************/
-
     public function show($id)
     {
-
         $post = Post::select('id', 'user_id', 'title', 'body')->find($id);
-        if (!$post->isViewable()) {
-
-        }
         $json = json_encode($post);
         return response($json, 200)->header('Content-Type', 'application/json');
-
     }
     /**************************************************************************
      * update
@@ -147,12 +136,9 @@ class PostsController extends Controller
             }
 
         }
-
-
 //send response
         $json = json_encode($postModel);
         return response($json, 200)->header('Content-Type', 'application/json');
-
     }
     /**************************************************************************
      * destroy
@@ -192,14 +178,12 @@ class PostsController extends Controller
         }
 //saving the status in post table(inside privacy column in posts table)
         $input['privacy'] = $array['status'];
-
     }
     /**************************************************************************
      * userPosts//via GET:api/users/{user}/posts
      **************************************************************************/
     public function userPosts($userId)
     {
-
         User::findOrFail($userId);
         if (Auth::user()->role_id == 1 || Auth::id() == $userId) {
             return Post::where('user_id', '=', $userId)->paginate(10);

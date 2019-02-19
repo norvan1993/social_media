@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Like', 'sender_id');
 
     }
+//has many comments
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 
     /***********************************************************************
      *model events
