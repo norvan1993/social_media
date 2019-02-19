@@ -34,7 +34,7 @@ class ModelItem
     /***************************************************************
      * paths
      ***************************************************************/
-    protected function paths()
+    protected function pathModelArray()
     {
         return [
             'api/users/*' => 'User',
@@ -58,7 +58,24 @@ class ModelItem
         $modelName = 'App\\' . $this->modelName();
         $model = new $modelName;
         return $model->findOrFail($this->routeParam());
-
     }
+    /**************************************************************
+     * itemOwnerId
+     **************************************************************/
+    public function getOwnerId()
+    {
+        $item = $this->getItem();
+        $itemOwnerId = null;
+        if ($this->modelName() == 'User') {
+            $itemOwnerId = $item->id;
+        }
+        $itemOwner = $item->user_id;
+        return $itemOwnerId;
+    }
+    /****************************************************************
+     *
+     ***************************************************************/
+
+
 
 }

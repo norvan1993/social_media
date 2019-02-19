@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\ModelItem;
 
 class IsAdminOrAuth
 {
@@ -16,26 +17,16 @@ class IsAdminOrAuth
      */
     public function handle($request, Closure $next)
     {
-        
-//getting user id from different routes
-        $userId = null;
-        if ($request->is('api/users/*')) {
-            $userId = $request->route('user');
-        }
-        if ($request->is('api/posts/*')) {
-            $postId = $request->route('post');
-            $userId = Post::findOrFail($postId)->userId;
-        }
-        if ($request->is('api/comments/*')) {
-            $commentId = $request->route('comment');
-            $userId = Comment::findOrFail($commentId)->post->user_id;
-        }
+//setting ownerId(user id)
+        $modelItem = new ModelItem($request);
+        $ownerId = $modelItem->getOwnerId();
+
 //checking if the authenticated user is admin
         if (Auth::user()->isAdmin()) {
             return $next($request);
         }
 //checking if the user_id is same as the auth id
-        if (User::isSame($user_id, Auth::id())) {
+        if (User::isSame($ownerId, Auth::id())) {
             return $next($request);
         }
 //sending a message if the url banned from authenticated user

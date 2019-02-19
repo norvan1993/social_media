@@ -20,20 +20,11 @@ class IsAuth
     public function handle($request, Closure $next)
     {
         $userId = null;
-//getting user id from different routes
-        if ($request->is('api/users/*')) {
-            $userId = $request->route('user');
-        }
-        if ($request->is('api/posts/*')) {
-            $postId = $request->route('post');
-            $userId = Post::findOrFail($postId)->userId;
-        }
-        if ($request->is('api/comments/*')) {
-            $commentId = $request->route('comment');
-            $userId = Comment::findOrFail($commentId)->post->user_id;
-        }
+//setting ownerId(user id)
+        $modelItem = new ModelItem($request);
+        $ownerId = $modelItem->getOwnerId();
 //checking if the userId is same as the auth id
-        if (User::isSame($userId, Auth::id())) {
+        if (User::isSame($ownerId, Auth::id())) {
             return $next($request);
         }
 //sending a message if the url banned from authenticated user
