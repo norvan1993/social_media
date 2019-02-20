@@ -184,6 +184,7 @@ class PostsController extends Controller
      **************************************************************************/
     public function userPosts($userId)
     {
+        return 'hello';
         User::findOrFail($userId);
         if (Auth::user()->role_id == 1 || Auth::id() == $userId) {
             return Post::where('user_id', '=', $userId)->paginate(10);

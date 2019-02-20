@@ -46,4 +46,4 @@ Route::delete('/post/remove_like', 'Api\LikesController@removeLikeFromPost')->mi
 //comment routes
 Route::resource('/comments', 'Api\CommentsController')->except(['edit', 'create', 'store', 'index'])->middleware('auth:api');
 Route::post('/posts/{post}/comment', 'Api\CommentsController@comment')->middleware('auth:api');
-
+Route::get('/posts/{post}/comments', 'Api\CommentsController@postComments')->middleware('auth:api');

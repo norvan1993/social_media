@@ -18,7 +18,10 @@ class IsNotBlocked
     {
         $userId = $request->route('user');
         if (FriendRequest::isBlocked($userId)) {
-            return 'this page not allowed for you';
+            //sending a message if the url banned from authenticated user
+            $message = ['status' => 0, 'message' => 'you dont have permissions for this link'];
+            $json = json_encode($message);
+            return response($json, 200)->header('Content-Type', 'application/json');
         }
 
         return $next($request);

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Comment extends Model
 {
@@ -58,6 +59,31 @@ class Comment extends Model
         }
 //return true in case of passing all above if satatement(the comment is viewable)
         return true;
+    }
+//viewable comments of post
+    public static function viewableCommentsOfPost($postId)
+    {
+        $post = Post::findOrFail($postId);
+        if ($post->isViewable()) {
+            return DB::table('comments')
+                ->leftJoin('friend_requests AS sender', 'comments.user_id', '=', 'sender.sender_id')
+                ->leftJoin('friend_requests AS receiver', 'comments.user_id', '=', 'receiver.receiver_id')
+                ->where('comments.commentable_type', '=', 'App\\Post')
+                ->where('comments.commentable_id', '=', $postId)
+                ->where(function ($query) {
+                    $query->where('sender.receiver_id', '!=', Auth::id())
+                        ->orWhere('receiver.sender_id', '!=', Auth::id())
+                        ->orWhere('sender.receiver_id', '=', Auth::id())
+                        ->where('sender.status', '!=', 'block')
+                        ->orWhere('receiver.sender_id', '=', Auth::id())
+                        ->where('receiver.status', '!=', 'block');
+                })
+                ->select('comments.*')
+                ->distinct()
+                ->paginate(10);
+        }
+
+
     }
 
 }

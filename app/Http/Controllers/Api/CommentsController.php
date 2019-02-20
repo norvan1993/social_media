@@ -113,4 +113,9 @@ class CommentsController extends Controller
     {
         Comment::find($id)->delete();
     }
+    public function postComments($id)
+    {
+        return Comment::viewableCommentsOfPost($id);
+
+    }
 }

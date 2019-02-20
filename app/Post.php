@@ -71,6 +71,14 @@ class Post extends Model
             ->leftJoin('friend_requests AS receiver', 'posts.user_id', '=', 'receiver.receiver_id')
             ->where('posts.user_id', '=', Auth::id())
             ->orWhere('posts.privacy', '=', 'public')
+            ->where(function ($query) {
+                $query->where('sender.receiver_id', '!=', Auth::id())
+                    ->orWhere('receiver.sender_id', '!=', Auth::id())
+                    ->orWhere('sender.receiver_id', '=', Auth::id())
+                    ->where('sender.status', '!=', 'block')
+                    ->orWhere('receiver.sender_id', '=', Auth::id())
+                    ->where('receiver.status', '!=', 'block');
+            })
             ->orWhere('posts.privacy', '=', 'friends')
             ->where(function ($query) {
                 $query->where('receiver.sender_id', '=', Auth::id())
@@ -92,16 +100,16 @@ class Post extends Model
             ->leftJoin('friend_requests AS receiver', 'posts.user_id', '=', 'receiver.receiver_id')
             ->leftJoin('post_privacy', 'posts.id', '=', 'post_privacy.post_id')
             ->where('posts.user_id', '=', $userId)
-            ->where(function ($query) {
-                $query->where('receiver.sender_id', '=', Auth::id())
-                    ->where('receiver.status', '!=', 'block')
-                    ->orWhere('sender.receiver_id', '=', Auth::id())
-                    ->where('sender.status', '!=', 'block')
-                    ->orWhere('sender.receiver_id', '!=', Auth::id())
-                    ->orWhere('receiver.sender_id', '!=', Auth::id());
-            })
             ->where(function ($query1) {
                 $query1->where('posts.privacy', '=', 'public')
+                    ->where(function ($query) {
+                        $query->where('sender.receiver_id', '!=', Auth::id())
+                            ->orWhere('receiver.sender_id', '!=', Auth::id())
+                            ->orWhere('sender.receiver_id', '=', Auth::id())
+                            ->where('sender.status', '!=', 'block')
+                            ->orWhere('receiver.sender_id', '=', Auth::id())
+                            ->where('receiver.status', '!=', 'block');
+                    })
                     ->orWhere('posts.privacy', '=', 'friends')
                     ->where(function ($query2) {
                         $query2->where('receiver.sender_id', '=', Auth::id())
