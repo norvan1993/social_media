@@ -42,5 +42,36 @@ class LikesController extends Controller
 //deleting like record from likes table
         Like::where('likeable_type', '=', 'App\\Post')->where('likeable_id', '=', $request->post_id)->where('sender_id', '=', Auth::id())->delete();
     }
+    /********************************************************************************
+     * addLike//via POST:api/comment/add_like
+     ********************************************************************************/
+    public function addLikeToComment(Request $request)
+    {
+//validating request
+        $validatedData = $request->validate(
+            [
+                'comment_id' => ['required', new CheckAddingCommentLike],
+            ]
+        );
+//add like in likes table
+        $input['likeable_type'] = 'App\\Comment';
+        $input['likeable_id'] = $request->comment_id;
+        $input['sender_id'] = Auth::id();
+        Like::create($input);
+    }
+    /********************************************************************************
+     * removeLike//via DELETE:api/comment/remove_like
+     ********************************************************************************/
+    public function removeLikeFromComment(Request $request)
+    {
+//validating request
+        $validatedData = $request->validate(
+            [
+                'comment_id' => ['required', new CheckRemovingCommentLike],
+            ]
+        );
+//deleting like record from likes table
+        Like::where('likeable_type', '=', 'App\\Comment')->where('likeable_id', '=', $request->comment_id)->where('sender_id', '=', Auth::id())->delete();
+    }
 
 }
