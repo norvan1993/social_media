@@ -10,6 +10,7 @@ use App\Photo;
 use Illuminate\Validation\Rule;
 use App\Rules\CheckPhotoStatus;
 use Illuminate\Support\Facades\Route;
+use App\ModelItem;
 
 class CommentsController extends Controller
 {
@@ -18,7 +19,7 @@ class CommentsController extends Controller
         $this->middleware('is_commentable')->only('comment');
         $this->middleware('is_viewable')->only('show');
         $this->middleware('is_auth')->only('update');
-        $this->middleware('is_admin_or_auth')->only('delete');
+        $this->middleware('is_admin_or_auth')->only('destroy');
 
     }
     /*******************************************************************
@@ -26,7 +27,7 @@ class CommentsController extends Controller
      ******************************************************************/
     public function comment(Request $request, $commentableId)
     {
-        $route = Route::current();
+
         $commentableType = null;
         if ($request->is('api/posts/*')) {
             $commentableType = 'App\\Post';

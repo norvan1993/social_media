@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 use App\ModelItem;
 
 class IsAdminOrAuth
@@ -32,7 +33,7 @@ class IsAdminOrAuth
 //sending a message if the url banned from authenticated user
         $message = ['status' => 0, 'message' => 'you dont have permissions for this link'];
         $json = json_encode($message);
-        return response($json, 200)->header(' Content - Type ', ' application / json');
+        return response($json, 200)->header('Content-Type', 'application/json');
 
     }
 }

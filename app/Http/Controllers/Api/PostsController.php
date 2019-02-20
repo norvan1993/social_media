@@ -19,7 +19,7 @@ class PostsController extends Controller
     public function __construct()
     {
         $this->middleware('is_auth')->only('update', 'updatePrivacy');
-        $this->middleware('is_auth_or_admin')->only('delete');
+        $this->middleware('is_auth_or_admin')->only('destroy');
         $this->middleware('is_viewable')->only('show');
         $this->middleware('is_not_blocked')->only('userPosts');
 

@@ -25,7 +25,7 @@ class IsViewable
                         return $next($request);
                 }
 //return message if the link is not accessable
-                $message = ['status' => 0, 'message' => 'you dont have permissions for this link-is auth'];
+                $message = ['status' => 0, 'message' => 'you dont have permissions for this link'];
                 $json = json_encode($message);
                 return response($json, 200)->header('Content-Type', 'application/json');
 

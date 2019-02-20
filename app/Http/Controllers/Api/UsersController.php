@@ -21,7 +21,7 @@ class UsersController extends Controller
         $this->middleware(['auth:api', 'is_admin'])->only('store');
         $this->middleware(['auth:api', 'is_auth'])->only(['update', 'oldPassword', 'resetPassword']);
         $this->middleware(['auth:api', 'is_admin'])->only(['updateAdmin']);
-        $this->middleware(['auth:api', 'is_admin_or_auth'])->only(['delete']);
+        $this->middleware(['auth:api', 'is_admin_or_auth'])->only(['destroy']);
     }
     /**************************************************************************
      * index

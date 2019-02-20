@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Post;
+use Illuminate\Support\Facades\Auth;
 
 class Comment extends Model
 {
@@ -42,6 +43,10 @@ class Comment extends Model
         $commentable = null;
         if ($this->commentable_type == 'App\\Post') {
             $commentable = Post::findOrFail($commentableId);
+        }
+//check if the authenticater user is admin
+        if (Auth::user()->isAdmin()) {
+            return true;
         }
 //check if commentable is viewable
         if (!$commentable->isViewable()) {

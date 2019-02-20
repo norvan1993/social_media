@@ -118,6 +118,9 @@ class Post extends Model
 //return true if the post is viewable and false if not
     public function isViewable()
     {
+        if (Auth::user()->isAdmin()) {
+            return true;
+        }
         if ($this->privacy == 'private' && $this->user_id == Auth::id()) {
             return true;
         }

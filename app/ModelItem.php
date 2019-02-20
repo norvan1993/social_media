@@ -34,7 +34,7 @@ class ModelItem
     /***************************************************************
      * paths
      ***************************************************************/
-    protected function pathModelArray()
+    protected function paths()
     {
         return [
             'api/users/*' => 'User',
@@ -68,8 +68,10 @@ class ModelItem
         $itemOwnerId = null;
         if ($this->modelName() == 'User') {
             $itemOwnerId = $item->id;
+        } else {
+            $itemOwnerId = $item->user_id;
         }
-        $itemOwner = $item->user_id;
+
         return $itemOwnerId;
     }
     /****************************************************************
