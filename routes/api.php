@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
  */
 
 //users routes
+
 Route::resource('/users', 'Api\UsersController')->except(['edit', 'create']);
 Route::post('/users/{user}/old_password', 'Api\UsersController@oldPassword');
 Route::put('/users/{user}/reset_password', 'Api\UsersController@resetPassword');
@@ -47,3 +48,5 @@ Route::delete('/post/remove_like', 'Api\LikesController@removeLikeFromPost')->mi
 Route::resource('/comments', 'Api\CommentsController')->except(['edit', 'create', 'store', 'index'])->middleware('auth:api');
 Route::post('/posts/{post}/comment', 'Api\CommentsController@comment')->middleware('auth:api');
 Route::get('/posts/{post}/comments', 'Api\CommentsController@postComments')->middleware('auth:api');
+//description routes
+Route::resource('/descriptions', 'Api\DescriptionsController')->only(['store', 'show', 'update', 'destroy'])->middleware('auth:api');

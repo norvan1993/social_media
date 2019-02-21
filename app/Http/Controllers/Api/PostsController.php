@@ -22,7 +22,6 @@ class PostsController extends Controller
         $this->middleware('is_auth_or_admin')->only('destroy');
         $this->middleware('is_viewable')->only('show');
         $this->middleware('is_not_blocked')->only('userPosts');
-
     }
     /**************************************************************************
      * index
@@ -44,27 +43,37 @@ class PostsController extends Controller
      **************************************************************************/
     public function store(Request $request)
     {
-//validating request
+        //validating request
         $validatedData = $request->validate(
             [
                 'title' => 'required',
-                'body' => ['required_without:photos', 'required'],
+                'body' => ['required_without:photos'],
                 'privacy' => ['required', 'json', new CheckDefaultPrivacy],
                 'photos.*' => ['required_without:body', 'image'],
 
             ]
         );
-//selecting the direct inputs from the user
+        //selecting the direct inputs from the user
         $input = $request->only(['title', 'body']);
-//setting user id
+        //setting user id
         $input['user_id'] = Auth::id();
-//converting json request(privacy field) to array
+
+        /*
+        * converting json request(privacy field) to array
+        privacy json structure
+        {
+            "status":"private|public|friends|custom",
+            "id_list":[id1,id2,.......]
+            
+        }
+        */
         $array = json_decode($request->privacy, true);
-//saving the status in post table(inside privacy column in posts table)
+
+        //saving the status in post table(inside privacy column in posts table)
         $input['privacy'] = $array['status'];
-//storing the post
+        //storing the post
         $postModel = Post::create($input);
-//inserting  viewers id's in case of custom privacy
+        //inserting  viewers id's in case of custom privacy
         if ($array['status'] == 'custom') {
             foreach ($array['id_list'] as $id) {
                 DB::table('post_privacy')->insert(
@@ -72,7 +81,7 @@ class PostsController extends Controller
                 );
             }
         }
-//storing images
+        //storing images
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $file) {
                 if ($file->isValid()) {
@@ -81,7 +90,7 @@ class PostsController extends Controller
                 }
             }
         }
-//sending json message
+        //sending json message
         $json = json_encode(['status' => 1, 'message' => 'success']);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
@@ -99,10 +108,10 @@ class PostsController extends Controller
      **************************************************************************/
     public function update(Request $request, $id)
     {
-//check post id
+        //check post id
         $postModel = Post::findOrFail($id);
 
-//validate request
+        //validate request
         $validatedData = $request->validate(
             [
                 'title' => ['sometimes', 'required'],
@@ -114,13 +123,13 @@ class PostsController extends Controller
 
             ]
         );
-//set direct user inputs
+        //set direct user inputs
         $input = $request->only('title', 'body');
-//set user id
+        //set user id
         $input['user_id'] = Auth::id();
-//update post
+        //update post
         $postModel->update($input);
-//storing new photos
+        //storing new photos
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $file) {
                 if ($file->isValid()) {
@@ -129,14 +138,13 @@ class PostsController extends Controller
                 }
             }
         }
-//deleting old Photos
+        //deleting old Photos
         if ($request->deleted_photos) {
             foreach ($request->deleted_photos as $deleted_photo) {
                 Photo::find($deleted_photo)->delete();
             }
-
         }
-//send response
+        //send response
         $json = json_encode($postModel);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
@@ -155,20 +163,20 @@ class PostsController extends Controller
      **************************************************************************/
     public function updatePrivacy(Request $request, $post)
     {
-//validating request
+        //validating request
         $validatedData = $request->validate(
             [
                 'privacy' => ['required', 'json', new CheckDefaultPrivacy],
             ]
         );
-//converting json request(privacy field) to array
+        //converting json request(privacy field) to array
         $array = json_decode($request->privacy, true);
-//deleting old custom viewers
+        //deleting old custom viewers
         $old_viewers = DB::table('post_privacy')->where('post_id', '=', $post);
         if ($old_viewers) {
             $old_viewers->delete();
         }
-//inserting  viewers id's in case of custom privacy
+        //inserting  viewers id's in case of custom privacy
         if ($array['status'] == 'custom') {
             foreach ($array['id_list'] as $id) {
                 DB::table('post_privacy')->insert(
@@ -176,7 +184,7 @@ class PostsController extends Controller
                 );
             }
         }
-//saving the status in post table(inside privacy column in posts table)
+        //saving the status in post table(inside privacy column in posts table)
         $input['privacy'] = $array['status'];
     }
     /**************************************************************************
@@ -184,7 +192,6 @@ class PostsController extends Controller
      **************************************************************************/
     public function userPosts($userId)
     {
-        return 'hello';
         User::findOrFail($userId);
         if (Auth::user()->role_id == 1 || Auth::id() == $userId) {
             return Post::where('user_id', '=', $userId)->paginate(10);

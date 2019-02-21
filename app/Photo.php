@@ -18,6 +18,11 @@ class Photo extends Model
     /****************************************************************************
      *relations
      ****************************************************************************/
+    //has one description
+    public function description()
+    {
+        return $this->hasOne('App\Description');
+    }
     //belongs to polymorphic parent
     public function photoable()
     {
@@ -39,39 +44,36 @@ class Photo extends Model
 
             $fullPath = './../storage/app/images/' . $photo->file;
             unlink($fullPath);
-
         });
     }
     /****************************************************************************
      *custom functions
      ****************************************************************************/
-//return  the url of photo
+    //return  the url of photo
     public function imageWithFolder()
     {
         return '/photos/' . $this->file;
     }
-//handling the photo file--@return $this
+    //handling the photo file--@return $this
     public function handleFile($file)
     {
         $this->photoFile = $file;
         return $this;
     }
-//naming the photo file--@return $this
+    //naming the photo file--@return $this
     public function namingPhoto()
     {
         $this->photoName = time() . random_int(100000, 1000000000) . '.' . $this->photoFile->getClientOriginalExtension();
         return $this;
-
     }
-//saving photo to directory--@return $this
+    //saving photo to directory--@return $this
     public function savingPhotoToDir()
     {
         $img = Image::make($this->photoFile)->resize(300, 300);
         $img->save('./../storage/app/images/' . $this->photoName);
         return $this;
-
     }
-//saving photo details to photos table--@return $this
+    //saving photo details to photos table--@return $this
     public function savingPhotoToDatabase($photoableType, $photoableId)
     {
 
@@ -80,10 +82,5 @@ class Photo extends Model
         $this->photoable_id = $photoableId;
         $this->save();
         return $this;
-
     }
-
 }
-
-
-

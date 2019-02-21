@@ -39,7 +39,8 @@ class ModelItem
         return [
             'api/users/*' => 'User',
             'api/posts/*' => 'Post',
-            'api/comments/*' => 'Comment'
+            'api/comments/*' => 'Comment',
+            'api/descriptions/*' => 'Description'
         ];
     }
     /**************************************************************
@@ -64,20 +65,34 @@ class ModelItem
      **************************************************************/
     public function getOwnerId()
     {
+        //getting model item 
         $item = $this->getItem();
         $itemOwnerId = null;
+
+        //getting item owner id
+        switch ($this->modelName()) {
+            case 'User':
+                $itemOwnerId = $item->id;
+                break;
+            case 'Description':
+                $itemOwnerId = $item->photo->photoable->user_id;
+                break;
+            default:
+                $itemOwnerId = $item->user_id;
+                break;
+        }
+
+        /*
         if ($this->modelName() == 'User') {
             $itemOwnerId = $item->id;
         } else {
             $itemOwnerId = $item->user_id;
         }
-
+        */
+        //return item owner id
         return $itemOwnerId;
     }
     /****************************************************************
      *
      ***************************************************************/
-
-
-
 }
