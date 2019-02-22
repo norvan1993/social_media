@@ -18,27 +18,27 @@ class Post extends Model
     /*******************************************************************************
      *relations
      *******************************************************************************/
-//belongs to user
+    //belongs to user
     public function user()
     {
         return $this->belongsTo('App\User');
     }
-//has many polymorhic photos
+    //has many polymorhic photos
     public function photos()
     {
         return $this->morphMany('App\Photo', 'photoable');
     }
-//has many polymorhic comments
+    //has many polymorhic comments
     public function comments()
     {
         return $this->morphMany('App\Comment', 'commentable');
     }
-//has many polymorphic likes
+    //has many polymorphic likes
     public function likes()
     {
         return $this->morphMany('App\Like', 'likeable');
     }
-//has many Default_allowed_viewers(many to many with users table)
+    //has many Default_allowed_viewers(many to many with users table)
     public function default_allowed_viewers()
     {
         return $this->belongsToMany('App\User');
@@ -50,7 +50,7 @@ class Post extends Model
     {
         parent::boot();
         static::deleting(function ($post) {
-//deleting post photos
+            //deleting post photos
             if ($post->photos) {
                 $post->photos->each(function ($photo) {
                     $photo->delete();
@@ -62,7 +62,7 @@ class Post extends Model
     /*******************************************************************************
      *custom functions
      *******************************************************************************/
-//this will return all viewable posts
+    //this will return all viewable posts
     public static function viewablePosts()
     {
         return DB::table('posts')
@@ -90,9 +90,8 @@ class Post extends Model
             ->select('posts.*')
             ->distinct()
             ->paginate(10);
-
     }
-//this will return all viewable posts of a user(given by id)
+    //this will return all viewable posts of a user(given by id)
     public static function viewablePostsOfUser($userId)
     {
         return DB::table('posts')
@@ -123,7 +122,7 @@ class Post extends Model
             ->distinct()
             ->paginate(10);
     }
-//return true if the post is viewable and false if not
+    //return true if the post is viewable and false if not
     public function isViewable()
     {
         if (Auth::user()->isAdmin()) {
@@ -148,7 +147,4 @@ class Post extends Model
         }
         return false;
     }
-
-
-
 }

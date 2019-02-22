@@ -16,51 +16,56 @@ class Comment extends Model
     /****************************************************************
      * relations
      ****************************************************************/
-//belongsTo user
+    //belongsTo user
     public function user()
     {
         return $this->belongsTo('App\User');
     }
-//has one polymorhic photo
+    //has one polymorhic photo
     public function photo()
     {
         return $this->morphOne('App\Photo', 'photoable');
     }
-//belongs to polymorphic parent
+    //belongs to polymorphic parent
     public function commentable()
     {
         return $this->morphTo();
+    }
+    //has many replies
+    public function replies()
+    {
+        return $this->hasMany('App\Reply');
     }
     /****************************************************************
      * custom functions
      ****************************************************************/
     public function isViewable()
     {
-//set commenter id
+        //set commenter id
         $commenterId = $this->user_id;
-//set commentable id
+        //set commentable id
         $commentableId = $this->commentable_id;
-//setting commentable
+        //setting commentable
         $commentable = null;
         if ($this->commentable_type == 'App\\Post') {
             $commentable = Post::findOrFail($commentableId);
         }
-//check if the authenticater user is admin
+        //check if the authenticater user is admin
         if (Auth::user()->isAdmin()) {
             return true;
         }
-//check if commentable is viewable
+        //check if commentable is viewable
         if (!$commentable->isViewable()) {
             return false;
         }
-//check if commenter is blocked
+        //check if commenter is blocked
         if (FriendRequest::isBlocked($commenterId)) {
             return false;
         }
-//return true in case of passing all above if satatement(the comment is viewable)
+        //return true in case of passing all above if satatement(the comment is viewable)
         return true;
     }
-//viewable comments of post
+    //viewable comments of post
     public static function viewableCommentsOfPost($postId)
     {
         $post = Post::findOrFail($postId);
@@ -82,8 +87,5 @@ class Comment extends Model
                 ->distinct()
                 ->paginate(10);
         }
-
-
     }
-
 }
