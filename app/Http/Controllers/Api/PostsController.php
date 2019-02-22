@@ -32,7 +32,6 @@ class PostsController extends Controller
             case 1:
                 return Post::paginate(10);
                 break;
-
             default:
                 return Post::viewablePosts();
                 break;
@@ -59,14 +58,14 @@ class PostsController extends Controller
         $input['user_id'] = Auth::id();
 
         /*
-        * converting json request(privacy field) to array
+         * converting json request(privacy field) to array
         privacy json structure
         {
             "status":"private|public|friends|custom",
             "id_list":[id1,id2,.......]
-            
+
         }
-        */
+         */
         $array = json_decode($request->privacy, true);
 
         //saving the status in post table(inside privacy column in posts table)
