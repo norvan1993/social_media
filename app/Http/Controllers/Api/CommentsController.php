@@ -20,45 +20,43 @@ class CommentsController extends Controller
         $this->middleware('is_viewable')->only('show');
         $this->middleware('is_auth')->only('update');
         $this->middleware('is_admin_or_auth')->only('destroy');
-
     }
     /*******************************************************************
      * comment
      ******************************************************************/
     public function comment(Request $request, $commentableId)
     {
-
-        $commentableType = null;
-        if ($request->is('api/posts/*')) {
-            $commentableType = 'App\\Post';
-        }
-       
-//validating request
+        //validating request
         $validatedData = $request->validate(
             [
                 'body' => ['present'],
                 'photo' => ['required_without:body', 'image'],
             ]
         );
-//setting commentable type and id
-
-//store comment
+        //setting commentable type
+        $commentableType = null;
+        if ($request->is('api/posts/*')) {
+            $commentableType = 'App\\Post';
+        }
+        if ($request->is('api/photos/*')) {
+            $commentableType = 'App\\Photo';
+        }
+        //store comment
         $input['commentable_type'] = $commentableType;
         $input['commentable_id'] = $commentableId;
         $input['body'] = $request->body;
         $input['user_id'] = Auth::id();
         $comment = Comment::create($input);
-//storing images
+        //storing images
         if ($file = $request->file('photo')) {
             if ($file->isValid()) {
                 $photo = new Photo();
                 $photo->handleFile($file)->namingPhoto()->savingPhotoToDir()->savingPhotoToDatabase('App\\Comment', $comment->id);
             }
         }
-//sending json message
+        //sending json message
         $json = json_encode(['status' => 1, 'message' => 'success']);
         return response($json, 200)->header('Content-Type', 'application/json');
-
     }
     /*******************************************************************
      * show
@@ -75,7 +73,7 @@ class CommentsController extends Controller
     public function update(Request $request, $id)
     {
 
-//validating request
+        //validating request
         $validatedData = $request->validate(
             [
                 'body' => ['present'],
@@ -83,13 +81,13 @@ class CommentsController extends Controller
                 'photo' => ['required_if:photo_status,new', 'image'],
             ]
         );
-//checking comment id
+        //checking comment id
         $comment = Comment::findOrFail($id);
-//delete old photo 
+        //delete old photo
         if (!$request->photo_status) {
             $comment->photo->delete();
         }
-//update photo
+        //update photo
         if ($request->photo_status == 'new') {
             if ($comment->photo) {
                 $comment->photo->delete();
@@ -102,7 +100,7 @@ class CommentsController extends Controller
                 }
             }
         }
-//update comment
+        //update comment
         $input['body'] = $request->body;
         $comment->update($input);
     }
@@ -116,6 +114,5 @@ class CommentsController extends Controller
     public function postComments($id)
     {
         return Comment::viewableCommentsOfPost($id);
-
     }
 }

@@ -47,6 +47,11 @@ Route::delete('/post/remove_like', 'Api\LikesController@removeLikeFromPost')->mi
 //comment routes
 Route::resource('/comments', 'Api\CommentsController')->except(['edit', 'create', 'store', 'index'])->middleware('auth:api');
 Route::post('/posts/{post}/comment', 'Api\CommentsController@comment')->middleware('auth:api');
+Route::post('/photos/{photo}/comment', 'Api\CommentsController@comment')->middleware('auth:api');
 Route::get('/posts/{post}/comments', 'Api\CommentsController@postComments')->middleware('auth:api');
 //description routes
 Route::resource('/descriptions', 'Api\DescriptionsController')->only(['store', 'show', 'update', 'destroy'])->middleware('auth:api');
+//messages routes
+Route::post('/messages/send', 'Api\MessagesController@send')->middleware('auth:api');
+Route::put('/messages/receive', 'Api\MessagesController@receive')->middleware('auth:api');
+Route::post('/messages/receive_new', 'Api\MessagesController@receiveNew')->middleware('auth:api');
