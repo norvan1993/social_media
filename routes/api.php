@@ -55,3 +55,5 @@ Route::resource('/descriptions', 'Api\DescriptionsController')->only(['store', '
 Route::post('/messages/send', 'Api\MessagesController@send')->middleware('auth:api');
 Route::put('/messages/receive', 'Api\MessagesController@receive')->middleware('auth:api');
 Route::post('/messages/receive_new', 'Api\MessagesController@receiveNew')->middleware('auth:api');
+//replies routes
+Route::resource('/replies', 'Api\RepliesController')->except(['edit', 'create', 'index'])->middleware('auth:api');

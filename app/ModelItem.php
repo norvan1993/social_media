@@ -40,7 +40,8 @@ class ModelItem
             'api/users/*' => 'User',
             'api/posts/*' => 'Post',
             'api/comments/*' => 'Comment',
-            'api/descriptions/*' => 'Description'
+            'api/descriptions/*' => 'Description',
+            'api/replies/*' => 'Reply'
         ];
     }
     /**************************************************************
@@ -81,14 +82,6 @@ class ModelItem
                 $itemOwnerId = $item->user_id;
                 break;
         }
-
-        /*
-        if ($this->modelName() == 'User') {
-            $itemOwnerId = $item->id;
-        } else {
-            $itemOwnerId = $item->user_id;
-        }
-        */
         //return item owner id
         return $itemOwnerId;
     }

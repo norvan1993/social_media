@@ -85,7 +85,9 @@ class CommentsController extends Controller
         $comment = Comment::findOrFail($id);
         //delete old photo
         if (!$request->photo_status) {
-            $comment->photo->delete();
+            if ($comment->photo) {
+                $comment->photo->delete();
+            }
         }
         //update photo
         if ($request->photo_status == 'new') {
