@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Auth;
 
 class Photo extends Model
 {
@@ -76,11 +77,24 @@ class Photo extends Model
     //saving photo details to photos table--@return $this
     public function savingPhotoToDatabase($photoableType, $photoableId)
     {
-
         $this->file = $this->photoName;
         $this->photoable_type = $photoableType;
         $this->photoable_id = $photoableId;
         $this->save();
         return $this;
+    }
+    //isViewable
+    public function isViewable()
+    {
+        //check if the authenticated user is admin
+        if (Auth::user()->isAdmin()) {
+            return true;
+        }
+        //check if the photoable is viewable
+        if ($this->photoable->isViewable()) {
+            return true;
+        }
+        //return false if it is not viewable
+        return false;
     }
 }

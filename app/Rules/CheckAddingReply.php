@@ -4,6 +4,8 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use App\Comment;
+use App\FriendRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CheckAddingReply implements Rule
 {
@@ -35,7 +37,22 @@ class CheckAddingReply implements Rule
         if (!$comment->isViewable()) {
             return false;
         }
-
+        //getting post owner id
+        $postOwnerId = null;
+        if ($comment->commentable_type == 'App\\Post') {
+            $postOwnerId = $comment->commentable->user_id;
+        }
+        if ($comment->commentable_type == 'App\\Photo') {
+            $postOwnerId = $comment->commentable->photoable->user_id;
+        }
+        //check if the post owner is the authenticated user
+        if ($postOwnerId == Auth::id()) {
+            return true;
+        }
+        //check if the post owner is friend
+        if (!FriendRequest::isFriend($postOwnerId)) {
+            return false;
+        }
         return true;
     }
 
@@ -46,6 +63,6 @@ class CheckAddingReply implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'wrong comment id';
     }
 }

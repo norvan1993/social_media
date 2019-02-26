@@ -6,18 +6,28 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Reply;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\CheckAddingReply;
+use App\Comment;
+use App\FriendRequest;
+use Illuminate\Validation\Rule;
+use App\Rules\CheckPhotoStatus;
+use App\Photo;
 
 class Repliescontroller extends Controller
 {
     public function __construct()
     {
+        $this->middleware('is_viewable')->only('show');
         $this->middleware('is_auth')->only('update');
+        $this->middleware('is_admin_or_auth')->only('destroy');
     }
     /******************************************************************************
     * store
     ******************************************************************************/
     public function store(Request $request)
     {
+
+
         //validating request
         $validatedData = $request->validate(
             [
@@ -77,14 +87,14 @@ class Repliescontroller extends Controller
 
             if ($file = $request->file('photo')) {
                 if ($file->isValid()) {
-                    $photo = new photo();
-                    $photo->handleFile($file)->namingPhoto()->savingPhotoToDir()->savingPhotoToDatabase('App\\Reply', $reply->id);
+                    $photo = new Photo();
+                    $photo->handleFile($file)->namingPhoto()->savingPhotoToDir()->savingPhotoToDatabase('App\\Reply', $id);
                 }
             }
         }
         //update the reply
         $input['body'] = $request->body;
-        $reply->update();
+        $reply->update($input);
     }
     /******************************************************************************
     * destroy
