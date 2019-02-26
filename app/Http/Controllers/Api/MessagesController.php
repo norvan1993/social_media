@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Message;
+use App\Rules\CheckMessagePartner;
+use App\Photo;
 
 class MessagesController extends Controller
 {
@@ -35,7 +37,7 @@ class MessagesController extends Controller
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $file) {
                 if ($file->isValid()) {
-                    $photo = new Photo;
+                    $photo = new Photo();
                     $photo->handleFile($file)->namingPhoto()->savingPhotoToDir()->savingPhotoToDatabase('App\\Message', $message->id);
                 }
             }
@@ -69,9 +71,10 @@ class MessagesController extends Controller
             ]
         );
         $messages = Message::where('sender_id', '=', $request->user_id)->where('receiver_id', '=', Auth::id())->where('status', '=', 'new');
+        $newMessages = Message::where('sender_id', '=', $request->user_id)->where('receiver_id', '=', Auth::id())->where('status', '=', 'new')->paginate(20);
         $messages->each(function ($message) {
             $message->update(['status' => 'seen']);
         });
-        return $messages;
+        return $newMessages;
     }
 }
