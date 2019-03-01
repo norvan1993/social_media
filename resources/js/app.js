@@ -23,18 +23,8 @@ Vue.component(
     "example-component",
     require("./components/ExampleComponent.vue").default
 );
-Vue.component(
-    "passport-authorized",
-    require("./components/passport/AuthorizedClients.vue").default
-);
-Vue.component(
-    "passport-clients",
-    require("./components/passport/Clients.vue").default
-);
-Vue.component(
-    "passport-tokens",
-    require("./components/passport/PersonalAccessTokens.vue").default
-);
+Vue.component("welcome", require("./components/Welcome.vue").default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

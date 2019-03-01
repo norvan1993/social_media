@@ -54,7 +54,7 @@ class MessagesController extends Controller
                 'user_id' => ['required', new CheckMessagePartner],
             ]
         );
-        $messages = Message::where('sender_id', '=', $request->user_id)->where('receiver_id', '=', Auth::id())->where('status', '=', 'new')->each(function ($message) {
+        Message::where('sender_id', '=', $request->user_id)->where('receiver_id', '=', Auth::id())->where('status', '=', 'new')->each(function ($message) {
             $message->update(['status' => 'seen']);
         });
         return Message::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $request->user_id)->orWhere('sender_id', '=', $request->user_id)->where('receiver_id', '=', Auth::id())->paginate(20);
@@ -70,11 +70,15 @@ class MessagesController extends Controller
                 'user_id' => ['required', new CheckMessagePartner],
             ]
         );
+        //selecting new messages
         $messages = Message::where('sender_id', '=', $request->user_id)->where('receiver_id', '=', Auth::id())->where('status', '=', 'new');
+        //paginating new messages
         $newMessages = Message::where('sender_id', '=', $request->user_id)->where('receiver_id', '=', Auth::id())->where('status', '=', 'new')->paginate(20);
+        //changing status to seen
         $messages->each(function ($message) {
             $message->update(['status' => 'seen']);
         });
+        //return new messages
         return $newMessages;
     }
 }
