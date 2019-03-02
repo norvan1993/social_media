@@ -29,6 +29,7 @@
     <body>
     <div id='app'>
     <welcome></welcome>
+    
     </div>
     <script src={{asset('js/app.js')}}></script>
         
