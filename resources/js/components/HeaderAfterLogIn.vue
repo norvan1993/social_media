@@ -1,11 +1,11 @@
 <template>
-  <div class="row align-items-center">
-    <brand></brand>
-    <div class="offset-md-4 col-md-4">
-      <logout-button>
-        <slot></slot>
-      </logout-button>
+  <div class="row">
+    <div class="col-8 col-md-4 bg-primary" align="center">
+      <brand></brand>
     </div>
+    <logout-button>
+      <slot></slot>
+    </logout-button>
   </div>
 </template>
 

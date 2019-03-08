@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <div class="btn-group border float-md-right mr-1 ml-1" role="group" aria-label="Basic example">
-      <button @click="logOut" class="btn logout">log out</button>
+  <div class="offset-md-4 col-md-4 col-offset-0 col-4">
+    <!--log out button on md screens and larger-->
+    <button @click="logOut" class="btn logout d-none d-md-block mr-1 float-right">log out</button>
+    <!--bars icon in small screens-->
+    <div class="d-inline-block d-md-none float-right mr-2" style="font-size:32px;">
+      <i class="fas fa-bars"></i>
     </div>
-    <div style="visibilty:hidden;">
+
+    <!--hiddens form for logout-->
+    <div style="display:none;">
       <form method="POST" action="/logout" id="logOutForm">
         <slot></slot>
       </form>

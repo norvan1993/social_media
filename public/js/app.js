@@ -1776,6 +1776,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logOut: function logOut() {
@@ -1795,8 +1800,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -1899,9 +1902,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _HeaderBeforeLogIn_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HeaderBeforeLogIn.vue */ "./resources/js/components/HeaderBeforeLogIn.vue");
-//
-//
-//
 //
 //
 //
@@ -6217,7 +6217,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.logout[data-v-2111be5e] {\r\n  color: white;\r\n  background-color: rgb(29, 29, 127);\n}\r\n", ""]);
+exports.push([module.i, "\n.logout[data-v-2111be5e] {\n  color: white;\n  background-color: rgb(29, 29, 127);\n}\n", ""]);
 
 // exports
 
@@ -6236,7 +6236,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.brand[data-v-b92caea8] {\r\n  font-size: 32px;\r\n  font-family: \"Monoton\";\r\n  color: rgb(29, 29, 127);\n}\r\n", ""]);
+exports.push([module.i, "\n.brand[data-v-b92caea8] {\n  font-size: 32px;\n  font-family: \"Monoton\";\n  color: rgb(29, 29, 127);\n}\n", ""]);
 
 // exports
 
@@ -6255,7 +6255,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.signin[data-v-11952418] {\r\n  color: white;\r\n  background-color: rgb(29, 29, 127);\n}\n.signup[data-v-11952418] {\r\n  color: rgb(29, 29, 127);\r\n  background-color: white;\n}\r\n", ""]);
+exports.push([module.i, "\n.signin[data-v-11952418] {\n  color: white;\n  background-color: rgb(29, 29, 127);\n}\n.signup[data-v-11952418] {\n  color: rgb(29, 29, 127);\n  background-color: white;\n}\n", ""]);
 
 // exports
 
@@ -37643,21 +37643,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "offset-md-4 col-md-4 col-offset-0 col-4" }, [
     _c(
-      "div",
+      "button",
       {
-        staticClass: "btn-group border float-md-right mr-1 ml-1",
-        attrs: { role: "group", "aria-label": "Basic example" }
+        staticClass: "btn logout d-none d-md-block mr-1 float-right",
+        on: { click: _vm.logOut }
       },
-      [
-        _c("button", { staticClass: "btn logout", on: { click: _vm.logOut } }, [
-          _vm._v("log out")
-        ])
-      ]
+      [_vm._v("log out")]
     ),
     _vm._v(" "),
-    _c("div", { staticStyle: { visibilty: "hidden" } }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticStyle: { display: "none" } }, [
       _c(
         "form",
         { attrs: { method: "POST", action: "/logout", id: "logOutForm" } },
@@ -37667,7 +37665,21 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "d-inline-block d-md-none float-right mr-2",
+        staticStyle: { "font-size": "32px" }
+      },
+      [_c("i", { staticClass: "fas fa-bars" })]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -37689,25 +37701,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("p", { staticClass: "my-auto ml-2 brand float-left" }, [
+    _vm._v("Carmeer")
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4", attrs: { align: "center" } }, [
-      _c(
-        "p",
-        {
-          staticClass:
-            "my-auto ml-2 mr-2 brand d-inline-block align-middle float-md-left"
-        },
-        [_vm._v("Carmeer")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -37777,16 +37775,19 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "row align-items-center" },
+    { staticClass: "row" },
     [
-      _c("brand"),
-      _vm._v(" "),
       _c(
         "div",
-        { staticClass: "offset-md-4 col-md-4" },
-        [_c("logout-button", [_vm._t("default")], 2)],
+        {
+          staticClass: "col-8 col-md-4 bg-primary",
+          attrs: { align: "center" }
+        },
+        [_c("brand")],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("logout-button", [_vm._t("default")], 2)
     ],
     1
   )
@@ -37890,11 +37891,7 @@ var staticRenderFns = [
           }),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c("p", { staticClass: "card-text" }, [
-              _vm._v(
-                "Some quick example text to build on the card title and make up the bulk of the card's content."
-              )
-            ])
+            _c("p", { staticClass: "card-text" }, [_vm._v("find new friends")])
           ])
         ]
       ),
@@ -37910,9 +37907,7 @@ var staticRenderFns = [
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("p", { staticClass: "card-text" }, [
-              _vm._v(
-                "Some quick example text to build on the card title and make up the bulk of the card's content."
-              )
+              _vm._v("browse markets nearby")
             ])
           ])
         ]
@@ -37928,11 +37923,7 @@ var staticRenderFns = [
           }),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c("p", { staticClass: "card-text" }, [
-              _vm._v(
-                "Some quick example text to build on the card title and make up the bulk of the card's content."
-              )
-            ])
+            _c("p", { staticClass: "card-text" }, [_vm._v("find new articles")])
           ])
         ]
       )

@@ -1,7 +1,5 @@
 <template>
-  <div class="col-md-4" align="center">
-    <p class="my-auto ml-2 mr-2 brand d-inline-block align-middle float-md-left">Carmeer</p>
-  </div>
+  <p class="my-auto ml-2 brand float-left">Carmeer</p>
 </template>
 
 <script>
