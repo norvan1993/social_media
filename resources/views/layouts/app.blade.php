@@ -25,7 +25,9 @@
 <Header-b></Header-b>
 @endguest
 @auth
-<Header-a></Header-a>
+<Header-a>
+@csrf
+</Header-a>
 @endauth
         <main class="py-4">
             @yield('content')

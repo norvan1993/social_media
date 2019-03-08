@@ -1,13 +1,23 @@
 <template>
   <div class="row align-items-center">
-    <div class="col-md-4" align="center">
-      <p class="my-auto ml-2 mr-2 brand d-inline-block align-middle float-md-left">Carmeer</p>
+    <brand></brand>
+    <div class="offset-md-4 col-md-4">
+      <logout-button>
+        <slot></slot>
+      </logout-button>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import Brand from "./Brand.vue";
+import AuthNavButtons from "./AuthNavButtons.vue";
+export default {
+  components: {
+    brand: Brand,
+    "logout-button": AuthNavButtons
+  }
+};
 </script>
 
 <style scoped>
