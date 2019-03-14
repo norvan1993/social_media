@@ -19,3 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/developers', 'DeveloperController@index');
+Route::get('{path}','HomeController@index')->where('path','([A-z\d-)');

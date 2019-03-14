@@ -7,6 +7,18 @@
 require("./bootstrap");
 
 window.Vue = require("vue");
+import Vue from "vue";
+import VueRouter from "vue-router";
+
+Vue.use(VueRouter);
+let routes = [
+    { path: "/profile", component: Profile },
+    { path: "/home", component: Home }
+];
+const router = new VueRouter({
+    mode: "history",
+    routes // short for `routes: routes`
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -33,5 +45,6 @@ Vue.component("header-a", require("./components/HeaderAfterLogIn.vue").default);
  */
 
 const app = new Vue({
-    el: "#app"
+    el: "#app",
+    router
 });
