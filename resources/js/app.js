@@ -7,13 +7,16 @@
 require("./bootstrap");
 
 window.Vue = require("vue");
-import Vue from "vue";
 import VueRouter from "vue-router";
-
 Vue.use(VueRouter);
+
 let routes = [
-    { path: "/profile", component: Profile },
-    { path: "/home", component: Home }
+    { path: "/", component: require("./components/ExampleComponent.vue") },
+    {
+        path: "/profile",
+        component: require("./components/Profile.vue")
+    },
+    { path: "/home", component: require("./components/Home.vue") }
 ];
 const router = new VueRouter({
     mode: "history",
@@ -37,6 +40,8 @@ Vue.component(
     require("./components/HeaderBeforeLogIn.vue").default
 );
 Vue.component("header-a", require("./components/HeaderAfterLogIn.vue").default);
+Vue.component("home", require("./components/Home.vue").default);
+Vue.component("profile", require("./components/Profile.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
