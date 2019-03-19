@@ -16,7 +16,7 @@
       crossorigin="anonymous"
     />
 
-    <script src="/js/app.js"></script>
+    <script src="/js/app.js" defer></script>
     <style>
     html,body{
         font-family:'Bungee';
@@ -30,7 +30,7 @@
         </head>
     <body>
     <div id='app'>
-    <welcome></welcome>
+    <router-view></router-view>
     </div>
 
 

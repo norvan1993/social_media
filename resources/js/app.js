@@ -11,12 +11,24 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 let routes = [
-    { path: "/", component: require("./components/ExampleComponent.vue") },
     {
-        path: "/profile",
-        component: require("./components/Profile.vue")
-    },
-    { path: "/home", component: require("./components/Home.vue") }
+        path: "/",
+        component: require("./components/Guest.vue").default,
+        children: [
+            {
+                path: "",
+                Component: require("./components/Welcome.vue").default
+            },
+            {
+                path: "/login",
+                Component: require("./components/LogIn.vue").default
+            },
+            {
+                path: "/register",
+                Component: require("./components/Register.vue").default
+            }
+        ]
+    }
 ];
 const router = new VueRouter({
     mode: "history",
@@ -34,12 +46,7 @@ const router = new VueRouter({
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component("welcome", require("./components/Welcome.vue").default);
-Vue.component(
-    "header-b",
-    require("./components/HeaderBeforeLogIn.vue").default
-);
-Vue.component("header-a", require("./components/HeaderAfterLogIn.vue").default);
+Vue.component("welcome", require("./components/Welcome.vue"));
 Vue.component("home", require("./components/Home.vue").default);
 Vue.component("profile", require("./components/Profile.vue").default);
 
