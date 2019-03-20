@@ -17,15 +17,15 @@ let routes = [
         children: [
             {
                 path: "",
-                Component: require("./components/Welcome.vue").default
+                component: require("./components/Welcome.vue").default
             },
             {
                 path: "/login",
-                Component: require("./components/LogIn.vue").default
+                component: require("./components/LogIn.vue").default
             },
             {
                 path: "/register",
-                Component: require("./components/Register.vue").default
+                component: require("./components/Register.vue").default
             }
         ]
     }

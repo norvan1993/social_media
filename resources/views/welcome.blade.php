@@ -29,8 +29,9 @@
         <title>Carmeer</title>
         </head>
     <body>
+
     <div id='app'>
-    <router-view></router-view>
+    <router-view errors="{{$errors}}">@csrf</router-view>
     </div>
 
 
