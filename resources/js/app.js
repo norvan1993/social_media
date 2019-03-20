@@ -28,6 +28,20 @@ let routes = [
                 component: require("./components/Register.vue").default
             }
         ]
+    },
+    {
+        path: "/home",
+        component: require("./components/Home.vue").default
+    },
+    {
+        path: "/profile/:id",
+        component: require("./components/Profile.vue").default,
+        children: [
+            {
+                path: "",
+                component: require("./components/Timeline.vue").default
+            }
+        ]
     }
 ];
 const router = new VueRouter({
@@ -46,9 +60,7 @@ const router = new VueRouter({
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component("welcome", require("./components/Welcome.vue"));
-Vue.component("home", require("./components/Home.vue").default);
-Vue.component("profile", require("./components/Profile.vue").default);
+Vue.component("auth-header", require("./components/AuthHeader.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

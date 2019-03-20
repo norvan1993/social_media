@@ -1,5 +1,7 @@
 <template>
-  <div>you are in profile of</div>
+  <div>you are in profile of
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
