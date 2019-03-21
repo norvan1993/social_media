@@ -61,6 +61,18 @@ const router = new VueRouter({
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component("auth-header", require("./components/AuthHeader.vue").default);
+Vue.component(
+    "passport-authorized",
+    require("./components/passport/AuthorizedClients.vue").default
+);
+Vue.component(
+    "passport-clients",
+    require("./components/passport/Clients.vue").default
+);
+Vue.component(
+    "passport-tokens",
+    require("./components/passport/PersonalAccessTokens.vue").default
+);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

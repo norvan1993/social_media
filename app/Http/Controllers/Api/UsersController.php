@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Role;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\UserImage;
 use App\Rules\CheckIsActive;
@@ -68,14 +67,13 @@ class UsersController extends Controller
     {
         $json = json_encode(User::select('id', 'name')->findOrFail($id));
         return response($json, 200)->header('Content-Type', 'application/json');
-
     }
     /**************************************************************************
      * update
      **************************************************************************/
     public function update(Request $request, $id)
     {
-//validating request
+        //validating request
         $validatedData = $request->validate([
             'name' => 'sometimes|required',
             'is_active' => ['sometimes', 'required', new CheckIsActive],
@@ -83,11 +81,11 @@ class UsersController extends Controller
 
         ]);
 
-//check user id
+        //check user id
         $user = User::findOrFail($id);
         $input = $request->only('name', 'is_active');
 
-//check user photo(profile photo)
+        //check user photo(profile photo)
         if ($file = $request->file('photo')) {
             if ($file->isValid()) {
                 $nameWithExtention = time() . random_int(100000, 1000000000) . '.' . $file->getClientOriginalExtension();
@@ -102,9 +100,8 @@ class UsersController extends Controller
                 $input['user_image_id'] = $userImage->id;
             }
         }
-//updating user
+        //updating user
         $user->update($input);
-
     }
     /**************************************************************************
      * destroy
@@ -120,20 +117,19 @@ class UsersController extends Controller
     public function oldPassword(Request $request, $user)
     {
 
-//validating request
+        //validating request
         $validatedData = $request->validate([
             'old_password' => ['required'],
         ]);
-//check user id
+        //check user id
         $userModel = User::findOrFail($user);
 
-//check if the given password is correct
+        //check if the given password is correct
         if ($userModel->password == bcrypt($request->old_password)) {
             return "correct";
         }
 
         return "wrong";
-
     }
 
     /**************************************************************************
@@ -141,39 +137,36 @@ class UsersController extends Controller
      **************************************************************************/
     public function resetPassword(Request $request, $user)
     {
-//validating request
+        //validating request
         $validatedData = $request->validate([
             'old_password' => ['required'],
             'new_password' => ['required'],
         ]);
-//check user id
+        //check user id
         $userModel = User::findOrFail($user);
 
-//check if the given password is correct and set the new password
+        //check if the given password is correct and set the new password
         if ($userModel->password == bcrypt($request->old_password)) {
             $userModel->password = $request->new_password;
             $userModel->save();
         }
 
         return "wrong";
-
     }
     /**************************************************************************
      * adminUpdate
      **************************************************************************/
     public function adminUpdate(Request $request, $user)
     {
-//validating request
+        //validating request
         $validatedData = $request->validate([
             'is_active' => ['sometimes', 'required', new CheckIsActive],
             'role_id' => ['sometimes', 'required', new CheckRoleId],
         ]);
-//check user id
+        //check user id
         $userModel = User::findOrFail($user);
-//update user
+        //update user
         $input = $request->only('is_active', 'role_id');
         $userModel->update($input);
-
     }
-
 }
