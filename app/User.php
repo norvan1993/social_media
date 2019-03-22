@@ -37,11 +37,6 @@ class User extends Authenticatable
     {
         return $this->morphOne('App\Photo', 'photoable');
     }
-    //belongs to UserImage
-    public function user_image()
-    {
-        return $this->belongsTo('App\UserImage');
-    }
     //has many send requests(FriendRequest)
     public function send_requests()
     {
@@ -77,8 +72,8 @@ class User extends Authenticatable
         parent::boot();
         //
         static::deleting(function ($user) {
-            //deleting user image
-            if ($user->user_image) {
+            //deleting user photo
+            if ($user->photo) {
                 $user->delete_user_image();
                 $user->user_image->delete();
             }
@@ -96,10 +91,10 @@ class User extends Authenticatable
      ************************************************************************/
 
     //deleting user(profile) image from directory---@return true on success false on fail
-    public function delete_user_image()
+    public function delete_user_photo()
     {
-        if ($this->user_image) {
-            $fullPath = './../storage/app/images/' . $this->user_image->file;
+        if ($this->photo) {
+            $fullPath = './../storage/app/images/' . $this->photo->file;
             unlink($fullPath);
             return true;
         }

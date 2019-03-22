@@ -48,18 +48,15 @@ class UsersController extends Controller
 
         $input = $request->only(['name', 'is_active', 'role_id', 'email']);
         $input['password'] = bcrypt($request->password);
-
+        $user = User::create($input);
         if ($file = $request->file('photo')) {
             if ($file->isValid()) {
-                $nameWithExtension = time() . random_int(100000, 1000000000) . '.' . $file->getClientOriginalExtension();
-                $img = Image::make($file)->resize(100, 100);
-                $img->save('./../storage/app/images/' . $nameWithExtension);
-                $userImage = UserImage::create([' file ' => $nameWithExtension]);
-                $input['user_image_id'] = $userImage->id;
+                /**set new profile photo */
+                $photo = new Photo();
+                $photo->handleFile($file)->namingPhoto()->savingPhotoToDir()->savingPhotoToDatabase('App\\User', $user->id);
+                /** */
             }
         }
-
-        User::create($input);
     }
 
     /**************************************************************************
@@ -94,7 +91,6 @@ class UsersController extends Controller
         //check user photo(profile photo)
         if ($file = $request->file('photo')) {
             if ($file->isValid()) {
-
                 /**delete old profile photo if exist*/
                 if ($user->photo) {
                     $user->photo->delete();
@@ -103,17 +99,6 @@ class UsersController extends Controller
                 $photo = new Photo();
                 $photo->handleFile($file)->namingPhoto()->savingPhotoToDir()->savingPhotoToDatabase('App\\User', $id);
                 /** */
-
-                $nameWithExtention = time() . random_int(100000, 1000000000) . '.' . $file->getClientOriginalExtension();
-                $img = Image::make($file)->resize(100, 100);
-                $img->save('./../storage/app/images/' . $nameWithExtention);
-                if ($userImage = UserImage::find($user->user_image_id)) {
-                    $user->delete_user_image();
-                    $userImage->update(['file' => $nameWithExtention]);
-                } else {
-                    $userImage = UserImage::create(['file' => $nameWithExtention]);
-                }
-                $input['user_image_id'] = $userImage->id;
             }
         }
         //updating user
