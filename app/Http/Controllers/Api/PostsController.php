@@ -81,6 +81,7 @@ class PostsController extends Controller
             }
         }
         //storing images
+        $photo = null;
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $file) {
                 if ($file->isValid()) {
@@ -90,7 +91,7 @@ class PostsController extends Controller
             }
         }
         //sending json message
-        $json = json_encode(['status' => 1, 'message' => 'success']);
+        $json = json_encode(['status' => 1, 'message' => 'success', 'width' => $photo->oldWidth, 'height' => $photo->oldHeight]);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
     /*************************************************************************

@@ -11,6 +11,7 @@ use App\UserImage;
 use App\Rules\CheckIsActive;
 use App\Rules\CheckRoleId;
 use Illuminate\Support\Facades\DB;
+use App\Photo;
 
 
 class UsersController extends Controller
@@ -89,10 +90,20 @@ class UsersController extends Controller
         //check user id
         $user = User::findOrFail($id);
         $input = $request->only('name', 'is_active');
-
+        $photo = null;
         //check user photo(profile photo)
         if ($file = $request->file('photo')) {
             if ($file->isValid()) {
+
+                /**delete old profile photo if exist*/
+                if ($user->photo) {
+                    $user->photo->delete();
+                }
+                /**set new profile photo */
+                $photo = new Photo();
+                $photo->handleFile($file)->namingPhoto()->savingPhotoToDir()->savingPhotoToDatabase('App\\User', $id);
+                /** */
+
                 $nameWithExtention = time() . random_int(100000, 1000000000) . '.' . $file->getClientOriginalExtension();
                 $img = Image::make($file)->resize(100, 100);
                 $img->save('./../storage/app/images/' . $nameWithExtention);

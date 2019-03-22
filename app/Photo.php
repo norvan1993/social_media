@@ -15,6 +15,8 @@ class Photo extends Model
     protected $path = '/images/';
     private $photoFile;
     private $photoName;
+    public $oldHeight;
+    public $oldWidth;
 
     /****************************************************************************
      *relations
@@ -35,7 +37,7 @@ class Photo extends Model
         return $this->morphMany('App\Comment', 'commentable');
     }
     /****************************************************************************
-     *models event
+     *model events
      ****************************************************************************/
     public static function boot()
     {
@@ -70,7 +72,11 @@ class Photo extends Model
     //saving photo to directory--@return $this
     public function savingPhotoToDir()
     {
-        $img = Image::make($this->photoFile)->resize(300, 300);
+        $img = Image::make($this->photoFile);
+        $this->oldWidth = $img->width();
+        $this->oldHeight = $img->height();
+        $dimensions = $this->newDimensions($img->width(), $img->height());
+        $img->resize($dimensions['newWidth'], $dimensions['newHeight']);
         $img->save('./../storage/app/images/' . $this->photoName);
         return $this;
     }
@@ -96,5 +102,22 @@ class Photo extends Model
         }
         //return false if it is not viewable
         return false;
+    }
+    //return the new dimension for resizing photo
+    public function newDimensions($oldWidth, $oldHeight)
+    {
+        if ($oldWidth >= $oldHeight) {
+            $factor = $oldWidth / 300;
+            $newHeight = $oldHeight / $factor;
+            $newWidth = 300;
+        } else {
+            $factor = $oldHeight / 300;
+            $newWidth = $oldWidth / $factor;
+            $newHeight = 300;
+        }
+        return [
+            'newWidth' => $newWidth,
+            'newHeight' => $newHeight
+        ];
     }
 }

@@ -14,26 +14,25 @@ use App\Rules\CheckBlocking;
 use App\Rules\CheckBlockRemoving;
 use App\FriendRequest;
 
+
 class FriendRequestsController extends Controller
 {
     public function __construct()
-    {
-
-    }
+    { }
     /**************************************************************************
      * send//via POST:api/friendship/send
      **************************************************************************/
     public function send(Request $request)
     {
-//request validating
+        //request validating
         $validatedData = $request->validate([
             'receiver_id' => ['required', new CheckFriendshipSending],
         ]);
 
-//sending friend request
+        //sending friend request
         $friendshipSending = ['sender_id' => Auth::id(), 'receiver_id' => $request->receiver_id, 'status' => 'sent'];
         FriendRequest::create($friendshipSending);
-//return successfull message to user
+        //return successfull message to user
         $message = ['status' => 1, 'message' => 'friend request sent successfully'];
         $json = json_encode($message);
         return response($json, 200)->header('Content-Type', 'application/json');
@@ -44,32 +43,31 @@ class FriendRequestsController extends Controller
 
     public function cancel(Request $request)
     {
-//request validating
+        //request validating
         $validatedData = $request->validate([
             'receiver_id' => ['required', new CheckFriendshipCanceling],
         ]);
 
-//canceling friend request(deleting)
+        //canceling friend request(deleting)
         FriendRequest::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $request->receiver_id)->first()->delete();
-//return successfull message to user
+        //return successfull message to user
         $message = ['status' => 1, 'message' => 'friend request has been canceled successfully'];
         $json = json_encode($message);
         return response($json, 200)->header('Content-Type', 'application/json');
-
     }
     /**************************************************************************
      * reject//via DELETE:api/friendship/reject
      **************************************************************************/
     public function reject(Request $request)
     {
-//request validating
+        //request validating
         $validatedData = $request->validate([
             'sender_id' => ['required', new CheckFriendshipRejecting],
         ]);
 
-//rejecting friend request(deleting)
+        //rejecting friend request(deleting)
         FriendRequest::where('sender_id', '=', $request->sender_id)->where('receiver_id', '=', Auth::id())->delete();
-//return successfull message to user
+        //return successfull message to user
         $message = ['status' => 1, 'message' => 'friend request has been rejected successfully'];
         $json = json_encode($message);
         return response($json, 200)->header('Content-Type', 'application/json');
@@ -79,14 +77,14 @@ class FriendRequestsController extends Controller
      **************************************************************************/
     public function accept(Request $request)
     {
-//request validating
+        //request validating
         $validatedData = $request->validate([
             'sender_id' => ['required', new CheckFriendshipAccepting],
         ]);
-        
-//accepting friend request
+
+        //accepting friend request
         FriendRequest::where('sender_id', '=', $request->sender_id)->where('receiver_id', '=', Auth::id())->update(['status' => 'friend']);
-//return successfull message to user
+        //return successfull message to user
         $message = ['status' => 1, 'message' => 'friend request has been accepted successfully'];
         $json = json_encode($message);
         return response($json, 200)->header('Content-Type', 'application/json');
@@ -97,33 +95,32 @@ class FriendRequestsController extends Controller
 
     public function unfriend(Request $request)
     {
-//validating request
+        //validating request
         $validatedData = $request->validate([
             'friend_id' => ['required', new CheckUnfriending],
         ]);
-//unfriending request
+        //unfriending request
         if ($friend = FriendRequest::where('sender_id', '=', $request->friend_id)->where('receiver_id', '=', Auth::id())) {
             $friend->delete();
         }
         if ($friend = FriendRequest::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $request->friend_id)) {
             $friend->delete();
         }
-//return successfull message to user
+        //return successfull message to user
         $message = ['status' => 1, 'message' => 'you have deleted a friend successfully'];
         $json = json_encode($message);
         return response($json, 200)->header('Content-Type', 'application/json');
-
     }
     /**************************************************************************
      * block//via POST:api/friendship/block
      **************************************************************************/
     public function block(Request $request)
     {
-//validating request
+        //validating request
         $validatedData = $request->validate([
             'receiver_id' => ['required', new CheckBlocking],
         ]);
-//blocking request
+        //blocking request
 
         if ($user = FriendRequest::where('sender_id', '=', $request->receiver_id)->where('receiver_id', '=', Auth::id())->first()) {
             $user->update(['sender_id' => Auth::id(), 'receiver_id' => $request->receiver_id, 'status' => 'block']);
@@ -132,8 +129,8 @@ class FriendRequestsController extends Controller
         } else {
             FriendRequest::create(['sender_id' => Auth::id(), 'receiver_id' => $request->receiver_id, 'status' => 'block']);
         }
-        
-//return successfull message to user
+
+        //return successfull message to user
         $message = ['status' => 1, 'message' => 'you have blocked the user successfully'];
         $json = json_encode($message);
         return response($json, 200)->header('Content-Type', 'application/json');
@@ -143,13 +140,14 @@ class FriendRequestsController extends Controller
      **************************************************************************/
     public function removeBlock(Request $request)
     {
-//validating request
+        //validating request
         $validatedData = $request->validate([
             'receiver_id' => ['required', new CheckBlockRemoving],
         ]);
-//remove blocking(delete)
+
+        //remove blocking(delete)
         FriendRequest::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $request->receiver_id)->delete();
-//return successfull message to user
+        //return successfull message to user
         $message = ['status' => 1, 'message' => 'you have removed the block from  user successfully'];
         $json = json_encode($message);
         return response($json, 200)->header('Content-Type', 'application/json');
@@ -164,10 +162,8 @@ class FriendRequestsController extends Controller
         $array2 = FriendRequest::where('receiver_id', '=', Auth::id())->where('status', '=', 'friend')->pluck('sender_id')->toArray();
 
         $friendsArray["friendsList"] = array_merge($array1, $array2);
-        //sending list of friends id as json 
+        //sending list of friends id as json
         $json = json_encode($friendsArray);
         return response($json, 200)->header('Content-Type', 'application/json');
-
-
     }
 }
