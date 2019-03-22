@@ -74,8 +74,10 @@ class User extends Authenticatable
         static::deleting(function ($user) {
             //deleting user photo
             if ($user->photo) {
-                $user->delete_user_image();
-                $user->user_image->delete();
+                //delete user photo from directory
+                $user->deleteUserPhotoFromDir();
+                //delete user photo from database
+                $user->photo->delete();
             }
             //deleting user posts
             if ($user->posts) {
@@ -91,7 +93,7 @@ class User extends Authenticatable
      ************************************************************************/
 
     //deleting user(profile) image from directory---@return true on success false on fail
-    public function delete_user_photo()
+    public function deleteUserPhotoFromDir()
     {
         if ($this->photo) {
             $fullPath = './../storage/app/images/' . $this->photo->file;
