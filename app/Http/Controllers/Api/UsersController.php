@@ -64,10 +64,12 @@ class UsersController extends Controller
      **************************************************************************/
     public function show($id)
     {
+        //getting users info
         $userArray = DB::table('users')
-            ->leftJoin('user_images', 'users.user_image_id', '=', 'user_images.id')
-            ->where('users.id', '=', $id)->select('users.id', 'users.name', 'user_images.file')->distinct()->get()->toArray();
-
+            ->leftJoin('photos', 'users.id', '=', 'photos.photoable_id')
+            ->where('users.id', '=', $id)->where('photos.photoable_type', '=', 'App\\User')
+            ->select('users.id', 'users.name', 'photos.file')->distinct()->get()->toArray();
+        //convert users info to json and send it to frontend
         $json = json_encode($userArray);
         return response($json, 200)->header('Content-Type', 'application/json');
     }

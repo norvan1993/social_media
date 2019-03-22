@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-8 col-md-4 bg-primary" align="center">
+    <div class="col-8 col-md-4" align="center">
       <brand></brand>
     </div>
     <logout-button>

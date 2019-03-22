@@ -2,7 +2,9 @@
   <div>
     you are in profile of {{id}}
     <div v-if="user">
-      <img :src="'http://carmeer.com/photo/'+user.file">
+      <div class="p-3 border">
+        <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
+      </div>
     </div>
     <router-view></router-view>
   </div>
@@ -36,4 +38,10 @@ export default {
 </script>
 
 <style scoped>
+.profileImg {
+  width: 100px;
+  height: 100px;
+  border: 5px solid white;
+  box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);
+}
 </style>
