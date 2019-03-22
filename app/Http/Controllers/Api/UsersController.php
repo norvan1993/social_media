@@ -10,6 +10,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use App\UserImage;
 use App\Rules\CheckIsActive;
 use App\Rules\CheckRoleId;
+use Illuminate\Support\Facades\DB;
 
 
 class UsersController extends Controller
@@ -47,7 +48,7 @@ class UsersController extends Controller
         $input = $request->only(['name', 'is_active', 'role_id', 'email']);
         $input['password'] = bcrypt($request->password);
 
-        if ($file = $request->file(' photo ')) {
+        if ($file = $request->file('photo')) {
             if ($file->isValid()) {
                 $nameWithExtension = time() . random_int(100000, 1000000000) . '.' . $file->getClientOriginalExtension();
                 $img = Image::make($file)->resize(100, 100);
@@ -65,7 +66,11 @@ class UsersController extends Controller
      **************************************************************************/
     public function show($id)
     {
-        $json = json_encode(User::select('id', 'name')->findOrFail($id));
+        $userArray = DB::table('users')
+            ->leftJoin('user_images', 'users.user_image_id', '=', 'user_images.id')
+            ->where('users.id', '=', $id)->select('users.id', 'users.name', 'user_images.file')->distinct()->get()->toArray();
+
+        $json = json_encode($userArray);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
     /**************************************************************************

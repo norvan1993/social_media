@@ -2033,11 +2033,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      id: this.$route.params.id
+      id: this.$route.params.id,
+      user: {}
     };
   },
   watch: {
@@ -2046,11 +2050,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    loadusername: function loadusername() {}
+    loadUserData: function loadUserData(obj) {
+      this.user = obj;
+    }
   },
   created: function created() {
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://carmeer.com/api/users").then(function (res) {
-      return alert(res.data.data[0].name);
+    var _this = this;
+
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://carmeer.com/api/users/" + this.$route.params.id).then(function (res) {
+      return _this.loadUserData(res.data[0]);
     });
   }
 });
@@ -39229,6 +39237,14 @@ var render = function() {
     "div",
     [
       _vm._v("\n  you are in profile of " + _vm._s(_vm.id) + "\n  "),
+      _vm.user
+        ? _c("div", [
+            _c("img", {
+              attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
+            })
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("router-view")
     ],
     1

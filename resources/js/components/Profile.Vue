@@ -1,6 +1,9 @@
 <template>
   <div>
     you are in profile of {{id}}
+    <div v-if="user">
+      <img :src="'http://carmeer.com/photo/'+user.file">
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -10,7 +13,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      id: this.$route.params.id
+      id: this.$route.params.id,
+      user: {}
     };
   },
   watch: {
@@ -19,12 +23,14 @@ export default {
     }
   },
   methods: {
-    loadusername() {}
+    loadUserData(obj) {
+      this.user = obj;
+    }
   },
   created: function() {
     axios
-      .get("http://carmeer.com/api/users")
-      .then(res => alert(res.data.data[0].name));
+      .get("http://carmeer.com/api/users/" + this.$route.params.id)
+      .then(res => this.loadUserData(res.data[0]));
   }
 };
 </script>
