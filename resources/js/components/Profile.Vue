@@ -25,7 +25,7 @@
         >about</router-link>
       </div>
     </div>
-    <router-view></router-view>
+    <router-view :user="user"></router-view>
   </div>
 </template>
 
