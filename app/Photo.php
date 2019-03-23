@@ -107,13 +107,13 @@ class Photo extends Model
     public function newDimensions($oldWidth, $oldHeight)
     {
         if ($oldWidth >= $oldHeight) {
-            $factor = $oldWidth / 300;
+            $factor = $oldWidth / 600;
             $newHeight = $oldHeight / $factor;
-            $newWidth = 300;
+            $newWidth = 600;
         } else {
-            $factor = $oldHeight / 300;
+            $factor = $oldHeight / 600;
             $newWidth = $oldWidth / $factor;
-            $newHeight = 300;
+            $newHeight = 600;
         }
         return [
             'newWidth' => $newWidth,

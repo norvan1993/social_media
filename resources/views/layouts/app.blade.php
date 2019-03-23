@@ -29,6 +29,7 @@
 <body>
     <div id="app">
         <auth-header>@csrf</auth-header>
+        <hr>
         <router-view></router-view>
     </div>
 </body>

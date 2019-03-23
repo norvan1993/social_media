@@ -34,12 +34,24 @@ let routes = [
         component: require("./components/Home.vue").default
     },
     {
-        path: "/profile/:id",
+        path: "/profile/:id/",
         component: require("./components/Profile.vue").default,
         children: [
             {
                 path: "",
                 component: require("./components/Timeline.vue").default
+            },
+            {
+                path: "friends",
+                component: require("./components/Friends.vue").default
+            },
+            {
+                path: "photos",
+                component: require("./components/Photos.vue").default
+            },
+            {
+                path: "about",
+                component: require("./components/About.vue").default
             }
         ]
     }

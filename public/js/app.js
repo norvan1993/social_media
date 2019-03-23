@@ -2038,6 +2038,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -7324,7 +7343,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-3bd692e4] {\n  width: 100px;\n  height: 100px;\n  border: 5px solid white;\n  box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-3bd692e4] {\n  width: 100px;\n  height: 100px;\n  border: 5px solid white;\n  box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profileTemp[data-v-3bd692e4] {\n  position: fixed;\n  top: 100px;\n  height: 500px;\n}\n.userName[data-v-3bd692e4] {\n  text-transform: capitalize;\n}\n.router-link-active[data-v-3bd692e4] {\n  background-color: rgb(234, 234, 234);\n}\n", ""]);
 
 // exports
 
@@ -39284,15 +39303,80 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._v("\n  you are in profile of " + _vm._s(_vm.id) + "\n  "),
       _vm.user
         ? _c("div", [
-            _c("div", { staticClass: "p-3 border" }, [
-              _c("img", {
-                staticClass: "profileImg",
-                attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
-              })
-            ])
+            _c(
+              "div",
+              {
+                staticClass: "profileTemp p-3 border",
+                attrs: { align: "center" }
+              },
+              [
+                _c("img", {
+                  staticClass: "profileImg",
+                  attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
+                }),
+                _vm._v(" "),
+                _c("p", { staticClass: "mt-3 h3 userName" }, [
+                  _vm._v(_vm._s(_vm.user.name))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "d-block p-3",
+                    attrs: {
+                      to: "/profile/" + this.$route.params.id,
+                      exact: ""
+                    }
+                  },
+                  [_vm._v("timeline")]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "d-block p-3",
+                    attrs: {
+                      to: "/profile/" + this.$route.params.id + "/friends",
+                      exact: ""
+                    }
+                  },
+                  [_vm._v("friends")]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "d-block p-3",
+                    attrs: {
+                      to: "/profile/" + this.$route.params.id + "/photos",
+                      exact: ""
+                    }
+                  },
+                  [_vm._v("photos")]
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "d-block p-3",
+                    attrs: {
+                      to: "/profile/" + this.$route.params.id + "/about",
+                      exact: ""
+                    }
+                  },
+                  [_vm._v("about")]
+                )
+              ],
+              1
+            )
           ])
         : _vm._e(),
       _vm._v(" "),
@@ -55436,11 +55520,20 @@ var routes = [{
   path: "/home",
   component: __webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue").default
 }, {
-  path: "/profile/:id",
+  path: "/profile/:id/",
   component: __webpack_require__(/*! ./components/Profile.vue */ "./resources/js/components/Profile.vue").default,
   children: [{
     path: "",
     component: __webpack_require__(/*! ./components/Timeline.vue */ "./resources/js/components/Timeline.vue").default
+  }, {
+    path: "friends",
+    component: __webpack_require__(/*! ./components/Friends.vue */ "./resources/js/components/Friends.vue").default
+  }, {
+    path: "photos",
+    component: __webpack_require__(/*! ./components/Photos.vue */ "./resources/js/components/Photos.vue").default
+  }, {
+    path: "about",
+    component: __webpack_require__(/*! ./components/About.vue */ "./resources/js/components/About.vue").default
   }]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
@@ -55530,6 +55623,38 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/About.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/components/About.vue ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/components/About.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
@@ -55791,6 +55916,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Brand_vue_vue_type_template_id_b92caea8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/components/Friends.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Friends.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/components/Friends.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
@@ -56154,6 +56311,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LogIn_vue_vue_type_template_id_354177ae_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/components/Photos.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Photos.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/components/Photos.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 

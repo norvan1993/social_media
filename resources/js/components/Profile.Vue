@@ -1,9 +1,28 @@
 <template>
   <div>
-    you are in profile of {{id}}
     <div v-if="user">
-      <div class="p-3 border">
+      <div class="profileTemp p-3 border" align="center">
         <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
+        <p class="mt-3 h3 userName">{{user.name}}</p>
+        <router-link class="d-block p-3" :to="'/profile/'+this.$route.params.id" exact>timeline</router-link>
+        <hr>
+        <router-link
+          class="d-block p-3"
+          :to="'/profile/'+this.$route.params.id+'/friends'"
+          exact
+        >friends</router-link>
+        <hr>
+        <router-link
+          class="d-block p-3"
+          :to="'/profile/'+this.$route.params.id+'/photos'"
+          exact
+        >photos</router-link>
+        <hr>
+        <router-link
+          class="d-block p-3"
+          :to="'/profile/'+this.$route.params.id+'/about'"
+          exact
+        >about</router-link>
       </div>
     </div>
     <router-view></router-view>
@@ -43,5 +62,16 @@ export default {
   height: 100px;
   border: 5px solid white;
   box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);
+}
+.profileTemp {
+  position: fixed;
+  top: 100px;
+  height: 500px;
+}
+.userName {
+  text-transform: capitalize;
+}
+.router-link-active {
+  background-color: rgb(234, 234, 234);
 }
 </style>
