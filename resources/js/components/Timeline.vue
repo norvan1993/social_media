@@ -9,6 +9,9 @@
 <script>
 import CreatePost from "./CreatePost.vue";
 export default {
+  data() {
+    return {};
+  },
   props: ["user"],
   components: {
     "create-post": CreatePost

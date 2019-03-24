@@ -1,34 +1,30 @@
 <template>
   <div class="card mt-3">
-    <div class="card-header">
-      <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
-      <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
+    <div v-for="file in files">
+      <file-reader :file="file" @test="test"></file-reader>
     </div>
-    <div id="outerProgressBar" class="progress" style="height:2px; display:none;">
-      <div
-        id="innerProgressBar"
-        class="progress-bar bg-success"
-        role="progressbar"
-        aria-valuenow="50"
-        aria-valuemin="0"
-        aria-valuemax="100"
-      ></div>
+    <div class="card-header">
+      <!--
+      <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
+      -->
+
+      <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
     </div>
 
     <div class="card-body">
       <h4>
         <input
-          id="formTitle"
           type="text"
           placeholder="Title Here"
           class="d-block border-0"
           style="width:100%;"
+          @change="appendTitle()"
         >
         <hr>
       </h4>
       <div class="card-text">
         <textarea
-          id="formBody"
+          @change="appendBody()"
           placeholder="write something"
           rows="4"
           class="d-block ml-3 border-0"
@@ -37,23 +33,47 @@
       </div>
       <div class="d-block filesContainer"></div>
       <hr>
+      <button type="button" class="btn btn-outline-success d-block mr-3 float-right">Post</button>
+      <input @change="appendPhotos()" type="file" ref="filesSelector" hidden multiple>
       <button
         type="button"
         class="btn btn-outline-success d-block mr-3 float-right"
-        onclick="post()"
-      >Post</button>
-      <button
-        type="button"
-        class="btn btn-outline-success d-block mr-3 float-right"
-        onclick="document.getElementById('file').click();"
+        @click="chooseFiles()"
       >Choose Files</button>
     </div>
   </div>
 </template>
 
 <script>
+import FileReader from "./FileReader.vue";
 export default {
-  props: ["user"]
+  data() {
+    return {
+      files: [],
+      test: ""
+    };
+  },
+  components: {
+    "file-reader": FileReader
+  },
+  watch: {
+    files: function() {}
+  },
+  props: ["user"],
+  methods: {
+    appendPhotos() {
+      for (let i = 0; i < this.$refs.filesSelector.files.length; i++) {
+        this.files.push(this.$refs.filesSelector.files[i]);
+      }
+    },
+
+    chooseFiles() {
+      this.$refs.filesSelector.click();
+    },
+    receive(data) {
+      this.test = data;
+    }
+  }
 };
 </script>
 
