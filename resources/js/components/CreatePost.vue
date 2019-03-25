@@ -1,13 +1,8 @@
 <template>
   <div class="card mt-3">
-    <div v-for="file in files">
-      <file-reader :file="file" @test="test"></file-reader>
-    </div>
+    <img class="profileImg" ref="please">
     <div class="card-header">
-      <!--
       <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
-      -->
-
       <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
     </div>
 
@@ -45,7 +40,6 @@
 </template>
 
 <script>
-import FileReader from "./FileReader.vue";
 export default {
   data() {
     return {
@@ -53,25 +47,31 @@ export default {
       test: ""
     };
   },
-  components: {
-    "file-reader": FileReader
-  },
-  watch: {
-    files: function() {}
-  },
+  watch: {},
+  computed: {},
   props: ["user"],
   methods: {
+    //append the files selected to the files array and convert the first file in the array to data
     appendPhotos() {
       for (let i = 0; i < this.$refs.filesSelector.files.length; i++) {
         this.files.push(this.$refs.filesSelector.files[i]);
       }
-    },
 
+      alert(this.convertToData());
+    },
+    //click on hidden input(type file) when the user click on choose files button
     chooseFiles() {
       this.$refs.filesSelector.click();
     },
-    receive(data) {
-      this.test = data;
+    //convet the first file in the files array to data
+    convertToData() {
+      if (this.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+          this.$refs.please.src = e.target.result;
+        };
+        reader.readAsDataURL(this.files[0]);
+      }
     }
   }
 };
