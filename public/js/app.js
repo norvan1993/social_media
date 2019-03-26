@@ -1891,6 +1891,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1898,14 +1901,12 @@ __webpack_require__.r(__webpack_exports__);
       test: ""
     };
   },
-  watch: {},
-  computed: {},
   props: ["user"],
   methods: {
     //append the files selected to the files array and convert the first file in the array to data
     appendPhotos: function appendPhotos() {
       for (var i = 0; i < this.$refs.filesSelector.files.length; i++) {
-        this.files.push(this.$refs.filesSelector.files[i]);
+        this.files.push(this.convertToData(this.$refs.filesSelector.files[i]));
       }
 
       alert(this.convertToData());
@@ -1915,16 +1916,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.filesSelector.click();
     },
     //convet the first file in the files array to data
-    convertToData: function convertToData() {
-      if (this.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-          this.$refs.please.src = e.target.result;
-        };
-
-        reader.readAsDataURL(this.files[0]);
-      }
+    convertToData: function convertToData(file) {
+      return URL.createObjectURL(file);
     }
   }
 });
@@ -39182,8 +39175,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card mt-3" }, [
-    _c("img", { ref: "please", staticClass: "profileImg" }),
-    _vm._v(" "),
     _c("div", { staticClass: "card-header" }, [
       _c("img", {
         staticClass: "profileImg",
@@ -39224,7 +39215,16 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "d-block filesContainer" }),
+      _c(
+        "div",
+        { staticClass: "d-block filesContainer" },
+        _vm._l(_vm.files, function(file) {
+          return _c("div", [
+            _c("img", { staticClass: "profileImg", attrs: { src: file } })
+          ])
+        }),
+        0
+      ),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),

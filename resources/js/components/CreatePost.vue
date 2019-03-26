@@ -1,6 +1,5 @@
 <template>
   <div class="card mt-3">
-    <img class="profileImg" ref="please">
     <div class="card-header">
       <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
       <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
@@ -26,7 +25,11 @@
           style="width:100%; resize:none;"
         ></textarea>
       </div>
-      <div class="d-block filesContainer"></div>
+      <div class="d-block filesContainer">
+        <div v-for="file in files">
+          <img class="profileImg" :src="file">
+        </div>
+      </div>
       <hr>
       <button type="button" class="btn btn-outline-success d-block mr-3 float-right">Post</button>
       <input @change="appendPhotos()" type="file" ref="filesSelector" hidden multiple>
@@ -47,14 +50,12 @@ export default {
       test: ""
     };
   },
-  watch: {},
-  computed: {},
   props: ["user"],
   methods: {
     //append the files selected to the files array and convert the first file in the array to data
     appendPhotos() {
       for (let i = 0; i < this.$refs.filesSelector.files.length; i++) {
-        this.files.push(this.$refs.filesSelector.files[i]);
+        this.files.push(this.convertToData(this.$refs.filesSelector.files[i]));
       }
 
       alert(this.convertToData());
@@ -64,14 +65,8 @@ export default {
       this.$refs.filesSelector.click();
     },
     //convet the first file in the files array to data
-    convertToData() {
-      if (this.files[0]) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-          this.$refs.please.src = e.target.result;
-        };
-        reader.readAsDataURL(this.files[0]);
-      }
+    convertToData(file) {
+      return URL.createObjectURL(file);
     }
   }
 };
