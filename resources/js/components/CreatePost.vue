@@ -30,9 +30,7 @@
           v-for="(file, key)  in files"
           class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
           :style="{backgroundImage:'url('+file+')'}"
-        >
-          <div @click="removeImage(key)">x</div>
-        </div>
+        ></div>
       </div>
       <hr>
       <button type="button" class="btn btn-outline-success d-block mr-3 float-right">Post</button>

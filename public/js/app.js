@@ -1896,8 +1896,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -39226,26 +39224,10 @@ var render = function() {
         "div",
         { staticClass: "d-block filesContainer bg-primary" },
         _vm._l(_vm.files, function(file, key) {
-          return _c(
-            "div",
-            {
-              staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
-              style: { backgroundImage: "url(" + file + ")" }
-            },
-            [
-              _c(
-                "div",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.removeImage(key)
-                    }
-                  }
-                },
-                [_vm._v("x")]
-              )
-            ]
-          )
+          return _c("div", {
+            staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
+            style: { backgroundImage: "url(" + file + ")" }
+          })
         }),
         0
       ),
