@@ -1894,6 +1894,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1918,6 +1922,9 @@ __webpack_require__.r(__webpack_exports__);
     //convet the first file in the files array to data
     convertToData: function convertToData(file) {
       return URL.createObjectURL(file);
+    },
+    removeImage: function removeImage(key) {
+      this.files.splice(key, 1);
     }
   }
 });
@@ -7438,7 +7445,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-20838332] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-20838332] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n.filesContainer[data-v-20838332] {\n  width: 100%;\n  height: 150px;\n  background-color: white;\n  padding-left: 10px;\n\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n.filesContainer[data-v-20838332]:after {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  width: 10px;\n}\n.imageBlock[data-v-20838332] {\n  display: inline-block;\n  width: 100px;\n  height: 100px;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: cover;\n  background-color: rgb(202, 202, 202);\n}\n", ""]);
 
 // exports
 
@@ -39217,11 +39224,28 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "d-block filesContainer" },
-        _vm._l(_vm.files, function(file) {
-          return _c("div", [
-            _c("img", { staticClass: "profileImg", attrs: { src: file } })
-          ])
+        { staticClass: "d-block filesContainer bg-primary" },
+        _vm._l(_vm.files, function(file, key) {
+          return _c(
+            "div",
+            {
+              staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
+              style: { backgroundImage: "url(" + file + ")" }
+            },
+            [
+              _c(
+                "div",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.removeImage(key)
+                    }
+                  }
+                },
+                [_vm._v("x")]
+              )
+            ]
+          )
         }),
         0
       ),

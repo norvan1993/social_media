@@ -25,9 +25,13 @@
           style="width:100%; resize:none;"
         ></textarea>
       </div>
-      <div class="d-block filesContainer">
-        <div v-for="file in files">
-          <img class="profileImg" :src="file">
+      <div class="d-block filesContainer bg-primary">
+        <div
+          v-for="(file, key)  in files"
+          class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
+          :style="{backgroundImage:'url('+file+')'}"
+        >
+          <div @click="removeImage(key)">x</div>
         </div>
       </div>
       <hr>
@@ -67,6 +71,9 @@ export default {
     //convet the first file in the files array to data
     convertToData(file) {
       return URL.createObjectURL(file);
+    },
+    removeImage(key) {
+      this.files.splice(key, 1);
     }
   }
 };
@@ -77,5 +84,30 @@ export default {
   width: 40px;
   height: 40px;
   border: 1px solid black;
+}
+.filesContainer {
+  width: 100%;
+  height: 150px;
+  background-color: white;
+  padding-left: 10px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.filesContainer:after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 10px;
+}
+.imageBlock {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgb(202, 202, 202);
 }
 </style>
