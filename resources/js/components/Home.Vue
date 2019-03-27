@@ -3,7 +3,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["csrf"]
+};
 </script>
 
 <style scoped>

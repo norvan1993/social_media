@@ -25,13 +25,14 @@
         >about</router-link>
       </div>
     </div>
-    <router-view :user="user"></router-view>
+    <router-view :user="user" :csrf="csrf"></router-view>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
+  props: ["csrf"],
   data() {
     return {
       id: this.$route.params.id,

@@ -30,7 +30,7 @@
     <div id="app">
         <auth-header>@csrf</auth-header>
         <hr>
-        <router-view></router-view>
+        <router-view csrf="{{ csrf_token() }}"></router-view>
     </div>
 </body>
 </html>

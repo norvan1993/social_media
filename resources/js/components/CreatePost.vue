@@ -4,7 +4,6 @@
       <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
       <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
     </div>
-
     <div class="card-body">
       <h4>
         <input
@@ -12,28 +11,35 @@
           placeholder="Title Here"
           class="d-block border-0"
           style="width:100%;"
-          @change="appendTitle()"
+          v-model="title"
         >
         <hr>
       </h4>
       <div class="card-text">
         <textarea
-          @change="appendBody()"
           placeholder="write something"
           rows="4"
           class="d-block ml-3 border-0"
           style="width:100%; resize:none;"
+          v-model="body"
         ></textarea>
       </div>
-      <div class="d-block filesContainer bg-primary">
+      <div class="d-block filesContainer">
         <div
           v-for="(file, key)  in files"
           class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
           :style="{backgroundImage:'url('+file+')'}"
-        ></div>
+        >
+          <div class="imageOverlay"></div>
+          <img src="/ic/cancel.png" class="m-auto optionsArrow" @click="removeImage(key)">
+        </div>
       </div>
       <hr>
-      <button type="button" class="btn btn-outline-success d-block mr-3 float-right">Post</button>
+      <button
+        type="button"
+        class="btn btn-outline-success d-block mr-3 float-right"
+        @click="post()"
+      >Post</button>
       <input @change="appendPhotos()" type="file" ref="filesSelector" hidden multiple>
       <button
         type="button"
@@ -45,33 +51,55 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
+  props: ["csrf"],
   data() {
     return {
       files: [],
-      test: ""
+      body: "",
+      title: ""
     };
   },
   props: ["user"],
   methods: {
-    //append the files selected to the files array and convert the first file in the array to data
+    //append the selected files to the files array in the structure of data
     appendPhotos() {
       for (let i = 0; i < this.$refs.filesSelector.files.length; i++) {
         this.files.push(this.convertToData(this.$refs.filesSelector.files[i]));
       }
-
-      alert(this.convertToData());
     },
     //click on hidden input(type file) when the user click on choose files button
     chooseFiles() {
       this.$refs.filesSelector.click();
     },
-    //convet the first file in the files array to data
+    //convet the given file object to data
     convertToData(file) {
       return URL.createObjectURL(file);
     },
     removeImage(key) {
       this.files.splice(key, 1);
+    },
+    post() {
+      var privacy = {
+        status: "public",
+        id_list: []
+      };
+      var form = new FormData();
+      form.append("_token", this.csrf);
+      form.append("title", this.title);
+      form.append("body", this.body);
+      for (var i in this.files) {
+        form.append("photos[]", this.files[i]);
+      }
+      form.append("privacy", privacy);
+
+      axios
+        .post("http://carmeer.com/api/posts")
+        .then(res => this.handlePost(res.data[0]));
+    },
+    handlePost(data) {
+      alert(data.message);
     }
   }
 };
@@ -107,5 +135,30 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   background-color: rgb(202, 202, 202);
+  cursor: pointer;
+}
+.imageOverlay {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(165, 165, 165, 0.6);
+  visibility: hidden;
+}
+.imageBlock:hover .imageOverlay {
+  visibility: visible;
+}
+.optionsArrow {
+  position: relative;
+  display: block;
+  top: -65px;
+  width: 30px;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+}
+.imageBlock:hover .optionsArrow {
+  visibility: visible;
+}
+.optionsArrow:hover {
+  transform: scale(1.3);
 }
 </style>

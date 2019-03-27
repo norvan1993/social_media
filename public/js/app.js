@@ -1850,6 +1850,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+var _props$data$props$met;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1896,36 +1902,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = (_props$data$props$met = {
+  props: ["csrf"],
   data: function data() {
     return {
       files: [],
-      test: ""
+      body: "",
+      title: ""
     };
-  },
-  props: ["user"],
-  methods: {
-    //append the files selected to the files array and convert the first file in the array to data
-    appendPhotos: function appendPhotos() {
-      for (var i = 0; i < this.$refs.filesSelector.files.length; i++) {
-        this.files.push(this.convertToData(this.$refs.filesSelector.files[i]));
-      }
-
-      alert(this.convertToData());
-    },
-    //click on hidden input(type file) when the user click on choose files button
-    chooseFiles: function chooseFiles() {
-      this.$refs.filesSelector.click();
-    },
-    //convet the first file in the files array to data
-    convertToData: function convertToData(file) {
-      return URL.createObjectURL(file);
-    },
-    removeImage: function removeImage(key) {
-      this.files.splice(key, 1);
-    }
   }
-});
+}, _defineProperty(_props$data$props$met, "props", ["user"]), _defineProperty(_props$data$props$met, "methods", {
+  //append the selected files to the files array in the structure of data
+  appendPhotos: function appendPhotos() {
+    for (var i = 0; i < this.$refs.filesSelector.files.length; i++) {
+      this.files.push(this.convertToData(this.$refs.filesSelector.files[i]));
+    }
+  },
+  //click on hidden input(type file) when the user click on choose files button
+  chooseFiles: function chooseFiles() {
+    this.$refs.filesSelector.click();
+  },
+  //convet the given file object to data
+  convertToData: function convertToData(file) {
+    return URL.createObjectURL(file);
+  },
+  removeImage: function removeImage(key) {
+    this.files.splice(key, 1);
+  },
+  post: function post() {
+    var _this = this;
+
+    var privacy = {
+      status: "public",
+      id_list: []
+    };
+    var form = new FormData();
+    form.append("_token", this.csrf);
+    form.append("title", this.title);
+    form.append("body", this.body);
+
+    for (var i in this.files) {
+      form.append("photos[]", this.files[i]);
+    }
+
+    form.append("privacy", privacy);
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://carmeer.com/api/posts").then(function (res) {
+      return _this.handlePost(res.data[0]);
+    });
+  },
+  handlePost: function handlePost(data) {
+    alert(data.message);
+  }
+}), _props$data$props$met);
 
 /***/ }),
 
@@ -2022,7 +2057,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["csrf"]
+});
 
 /***/ }),
 
@@ -2147,6 +2184,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["csrf"],
   data: function data() {
     return {
       id: this.$route.params.id,
@@ -2269,6 +2307,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CreatePost_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CreatePost.vue */ "./resources/js/components/CreatePost.vue");
+var _props$data$props$com;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2278,15 +2320,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = (_props$data$props$com = {
+  props: ["csrf"],
   data: function data() {
     return {};
-  },
-  props: ["user"],
-  components: {
-    "create-post": _CreatePost_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
-});
+}, _defineProperty(_props$data$props$com, "props", ["user"]), _defineProperty(_props$data$props$com, "components", {
+  "create-post": _CreatePost_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+}), _props$data$props$com);
 
 /***/ }),
 
@@ -7443,7 +7484,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-20838332] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n.filesContainer[data-v-20838332] {\n  width: 100%;\n  height: 150px;\n  background-color: white;\n  padding-left: 10px;\n\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n.filesContainer[data-v-20838332]:after {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  width: 10px;\n}\n.imageBlock[data-v-20838332] {\n  display: inline-block;\n  width: 100px;\n  height: 100px;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: cover;\n  background-color: rgb(202, 202, 202);\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-20838332] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n.filesContainer[data-v-20838332] {\n  width: 100%;\n  height: 150px;\n  background-color: white;\n  padding-left: 10px;\n\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n.filesContainer[data-v-20838332]:after {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  width: 10px;\n}\n.imageBlock[data-v-20838332] {\n  display: inline-block;\n  width: 100px;\n  height: 100px;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: cover;\n  background-color: rgb(202, 202, 202);\n  cursor: pointer;\n}\n.imageOverlay[data-v-20838332] {\n  position: relative;\n  width: 100px;\n  height: 100px;\n  background-color: rgba(165, 165, 165, 0.6);\n  visibility: hidden;\n}\n.imageBlock:hover .imageOverlay[data-v-20838332] {\n  visibility: visible;\n}\n.optionsArrow[data-v-20838332] {\n  position: relative;\n  display: block;\n  top: -65px;\n  width: 30px;\n  visibility: hidden;\n  transition: all 0.2s ease-in-out;\n}\n.imageBlock:hover .optionsArrow[data-v-20838332] {\n  visibility: visible;\n}\n.optionsArrow[data-v-20838332]:hover {\n  -webkit-transform: scale(1.3);\n          transform: scale(1.3);\n}\n", ""]);
 
 // exports
 
@@ -39194,12 +39235,24 @@ var render = function() {
     _c("div", { staticClass: "card-body" }, [
       _c("h4", [
         _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.title,
+              expression: "title"
+            }
+          ],
           staticClass: "d-block border-0",
           staticStyle: { width: "100%" },
           attrs: { type: "text", placeholder: "Title Here" },
+          domProps: { value: _vm.title },
           on: {
-            change: function($event) {
-              return _vm.appendTitle()
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.title = $event.target.value
             }
           }
         }),
@@ -39209,12 +39262,24 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "card-text" }, [
         _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.body,
+              expression: "body"
+            }
+          ],
           staticClass: "d-block ml-3 border-0",
           staticStyle: { width: "100%", resize: "none" },
           attrs: { placeholder: "write something", rows: "4" },
+          domProps: { value: _vm.body },
           on: {
-            change: function($event) {
-              return _vm.appendBody()
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.body = $event.target.value
             }
           }
         })
@@ -39222,12 +39287,28 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "d-block filesContainer bg-primary" },
+        { staticClass: "d-block filesContainer" },
         _vm._l(_vm.files, function(file, key) {
-          return _c("div", {
-            staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
-            style: { backgroundImage: "url(" + file + ")" }
-          })
+          return _c(
+            "div",
+            {
+              staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
+              style: { backgroundImage: "url(" + file + ")" }
+            },
+            [
+              _c("div", { staticClass: "imageOverlay" }),
+              _vm._v(" "),
+              _c("img", {
+                staticClass: "m-auto optionsArrow",
+                attrs: { src: "/ic/cancel.png" },
+                on: {
+                  click: function($event) {
+                    return _vm.removeImage(key)
+                  }
+                }
+              })
+            ]
+          )
         }),
         0
       ),
@@ -39238,7 +39319,12 @@ var render = function() {
         "button",
         {
           staticClass: "btn btn-outline-success d-block mr-3 float-right",
-          attrs: { type: "button" }
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.post()
+            }
+          }
         },
         [_vm._v("Post")]
       ),
@@ -39660,7 +39746,7 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("router-view", { attrs: { user: _vm.user } })
+      _c("router-view", { attrs: { user: _vm.user, csrf: _vm.csrf } })
     ],
     1
   )
@@ -39863,7 +39949,7 @@ var render = function() {
     _c(
       "div",
       { staticClass: "col-sm-6" },
-      [_c("create-post", { attrs: { user: _vm.user } })],
+      [_c("create-post", { attrs: { user: _vm.user, csrf: _vm.csrf } })],
       1
     )
   ])
