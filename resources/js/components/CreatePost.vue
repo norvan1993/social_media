@@ -95,7 +95,7 @@ export default {
       form.append("privacy", privacy);
 
       axios
-        .post("http://carmeer.com/api/posts")
+        .post("http://carmeer.com/api/posts", form)
         .then(res => this.handlePost(res.data[0]));
     },
     handlePost(data) {

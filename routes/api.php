@@ -16,12 +16,14 @@ use Illuminate\Http\Request;
 //users routes
 
 Route::resource('/users', 'Api\UsersController')->except(['edit', 'create']);
+
+Route::post('/login', 'AuthController@login');
+Route::post('/logout', 'AuthController@logout')->middleware('auth:api');
+Route::post('/register', 'AuthController@register');
+
 Route::post('/users/{user}/old_password', 'Api\UsersController@oldPassword');
 Route::put('/users/{user}/reset_password', 'Api\UsersController@resetPassword');
 Route::put('/users/{user}/admin_update', 'Api\UsersController@adminUpdate');
-
-
-
 //posts routes
 Route::resource('/posts', 'Api\PostsController')->except(['edit', 'create'])->middleware('auth:api');
 Route::put('/posts/{post}/update_privacy', 'Api\PostsController@updatePrivacy')->middleware('auth:api');
@@ -36,11 +38,9 @@ Route::post('/friendship/block', 'Api\FriendRequestsController@block')->middlewa
 Route::delete('/friendship/remove_block', 'Api\FriendRequestsController@removeBlock')->middleware('auth:api');
 Route::delete('/friendship/unfriend', 'Api\FriendRequestsController@unfriend')->middleware('auth:api');
 Route::get('/friendship/friends_list', 'Api\FriendRequestsController@friendsList')->middleware('auth:api');
-
 //post privacy routes
 Route::put('/set_default_viewers', 'Api\DefaultPostViewersController@setViewers')->middleware('auth:api');
 Route::get('/get_default_viewers', 'Api\DefaultPostViewersController@getViewers')->middleware('auth:api');
-
 //likes routes
 Route::post('/post/add_like', 'Api\LikesController@addLikeToPost')->middleware('auth:api');
 Route::delete('/post/remove_like', 'Api\LikesController@removeLikeFromPost')->middleware('auth:api');

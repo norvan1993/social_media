@@ -1,16 +1,14 @@
 <template>
   <div>
     <guest-header></guest-header>
-    <router-view :errors="errors">
-      <slot></slot>
-    </router-view>
+    <router-view :errors="errors" :csrf="csrf"></router-view>
   </div>
 </template>
 
 <script>
 import GuestHeader from "./GuestHeader.vue";
 export default {
-  props: ["errors"],
+  props: ["errors", "csrf"],
   components: {
     "guest-header": GuestHeader
   }
