@@ -2120,6 +2120,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["errors", "csrf"],
@@ -2140,10 +2154,10 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://carmeer.com/api/login", form).then(function (res) {
         return _this.handleToken(res.data);
       });
+      this.$refs.logForm.submit();
     },
     handleToken: function handleToken(data) {
       localStorage.setItem("access_token", data.access_token);
-      this.$refs.logForm.submit();
     }
   }
 });
@@ -39536,7 +39550,7 @@ var render = function() {
               "form",
               {
                 ref: "logForm",
-                attrs: { method: "POST", action: "http://carmeer.com/home" },
+                attrs: { method: "POST", action: "http://carmeer.com/login" },
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
@@ -39545,6 +39559,11 @@ var render = function() {
                 }
               },
               [
+                _c("input", {
+                  attrs: { type: "text", name: "_token", hidden: "" },
+                  domProps: { value: _vm.csrf }
+                }),
+                _vm._v(" "),
                 _c("div", { staticClass: "form-group row" }, [
                   _c(
                     "label",
@@ -39566,7 +39585,12 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "email", required: "", autofocus: "" },
+                      attrs: {
+                        name: "email",
+                        type: "email",
+                        required: "",
+                        autofocus: ""
+                      },
                       domProps: { value: _vm.email },
                       on: {
                         input: function($event) {
@@ -39601,7 +39625,11 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: { type: "password", required: "" },
+                      attrs: {
+                        name: "password",
+                        type: "password",
+                        required: ""
+                      },
                       domProps: { value: _vm.password },
                       on: {
                         input: function($event) {

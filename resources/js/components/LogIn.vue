@@ -8,15 +8,23 @@
           <div class="card-body">
             <form
               method="POST"
-              action="http://carmeer.com/home"
+              action="http://carmeer.com/login"
               ref="logForm"
               @submit.prevent="login()"
             >
+              <input type="text" name="_token" :value="csrf" hidden>
               <div class="form-group row">
                 <label for="email" class="col-md-4 col-form-label text-md-right">Email-Address</label>
 
                 <div class="col-md-6">
-                  <input type="email" class="form-control" required autofocus v-model="email">
+                  <input
+                    name="email"
+                    type="email"
+                    class="form-control"
+                    required
+                    autofocus
+                    v-model="email"
+                  >
                 </div>
               </div>
 
@@ -24,7 +32,13 @@
                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                 <div class="col-md-6">
-                  <input type="password" class="form-control" required v-model="password">
+                  <input
+                    name="password"
+                    type="password"
+                    class="form-control"
+                    required
+                    v-model="password"
+                  >
                 </div>
               </div>
 
@@ -65,10 +79,10 @@ export default {
       axios
         .post("http://carmeer.com/api/login", form)
         .then(res => this.handleToken(res.data));
+      this.$refs.logForm.submit();
     },
     handleToken(data) {
       localStorage.setItem("access_token", data.access_token);
-      this.$refs.logForm.submit();
     }
   }
 };
