@@ -28,7 +28,7 @@
         <div
           v-for="(file, key)  in files"
           class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
-          :style="{backgroundImage:'url('+file+')'}"
+          :style="{backgroundImage:'url('+convertToData(file)+')'}"
         >
           <div class="imageOverlay"></div>
           <img src="/ic/cancel.png" class="m-auto optionsArrow" @click="removeImage(key)">
@@ -66,7 +66,7 @@ export default {
     //append the selected files to the files array in the structure of data
     appendPhotos() {
       for (let i = 0; i < this.$refs.filesSelector.files.length; i++) {
-        this.files.push(this.convertToData(this.$refs.filesSelector.files[i]));
+        this.files.push(this.$refs.filesSelector.files[i]);
       }
     },
     //click on hidden input(type file) when the user click on choose files button
@@ -81,22 +81,29 @@ export default {
       this.files.splice(key, 1);
     },
     post() {
-      var privacy = {
-        status: "public",
-        id_list: []
+      let privacy = {
+        status: "public"
       };
       var form = new FormData();
-      form.append("_token", this.csrf);
+
       form.append("title", this.title);
       form.append("body", this.body);
+      form.append("privacy", privacy);
       for (var i in this.files) {
         form.append("photos[]", this.files[i]);
       }
-      form.append("privacy", privacy);
 
-      axios
-        .post("http://carmeer.com/api/posts", form)
-        .then(res => this.handlePost(res.data[0]));
+      axios({
+        method: "post", //you can set what request you want to be
+        url: "http://carmeer.com/api/posts",
+        data: form,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "Content-Type": "multipart/form-data"
+        }
+      })
+        .then(res => this.handlePost(res.data[0]))
+        .catch(error => alert(localStorage.getItem("access_token")));
     },
     handlePost(data) {
       alert(data.message);

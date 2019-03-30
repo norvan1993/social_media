@@ -77,12 +77,17 @@ export default {
       form.append("email", this.email);
       form.append("password", this.password);
       axios
-        .post("http://carmeer.com/api/login", form)
+        .post("http://carmeer.com/api/login", form, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+            "content-type": "multipart/form-data"
+          }
+        })
         .then(res => this.handleToken(res.data));
-      this.$refs.logForm.submit();
     },
     handleToken(data) {
       localStorage.setItem("access_token", data.access_token);
+      this.$refs.logForm.submit();
     }
   }
 };

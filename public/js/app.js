@@ -1922,7 +1922,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   //append the selected files to the files array in the structure of data
   appendPhotos: function appendPhotos() {
     for (var i = 0; i < this.$refs.filesSelector.files.length; i++) {
-      this.files.push(this.convertToData(this.$refs.filesSelector.files[i]));
+      this.files.push(this.$refs.filesSelector.files[i]);
     }
   },
   //click on hidden input(type file) when the user click on choose files button
@@ -1940,21 +1940,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this = this;
 
     var privacy = {
-      status: "public",
-      id_list: []
+      status: "public"
     };
     var form = new FormData();
-    form.append("_token", this.csrf);
     form.append("title", this.title);
     form.append("body", this.body);
+    form.append("privacy", privacy);
 
     for (var i in this.files) {
       form.append("photos[]", this.files[i]);
     }
 
-    form.append("privacy", privacy);
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://carmeer.com/api/posts", form).then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default()({
+      method: "post",
+      //you can set what request you want to be
+      url: "http://carmeer.com/api/posts",
+      data: form,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+        "Content-Type": "multipart/form-data"
+      }
+    }).then(function (res) {
       return _this.handlePost(res.data[0]);
+    }).catch(function (error) {
+      return alert(localStorage.getItem("access_token"));
     });
   },
   handlePost: function handlePost(data) {
@@ -2151,13 +2160,18 @@ __webpack_require__.r(__webpack_exports__);
       form.append("_token", this.csrf);
       form.append("email", this.email);
       form.append("password", this.password);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://carmeer.com/api/login", form).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://carmeer.com/api/login", form, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "content-type": "multipart/form-data"
+        }
+      }).then(function (res) {
         return _this.handleToken(res.data);
       });
-      this.$refs.logForm.submit();
     },
     handleToken: function handleToken(data) {
       localStorage.setItem("access_token", data.access_token);
+      this.$refs.logForm.submit();
     }
   }
 });
@@ -39315,7 +39329,7 @@ var render = function() {
             "div",
             {
               staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
-              style: { backgroundImage: "url(" + file + ")" }
+              style: { backgroundImage: "url(" + _vm.convertToData(file) + ")" }
             },
             [
               _c("div", { staticClass: "imageOverlay" }),
