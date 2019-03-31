@@ -84,6 +84,7 @@ export default {
       let privacy = {
         status: "public"
       };
+      privacy = JSON.stringify(privacy);
       var form = new FormData();
 
       form.append("title", this.title);
@@ -103,7 +104,7 @@ export default {
         }
       })
         .then(res => this.handlePost(res.data[0]))
-        .catch(error => alert(localStorage.getItem("access_token")));
+        .catch(error => alert(JSON.stringify(error.response)));
     },
     handlePost(data) {
       alert(data.message);

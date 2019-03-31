@@ -1942,6 +1942,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var privacy = {
       status: "public"
     };
+    privacy = JSON.stringify(privacy);
     var form = new FormData();
     form.append("title", this.title);
     form.append("body", this.body);
@@ -1963,7 +1964,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }).then(function (res) {
       return _this.handlePost(res.data[0]);
     }).catch(function (error) {
-      return alert(localStorage.getItem("access_token"));
+      return alert(JSON.stringify(error.response));
     });
   },
   handlePost: function handlePost(data) {
@@ -2157,12 +2158,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var form = new FormData();
-      form.append("_token", this.csrf);
       form.append("email", this.email);
       form.append("password", this.password);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://carmeer.com/api/login", form, {
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
           "content-type": "multipart/form-data"
         }
       }).then(function (res) {

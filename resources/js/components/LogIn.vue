@@ -73,13 +73,11 @@ export default {
   methods: {
     login() {
       var form = new FormData();
-      form.append("_token", this.csrf);
       form.append("email", this.email);
       form.append("password", this.password);
       axios
         .post("http://carmeer.com/api/login", form, {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
             "content-type": "multipart/form-data"
           }
         })
@@ -87,6 +85,7 @@ export default {
     },
     handleToken(data) {
       localStorage.setItem("access_token", data.access_token);
+
       this.$refs.logForm.submit();
     }
   }
