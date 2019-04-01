@@ -12,13 +12,7 @@
       <div class="card-text">
         <p>{{post.body}}</p>
       </div>
-      <div class="d-block filesContainer">
-        <div
-          v-for="file  in files"
-          class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
-          :style="{backgroundImage:'url('+convertToData(file)+')'}"
-        ></div>
-      </div>
+
       <hr>
       <button
         type="button"
