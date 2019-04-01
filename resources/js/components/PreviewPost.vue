@@ -11,27 +11,20 @@
       </h4>
       <div class="card-text">
         <p>{{post.body}}</p>
+        <hr>
+        <preview-images :files="post.photos"></preview-images>
       </div>
-
-      <hr>
-      <button
-        type="button"
-        class="btn btn-outline-success d-block mr-3 float-right"
-        @click="post()"
-      >Post</button>
-      <input @change="appendPhotos()" type="file" ref="filesSelector" hidden multiple>
-      <button
-        type="button"
-        class="btn btn-outline-success d-block mr-3 float-right"
-        @click="chooseFiles()"
-      >Choose Files</button>
     </div>
   </div>
 </template>
 
 <script>
+import PreviewImages from "./PreviewImages.vue";
 export default {
-  props: ["user", "post"]
+  props: ["user", "post"],
+  components: {
+    "preview-images": PreviewImages
+  }
 };
 </script>
 

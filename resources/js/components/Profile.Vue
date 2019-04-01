@@ -50,13 +50,13 @@ export default {
     }
   },
   created: function() {
+    //get user infos
     axios
       .get("http://carmeer.com/api/users/" + this.$route.params.id)
       .then(res => this.loadUserData(res.data[0]));
   }
 };
 </script>
-
 <style scoped>
 .profileImg {
   width: 100px;
