@@ -1,10 +1,10 @@
 <template>
     <div class="imagesContainer">
         <div class="item" v-if="first">
-            <div class="itemInner" v-for="first"></div>
+            <div class="itemInner" v-for="firstRowImg in first"></div>
         </div>
         <div class="item" v-if="second">
-            <div class="itemInner" v-for="second"></div>
+            <div class="itemInner" v-for="secondRowImg in second"></div>
         </div>
     </div>
 </template>
@@ -24,8 +24,9 @@ export default {
         /************
          * distribution
          ***********/
-        distribution() {
-            var distrubtion = [];
+        distribution(dimension) {
+            alert("distrubsion");
+            let distrubtion = [];
             switch (this.files.length) {
                 case 1:
                     distrubtion = [1, 0];
@@ -36,41 +37,45 @@ export default {
                 case 3:
                     distrubtion = [1, 2];
                     break;
-                case 4:
-                    if (this.dimension() == "square") {
+                    if (dimension == "square") {
                         distrubtion = [2, 2];
                     }
                     distrubtion = [1, 3];
                     break;
                 default:
                     distrubtion = [2, 3];
-                    break;
             }
+
             this.first = distrubtion[0];
             this.second = distrubtion[1];
         },
         /************
          * dimension
          ***********/
-        dimension() {
+        dimension(callback) {
             //select first image to check porporation
-            img = new Image();
-            img.src = this.files[0];
-            //get dimensions
-            if (img.width > img.height) {
-                return "wide";
-            }
-            if (img.width < img.height) {
-                return "tall";
-            }
-            if (img.width == img.height) {
-                return "square";
-            }
+            let img = new Image();
+            img.onload = function() {
+                //get dimensions
+                let dimension = "";
+                if (img.width > img.height) {
+                    dimension = "wide";
+                } else if (img.width < img.height) {
+                    dimension = "tall";
+                } else if (img.width == img.height) {
+                    dimension = "square";
+                }
+                callback(dimension);
+            };
+            img.src = "http://carmeer.com/photo/" + this.files[0].file;
         },
-        setHorOrVer() {
-            if (this.dimension() == "tall") {
-                //vertical
 
+        /************
+         * setHorOrVer
+         ***********/
+        setHorOrVer(dimension) {
+            if (dimension == "tall") {
+                //vertical
                 //imagescontainer styles
                 document.getElementsByClassName(
                     "imagesContainer"
@@ -86,6 +91,7 @@ export default {
                 for (var j = 0; i < itemInner.length; j++) {
                     itemInner[j].style.width = "100%";
                 }
+                return true;
             }
             //else horizantal
 
@@ -105,6 +111,12 @@ export default {
                 itemInner[j].style.height = "100%";
             }
         }
+    },
+    created: function() {
+        this.dimension(function(dimension) {
+            this.distribution(dimension);
+            this.setHorOrVer(dimension);
+        });
     }
 };
 </script>
@@ -112,7 +124,6 @@ export default {
 <style scoped>
 .imagesContainer {
     display: flex;
-    /*flex-direction: column;*/
     width: 400px;
     height: 250px;
     background-color: red;
@@ -120,15 +131,12 @@ export default {
 }
 .item {
     display: flex;
-    /*flex-direction: row;*/
     flex-grow: 1;
-    /*width: 100%;*/
     border: solid 2px yellow;
     background-color: blue;
 }
 .itemInner {
     flex-grow: 1;
-    /*height: 100%;*/
     border: solid 2px green;
     background-color: black;
 }

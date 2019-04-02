@@ -29,6 +29,9 @@ Route::resource('/posts', 'Api\PostsController')->except(['edit', 'create'])->mi
 Route::put('/posts/{post}/update_privacy', 'Api\PostsController@updatePrivacy')->middleware('auth:api');
 Route::get('/users/{user}/posts', 'Api\PostsController@userPosts')->middleware('auth:api');
 
+//photo
+Route::get('/posts/{post}/photos', 'PhotoController@postPhotos')->middleware('auth:api');
+
 //friend requests routes
 Route::post('/friendship/send', 'Api\FriendRequestsController@send')->middleware('auth:api');
 Route::delete('/friendship/cancel', 'Api\FriendRequestsController@cancel')->middleware('auth:api');

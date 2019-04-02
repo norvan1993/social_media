@@ -2,7 +2,9 @@
     <div class="row justify-content-center">
         <div class="col-sm-6">
             <create-post :user="user" :csrf="csrf"></create-post>
-            <preview-post :post="post"></preview-post>
+            <div v-for="post in postData.data">
+                <preview-post :user="user" :post="post"></preview-post>
+            </div>
         </div>
     </div>
 </template>
@@ -15,7 +17,7 @@ export default {
     props: ["csrf"],
     data() {
         return {
-            post: ""
+            postData: ""
         };
     },
     props: ["user"],
@@ -23,23 +25,26 @@ export default {
         "create-post": CreatePost,
         "preview-post": PreviewPost
     },
+    methods: {
+        setPostData(postData) {
+            this.postData = postData;
+        }
+    },
     created: function() {
-        //get user infos
+        //get user posts
         axios
             .get(
                 "http://carmeer.com/api/users/" +
                     this.$route.params.id +
                     "/posts",
-                null,
                 {
                     headers: {
                         Authorization:
-                            "Bearer " + localStorage.getItem("access_token"),
-                        "content-type": "multipart/form-data"
+                            "Bearer " + localStorage.getItem("access_token")
                     }
                 }
             )
-            .then(res => console.log(res.data));
+            .then(res => this.setPostData(res.data));
     }
 };
 </script>
