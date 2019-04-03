@@ -2214,7 +2214,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      * distribution
      ***********/
     distribution: function distribution(dimension) {
-      alert("distrubsion");
       var distrubtion = [];
 
       switch (this.files.length) {
@@ -2274,23 +2273,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      * setHorOrVer
      ***********/
     setHorOrVer: function setHorOrVer(dimension) {
+      alert(dimension);
+      var container = document.getElementsByClassName("imagesContainer")[0];
+      container.style.backgroundColor = "blue";
+
       if (dimension == "tall") {
         //vertical
         //imagescontainer styles
-        document.getElementsByClassName("imagesContainer")[0].style.flexDirection = "row"; //item styles
+        container.style.flexDirection = "row"; //item styles
 
-        var item = document.getElementsByClassName("item");
+        var _item = document.getElementsByClassName("item");
 
-        for (var i = 0; i < item.length; i++) {
-          item[i].style.flexDirection = "column";
-          item[i].style.height = "100%";
+        for (var i = 0; i < _item.length; i++) {
+          _item[i].style.flexDirection = "column";
+          _item[i].style.height = "100%";
         } //itemInner styles
 
 
-        var itemInner = document.getElementsByClassName("itemInner");
+        var _itemInner = document.getElementsByClassName("itemInner");
 
-        for (var j = 0; i < itemInner.length; j++) {
-          itemInner[j].style.width = "100%";
+        for (var j = 0; i < _itemInner.length; j++) {
+          _itemInner[j].style.width = "100%";
         }
 
         return true;
@@ -2298,13 +2301,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //imagescontainer styles
 
 
-      document.getElementsByClassName("imagesContainer")[0].style.flexDirection = "column"; //item styles
+      container.style.flexDirection = "column";
+      container.style.innerHtml = ""; //item styles
 
       var item = document.getElementsByClassName("item");
 
-      for (var i = 0; i < item.length; i++) {
-        item[i].style.flexDirection = "row";
-        item[i].style.width = "100%";
+      for (var _i = 0; _i < item.length; _i++) {
+        item[_i].style.flexDirection = "row";
+        item[_i].style.width = "100%";
       } //itemInner styles
 
 
@@ -2316,9 +2320,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }
 }, "created", function created() {
+  var obj = this;
   this.dimension(function (dimension) {
-    this.distribution(dimension);
-    this.setHorOrVer(dimension);
+    obj.distribution(dimension);
+    obj.setHorOrVer(dimension);
   });
 }));
 
@@ -7811,7 +7816,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.imagesContainer[data-v-72bd4805] {\n    display: flex;\n    width: 400px;\n    height: 250px;\n    background-color: red;\n    border: solid 5px red;\n}\n.item[data-v-72bd4805] {\n    display: flex;\n    flex-grow: 1;\n    border: solid 2px yellow;\n    background-color: blue;\n}\n.itemInner[data-v-72bd4805] {\n    flex-grow: 1;\n    border: solid 2px green;\n    background-color: black;\n}\n", ""]);
+exports.push([module.i, "\n.imagesContainer[data-v-72bd4805] {\n  display: flex;\n  width: 400px;\n  height: 250px;\n  background-color: red;\n  border: solid 5px red;\n}\n.item[data-v-72bd4805] {\n  display: flex;\n  flex-grow: 1;\n  border: solid 2px yellow;\n  background-color: blue;\n}\n.itemInner[data-v-72bd4805] {\n  flex-grow: 1;\n  border: solid 2px green;\n  background-color: black;\n}\n", ""]);
 
 // exports
 
@@ -40072,7 +40077,11 @@ var render = function() {
           "div",
           { staticClass: "item" },
           _vm._l(_vm.first, function(firstRowImg) {
-            return _c("div", { staticClass: "itemInner" })
+            return _c("div", {
+              ref: "",
+              refInFor: true,
+              staticClass: "itemInner"
+            })
           }),
           0
         )
