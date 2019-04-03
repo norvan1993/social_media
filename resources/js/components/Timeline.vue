@@ -1,6 +1,6 @@
 <template>
     <div class="row justify-content-center">
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <create-post :user="user" :csrf="csrf"></create-post>
             <div v-for="post in postData.data">
                 <preview-post :user="user" :post="post"></preview-post>

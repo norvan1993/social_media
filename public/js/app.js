@@ -2198,12 +2198,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
   props: ["files"],
   data: function data() {
     return {
       first: "",
-      second: ""
+      second: "",
+      containerFlexDirection: "",
+      itemFlexDirection: "",
+      itemHeight: "",
+      itemWidth: "",
+      itemInnerWidth: "",
+      itemInnerHeight: "",
+      photoIndex: 0
     };
   },
   created: function created() {
@@ -2222,17 +2272,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           break;
 
         case 2:
-          distrubtion = [2, 0];
+          distrubtion = [1, 1];
           break;
 
         case 3:
           distrubtion = [1, 2];
           break;
 
-          if (dimension == "square") {
-            distrubtion = [2, 2];
-          }
-
+        case 4:
           distrubtion = [1, 3];
           break;
 
@@ -2273,49 +2320,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      * setHorOrVer
      ***********/
     setHorOrVer: function setHorOrVer(dimension) {
-      alert(dimension);
-      var container = document.getElementsByClassName("imagesContainer")[0];
-      container.style.backgroundColor = "blue";
-
       if (dimension == "tall") {
         //vertical
         //imagescontainer styles
-        container.style.flexDirection = "row"; //item styles
+        this.containerFlexDirection = "row"; //item styles
 
-        var _item = document.getElementsByClassName("item");
+        this.itemFlexDirection = "column";
+        this.itemHeight = "100%"; //itemInner styles
 
-        for (var i = 0; i < _item.length; i++) {
-          _item[i].style.flexDirection = "column";
-          _item[i].style.height = "100%";
-        } //itemInner styles
-
-
-        var _itemInner = document.getElementsByClassName("itemInner");
-
-        for (var j = 0; i < _itemInner.length; j++) {
-          _itemInner[j].style.width = "100%";
-        }
-
+        this.itemInnerWidth = "100%";
         return true;
       } //else horizantal
       //imagescontainer styles
 
 
-      container.style.flexDirection = "column";
-      container.style.innerHtml = ""; //item styles
+      this.containerFlexDirection = "column"; //item styles
 
-      var item = document.getElementsByClassName("item");
+      this.itemFlexDirection = "row";
+      this.itemWidth = "100%"; //itemInner styles
 
-      for (var _i = 0; _i < item.length; _i++) {
-        item[_i].style.flexDirection = "row";
-        item[_i].style.width = "100%";
-      } //itemInner styles
-
-
-      var itemInner = document.getElementsByClassName("itemInner");
-
-      for (var j = 0; i < itemInner.length; j++) {
-        itemInner[j].style.height = "100%";
+      this.itemInnerHeight = "100%";
+    },
+    openImage: function openImage(photoIndex) {
+      this.photoIndex = photoIndex;
+    },
+    closeImage: function closeImage(photoIndex) {
+      this.photoIndex = photoIndex;
+    },
+    next: function next() {
+      if (this.files[this.photoIndex]) {
+        this.photoIndex++;
+      }
+    },
+    previous: function previous() {
+      if (this.files[this.photoIndex - 2]) {
+        this.photoIndex--;
       }
     }
   }
@@ -7816,7 +7855,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.imagesContainer[data-v-72bd4805] {\n  display: flex;\n  width: 400px;\n  height: 250px;\n  background-color: red;\n  border: solid 5px red;\n}\n.item[data-v-72bd4805] {\n  display: flex;\n  flex-grow: 1;\n  border: solid 2px yellow;\n  background-color: blue;\n}\n.itemInner[data-v-72bd4805] {\n  flex-grow: 1;\n  border: solid 2px green;\n  background-color: black;\n}\n", ""]);
+exports.push([module.i, "\n@media only screen and (max-width: 575px) {\n.imagesContainer[data-v-72bd4805] {\n        display: flex;\n        width: 100%;\n        height: 90vw;\n        color: white;\n}\n}\n@media only screen and (min-width: 576px) {\n.imagesContainer[data-v-72bd4805] {\n        display: flex;\n        width: 100%;\n        height: 35vmax;\n        color: white;\n}\n}\n.item[data-v-72bd4805] {\n    display: flex;\n    flex-grow: 1;\n}\n.itemInner[data-v-72bd4805] {\n    flex-grow: 1;\n    border: solid 1px white;\n    cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -40071,33 +40110,188 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "imagesContainer" }, [
-    _vm.first
-      ? _c(
-          "div",
-          { staticClass: "item" },
-          _vm._l(_vm.first, function(firstRowImg) {
-            return _c("div", {
-              ref: "",
-              refInFor: true,
-              staticClass: "itemInner"
-            })
-          }),
-          0
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.second
-      ? _c(
-          "div",
-          { staticClass: "item" },
-          _vm._l(_vm.second, function(secondRowImg) {
-            return _c("div", { staticClass: "itemInner" })
-          }),
-          0
-        )
-      : _vm._e()
-  ])
+  return _c(
+    "div",
+    {
+      staticClass: "imagesContainer",
+      style: { "flex-direction": _vm.containerFlexDirection }
+    },
+    [
+      _vm.first
+        ? _c(
+            "div",
+            {
+              staticClass: "item",
+              style: {
+                flexDirection: _vm.itemFlexDirection,
+                width: _vm.itemWidth,
+                height: _vm.itemHeight
+              }
+            },
+            _vm._l(_vm.first, function(firstRowImg) {
+              return _c("div", {
+                staticClass: "itemInner",
+                staticStyle: {
+                  "background-position": "center",
+                  "background-repeat": "no-repeat",
+                  "background-size": "cover"
+                },
+                style: {
+                  width: _vm.itemInnerWidth,
+                  height: _vm.itemInnerHeight,
+                  backgroundImage:
+                    "url(http://carmeer.com/photo/" +
+                    _vm.files[firstRowImg - 1].file +
+                    ")"
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.openImage(firstRowImg)
+                  }
+                }
+              })
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.second
+        ? _c(
+            "div",
+            {
+              staticClass: "item",
+              style: {
+                "flex-direction": _vm.itemFlexDirection,
+                width: _vm.itemWidth,
+                height: _vm.itemHeight
+              }
+            },
+            _vm._l(_vm.second, function(secondRowImg) {
+              return _c("div", {
+                staticClass: "itemInner",
+                staticStyle: {
+                  "background-position": "center",
+                  "background-repeat": "no-repeat",
+                  "background-size": "cover"
+                },
+                style: {
+                  width: _vm.itemInnerWidth,
+                  height: _vm.itemInnerHeight,
+                  backgroundImage:
+                    "url(http://carmeer.com/photo/" +
+                    _vm.files[_vm.first + secondRowImg - 1].file +
+                    ")"
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.openImage(_vm.first + secondRowImg)
+                  }
+                }
+              })
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.photoIndex
+        ? _c(
+            "div",
+            {
+              staticStyle: {
+                "background-color": "red",
+                position: "fixed",
+                top: "0px",
+                left: "0px",
+                width: "100%",
+                height: "100%",
+                "z-index": "3"
+              }
+            },
+            [
+              _c("div", {
+                staticStyle: {
+                  position: "absolute",
+                  top: "0px",
+                  left: "0px",
+                  width: "100%",
+                  height: "100%",
+                  "background-position": "center",
+                  "background-repeat": "no-repeat",
+                  "background-size": "contain"
+                },
+                style: {
+                  backgroundImage:
+                    "url(http://carmeer.com/photo/" +
+                    _vm.files[_vm.photoIndex - 1].file +
+                    ")"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticStyle: {
+                    position: "absolute",
+                    top: "0px",
+                    left: "0px",
+                    cursor: "pointer",
+                    "z-index": "2"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.closeImage()
+                    }
+                  }
+                },
+                [_vm._v("X")]
+              ),
+              _vm._v(" "),
+              _vm.files[_vm.photoIndex]
+                ? _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        position: "absolute",
+                        bottom: "0px",
+                        right: "0px",
+                        cursor: "pointer",
+                        "z-index": "2"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.next()
+                        }
+                      }
+                    },
+                    [_vm._v("Next")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.files[_vm.photoIndex - 2]
+                ? _c(
+                    "div",
+                    {
+                      staticStyle: {
+                        position: "absolute",
+                        bottom: "0px",
+                        left: "0px",
+                        cursor: "pointer",
+                        "z-index": "2"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.previous()
+                        }
+                      }
+                    },
+                    [_vm._v("Previous")]
+                  )
+                : _vm._e()
+            ]
+          )
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -40438,7 +40632,7 @@ var render = function() {
   return _c("div", { staticClass: "row justify-content-center" }, [
     _c(
       "div",
-      { staticClass: "col-sm-6" },
+      { staticClass: "col-sm-5" },
       [
         _c("create-post", { attrs: { user: _vm.user, csrf: _vm.csrf } }),
         _vm._v(" "),
