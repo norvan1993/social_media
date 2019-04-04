@@ -26,32 +26,15 @@
                 :style="{'width':itemInnerWidth,'height':itemInnerHeight,backgroundImage:'url(http://carmeer.com/photo/'+files[first+secondRowImg-1].file+')'}"
             ></div>
         </div>
-        <div
-            v-if="photoIndex"
-            style="background-color:red; position:fixed; top:0px; left:0px; width:100%; height:100%; z-index:3;"
-        >
-            <div
-                style=" position:absolute; top:0px; left:0px; width:100%; height:100%; background-position:center;background-repeat:no-repeat;background-size:contain;"
-                :style="{backgroundImage:'url(http://carmeer.com/photo/'+files[photoIndex-1].file+')'}"
-            ></div>
-            <div
-                @click="closeImage()"
-                style="position:absolute; top:0px; left:0px;cursor:pointer; z-index:2;"
-            >X</div>
-            <div
-                v-if="files[photoIndex]"
-                @click="next()"
-                style="position:absolute; bottom:0px; right:0px;cursor:pointer; z-index:2;"
-            >Next</div>
-            <div
-            v-if="files[photoIndex-2]"
-                @click="previous()"
-                style="position:absolute; bottom:0px; left:0px;cursor:pointer; z-index:2;"
-            >Previous</div>
-        </div>
+        <preview-image
+            :files="files"
+            :photoIndex="photoIndex"
+            @changePhotoIndex="photoIndex=$event"
+        ></preview-image>
     </div>
 </template>
 <script>
+import PreviewImage from "./PreviewImage.vue";
 export default {
     props: ["files"],
     data() {
@@ -67,11 +50,30 @@ export default {
             photoIndex: 0
         };
     },
-
-    created: function() {
-        this.setHorOrVer();
+    components: {
+        "preview-image": PreviewImage
     },
     methods: {
+        /************
+         * dimension
+         ***********/
+        dimension(callback) {
+            //select first image to check porporation
+            let img = new Image();
+            img.onload = function() {
+                //get dimensions
+                let dimension = "";
+                if (img.width > img.height) {
+                    dimension = "wide";
+                } else if (img.width < img.height) {
+                    dimension = "tall";
+                } else if (img.width == img.height) {
+                    dimension = "square";
+                }
+                callback(dimension);
+            };
+            img.src = "http://carmeer.com/photo/" + this.files[0].file;
+        },
         /************
          * distribution
          ***********/
@@ -98,27 +100,6 @@ export default {
             this.second = distrubtion[1];
         },
         /************
-         * dimension
-         ***********/
-        dimension(callback) {
-            //select first image to check porporation
-            let img = new Image();
-            img.onload = function() {
-                //get dimensions
-                let dimension = "";
-                if (img.width > img.height) {
-                    dimension = "wide";
-                } else if (img.width < img.height) {
-                    dimension = "tall";
-                } else if (img.width == img.height) {
-                    dimension = "square";
-                }
-                callback(dimension);
-            };
-            img.src = "http://carmeer.com/photo/" + this.files[0].file;
-        },
-
-        /************
          * setHorOrVer
          ***********/
         setHorOrVer(dimension) {
@@ -142,21 +123,11 @@ export default {
             //itemInner styles
             this.itemInnerHeight = "100%";
         },
+        /*********
+         *openImage
+         *********/
         openImage(photoIndex) {
             this.photoIndex = photoIndex;
-        },
-        closeImage(photoIndex) {
-            this.photoIndex = photoIndex;
-        },
-        next() {
-            if (this.files[this.photoIndex]) {
-                this.photoIndex++;
-            }
-        },
-        previous() {
-            if (this.files[this.photoIndex - 2]) {
-                this.photoIndex--;
-            }
         }
     },
     /************
@@ -164,7 +135,6 @@ export default {
      ***********/
     created: function() {
         let obj = this;
-
         this.dimension(function(dimension) {
             obj.distribution(dimension);
             obj.setHorOrVer(dimension);
@@ -190,7 +160,6 @@ export default {
         color: white;
     }
 }
-
 .item {
     display: flex;
     flex-grow: 1;
