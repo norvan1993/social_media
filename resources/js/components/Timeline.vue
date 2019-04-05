@@ -14,13 +14,13 @@ import CreatePost from "./CreatePost.vue";
 import PreviewPost from "./PreviewPost.vue";
 import axios from "axios";
 export default {
-    props: ["csrf"],
+    props: ["csrf", "user"],
     data() {
         return {
             postData: ""
         };
     },
-    props: ["user"],
+
     components: {
         "create-post": CreatePost,
         "preview-post": PreviewPost

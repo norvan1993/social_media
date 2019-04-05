@@ -27,6 +27,7 @@
             ></div>
         </div>
         <preview-image
+            :user="user"
             :files="files"
             :photoIndex="photoIndex"
             @changePhotoIndex="photoIndex=$event"
@@ -36,7 +37,7 @@
 <script>
 import PreviewImage from "./PreviewImage.vue";
 export default {
-    props: ["files"],
+    props: ["files", "user"],
     data() {
         return {
             first: "",
@@ -58,10 +59,8 @@ export default {
          * dimension
          ***********/
         dimension(callback) {
-            //select first image to check porporation
             let img = new Image();
             img.onload = function() {
-                //get dimensions
                 let dimension = "";
                 if (img.width > img.height) {
                     dimension = "wide";
@@ -104,23 +103,16 @@ export default {
          ***********/
         setHorOrVer(dimension) {
             if (dimension == "tall") {
-                //vertical
-                //imagescontainer styles
                 this.containerFlexDirection = "row";
-                //item styles
                 this.itemFlexDirection = "column";
                 this.itemHeight = "100%";
-                //itemInner styles
                 this.itemInnerWidth = "100%";
                 return true;
             }
-            //else horizantal
-            //imagescontainer styles
+
             this.containerFlexDirection = "column";
-            //item styles
             this.itemFlexDirection = "row";
             this.itemWidth = "100%";
-            //itemInner styles
             this.itemInnerHeight = "100%";
         },
         /*********

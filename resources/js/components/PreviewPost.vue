@@ -13,7 +13,7 @@
                 <p>{{post.body}}</p>
                 <hr>
             </div>
-            <preview-images v-if="photos" :files="photos"></preview-images>
+            <preview-images :user="user" v-if="photos" :files="photos"></preview-images>
         </div>
     </div>
 </template>
