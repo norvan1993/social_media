@@ -23,3 +23,4 @@ Route::get('/developers', 'DeveloperController@index');
 Route::get('/profile/{id}', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 Route::get('/photo/{id}', 'PhotoController@show');
+Route::get('/test', 'TestController@test');
