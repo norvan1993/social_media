@@ -13,27 +13,19 @@
         </div>
         <div @click="closeImage()" class="closeImage">X</div>
 
-        <div class="mediaBox d-none d-sm-block">
-            <div class="row">
-                <div class="col-12">
-                    <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg ml-2 my-2">
-                    <p class="ownerName d-inline-block ml-2 my-2 font-weight-bold">{{user.name}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <p class="ownerName d-inline-block ml-2 my-2 font-weight-normal">some text here</p>
-                </div>
-            </div>
-        </div>
+        <media-intrection-box :user="user" :photoId="files[photoIndex-1].id"></media-intrection-box>
     </div>
 </template>
 
 <script>
+import MediaInteractionBox from "./MediaInteractionBox.vue";
 export default {
     props: ["photoIndex", "files", "user"],
     data() {
         return {};
+    },
+    components: {
+        "media-intrection-box": MediaInteractionBox
     },
     methods: {
         /*********
@@ -81,14 +73,6 @@ export default {
         background-color: black;
     }
 }
-.mediaBox {
-    position: absolute;
-    left: 60%;
-    right: 5%;
-    bottom: 10%;
-    top: 10%;
-    background-color: white;
-}
 .closeImage {
     position: absolute;
     top: 10px;
@@ -115,18 +99,5 @@ export default {
     z-index: 2;
     color: rgba(255, 255, 255, 0.3);
     font-size: 72px;
-}
-.profileImg {
-    width: 50px;
-    height: 50px;
-    border: 1px solid black;
-    display: inline-block;
-}
-
-.ownerName {
-    color: black;
-    position: relative;
-    top: 17px;
-    text-transform: capitalize;
 }
 </style>

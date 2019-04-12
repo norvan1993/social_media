@@ -40,11 +40,13 @@ class CheckUpdatingDescription implements Rule
         if ($photo->photoable->user_id != Auth::id()) {
             return false;
         }
+        /*
         //check if the post has single photo or multiple photos
         $photos = $photo->photoable->photos;
         if (count($photos) == 1) {
             return false;
         }
+        */
         return true;
     }
 

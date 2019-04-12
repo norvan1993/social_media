@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Description;
 use App\Rules\CheckAddingDescription;
 use App\Rules\CheckUpdatingDescription;
+use App\Photo;
 
 class DescriptionsController extends Controller
 {
@@ -16,8 +17,8 @@ class DescriptionsController extends Controller
         $this->middleware('is_auth')->only('update', 'destroy');
     }
     /***************************************************************************
-    * store
-    ****************************************************************************/
+     * store
+     ****************************************************************************/
     public function store(Request $request)
     {
         //validating request
@@ -32,15 +33,15 @@ class DescriptionsController extends Controller
         Description::create($input);
     }
     /***************************************************************************
-    * show
-    ****************************************************************************/
+     * show
+     ****************************************************************************/
     public function show($id)
     {
         return Description::findOrFail($id);
     }
     /***************************************************************************
-    * update
-    ****************************************************************************/
+     * update
+     ****************************************************************************/
     public function update(Request $request, $id)
     {
         //validating request
@@ -58,11 +59,19 @@ class DescriptionsController extends Controller
         $descriptiion->update($input);
     }
     /***************************************************************************
-    * destroy
-    ****************************************************************************/
+     * destroy
+     ****************************************************************************/
     public function destroy($id)
     {
         //deleting a description
         Description::findOrFail($id)->delete();
+    }
+    /**************************************************************************
+     * photoDescription//via GET::api/photos/{photo}/description
+     ***************************************************************************/
+    public function photoDescription($id)
+    {
+        $photo = Photo::findOrFail($id);
+        $photo->description();
     }
 }

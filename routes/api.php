@@ -54,6 +54,8 @@ Route::post('/photos/{photo}/comment', 'Api\CommentsController@comment')->middle
 Route::get('/posts/{post}/comments', 'Api\CommentsController@postComments')->middleware('auth:api');
 //description routes
 Route::resource('/descriptions', 'Api\DescriptionsController')->only(['store', 'show', 'update', 'destroy'])->middleware('auth:api');
+Route::get('/photos/{photo}/description', 'Api\DescriptionsController@photoDescription')->middleware('auth:api');
+
 //messages routes
 Route::post('/messages/send', 'Api\MessagesController@send')->middleware('auth:api');
 Route::put('/messages/receive', 'Api\MessagesController@receive')->middleware('auth:api');
