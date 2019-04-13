@@ -72,6 +72,6 @@ class DescriptionsController extends Controller
     public function photoDescription($id)
     {
         $photo = Photo::findOrFail($id);
-        $photo->description();
+        return $photo->description;
     }
 }

@@ -26,50 +26,36 @@ class TestController extends Controller
         array_push($nums, 1000000);
         array_push($nums, -100000);
 
-        //value of $a is 0 by default ...changing to 1 to break from the outer loop
-        $a = 0;
-
-        //timer start to check the speed of loop
-        $start_time = microtime(true);
 
         $numsLength = sizeof($nums);
-
-
-        $this->insert_value_into_positive_or_negative_as_index($nums[0], 0);
+        $firstValue = $nums[0];
+        unset($nums[0]);
+        $this->insert_value_into_positive_or_negative_as_index($firstValue, 0);
         for ($x = 1; $x < $numsLength; $x++) {
-            if ($nums[0] + $nums[$x] === $target) {
-                print_r([0, $x]);
-                $a = 1;
-                break;
+            if ($firstValue + $nums[$x] === $target) {
+                return [0, $x];
             }
             if ($nums[$x] >= 0) {
                 if (isset($this->positiveNums[$nums[$x]])) {
-                    print_r([$this->positiveNums[$nums[$x]], $x]);
-                    $a = 1;
-                    break;
+                    if ($nums[$x] + $nums[$x] === $target) {
+                        return [$this->positiveNums[$nums[$x]], $x];
+                    }
+                    continue;
                 }
             }
             if ($nums[$x] < 0) {
                 if (isset($this->negativeNums[$nums[$x]])) {
-                    print_r([$this->negativeNums[abs($nums[$x])], $x]);
-                    $a = 1;
-                    break;
+                    if ($nums[$x] + $nums[$x] === $target) {
+                        return [$this->negativeNums[abs($nums[$x])], $x];
+                    }
+                    continue;
                 }
             }
             $this->insert_value_into_positive_or_negative_as_index($nums[$x], $x);
+            unset($nums[$x]);
         }
 
-        if ($a !== 1) {
-            echo "hello";
-            print_r($this->getKeysOfSum($target));
-        }
-
-
-        // End clock time in seconds
-        $end_time = microtime(true);
-        $execution_time = ($end_time - $start_time);
-
-        echo " Execution time of script = " . $execution_time . " sec";
+        return $this->getKeysOfSum($target);
     }
     public function insert_value_into_positive_or_negative_as_index($value, $key)
     {

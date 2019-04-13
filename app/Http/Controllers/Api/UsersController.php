@@ -12,7 +12,7 @@ use App\Rules\CheckIsActive;
 use App\Rules\CheckRoleId;
 use Illuminate\Support\Facades\DB;
 use App\Photo;
-
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -171,5 +171,9 @@ class UsersController extends Controller
         //update user
         $input = $request->only('is_active', 'role_id');
         $userModel->update($input);
+    }
+    public function authId()
+    {
+        return Auth::id();
     }
 }

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
  */
 
+Route::get('/auth', 'Api\UsersController@authId')->middleware('auth:api');
 //users routes
 
 Route::resource('/users', 'Api\UsersController')->except(['edit', 'create']);

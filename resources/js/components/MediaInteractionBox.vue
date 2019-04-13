@@ -11,6 +11,32 @@
                 <p class="ownerName d-inline-block ml-2 my-2 font-weight-normal">{{description}}</p>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <button
+                    v-if="addDescriptionButton"
+                    @click="showDescriptionInput()"
+                    class="btn btn-primary"
+                >Add Description</button>
+                <textarea
+                    v-if=" descriptionInput"
+                    placeholder="write something"
+                    rows="4"
+                    class="d-block ml-3 border"
+                    style="width:70%; resize:none;"
+                    v-model="body"
+                ></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button
+                    v-if="descriptionInput"
+                    @click="createDescription()"
+                    class="btn btn-primary"
+                >create Description</button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -19,13 +45,46 @@ export default {
     props: ["user", "photoId"],
     data() {
         return {
-            description: null
+            description: "",
+            addDescriptionButton: false,
+            descriptionInput: false,
+            body: ""
         };
     },
     methods: {
         setDescription(data) {
             console.log(data);
-            //this.description = data;
+            this.description = data.body;
+            if (
+                this.description == "" &&
+                localStorage.getItem("auth_id") == this.user.id
+            ) {
+                this.addDescriptionButton = true;
+            }
+        },
+        showDescriptionInput() {
+            this.addDescriptionButton = false;
+            this.descriptionInput = true;
+        },
+        createDescription() {
+            var form = new FormData();
+            form.append("body", this.body);
+            form.append("photo_id", this.photoId);
+            axios
+                .post("http://carmeer.com/api/descriptions", form, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("access_token"),
+                        "content-type": "multipart/form-data"
+                    }
+                })
+                .then(
+                    res =>
+                        function(res) {
+                            this.descriptionInput = false;
+                            this.description = this.body;
+                        }
+                );
         }
     },
     created: function() {
