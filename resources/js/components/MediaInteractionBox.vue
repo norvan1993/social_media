@@ -1,23 +1,39 @@
 <template>
     <div class="mediaBox d-none d-sm-block">
+        <!------------photo owner name +profile pic------------>
         <div class="row">
             <div class="col-12">
                 <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg ml-2 my-2">
                 <p class="ownerName d-inline-block ml-2 my-2 font-weight-bold">{{user.name}}</p>
             </div>
         </div>
+        <!------------photo description if exist------------>
         <div class="row">
             <div class="col-12">
-                <p class="ownerName d-inline-block ml-2 my-2 font-weight-normal">{{description}}</p>
+                <p
+                    v-if="showDescription"
+                    class="ownerName d-inline-block ml-2 my-2 font-weight-normal"
+                >{{description.body}}</p>
             </div>
         </div>
+        <!------------add description button || description text area ||edit desciption ||delete description------------>
         <div class="row">
             <div class="col-12">
                 <button
                     v-if="addDescriptionButton"
                     @click="showDescriptionInput()"
-                    class="btn btn-primary"
+                    class="btn btn-primary mt-3"
                 >Add Description</button>
+                <button
+                    v-if="editDescriptionButton"
+                    @click="showDescriptionInput()"
+                    class="btn btn-success mt-3 ml-1"
+                >edit Description</button>
+                <button
+                    v-if="deleteDescriptionButton"
+                    @click="deleteDescription()"
+                    class="btn btn-danger mt-3"
+                >delete Description</button>
                 <textarea
                     v-if=" descriptionInput"
                     placeholder="write something"
@@ -28,13 +44,10 @@
                 ></textarea>
             </div>
         </div>
-        <div class="row">
+        <!------------create description button if exist----------->
+        <div class="row" v-if="descriptionInput">
             <div class="col-12">
-                <button
-                    v-if="descriptionInput"
-                    @click="createDescription()"
-                    class="btn btn-primary"
-                >create Description</button>
+                <button @click="createDescription()" class="btn btn-primary">create Description</button>
             </div>
         </div>
     </div>
@@ -45,47 +58,15 @@ export default {
     props: ["user", "photoId"],
     data() {
         return {
-            description: "",
+            description: null,
             addDescriptionButton: false,
             descriptionInput: false,
-            body: ""
+            body: "",
+            showDescription: true,
+            isPhotoOwner: false,
+            editDescriptionButton: false,
+            deleteDescriptionButton: false
         };
-    },
-    methods: {
-        setDescription(data) {
-            console.log(data);
-            this.description = data.body;
-            if (
-                this.description == "" &&
-                localStorage.getItem("auth_id") == this.user.id
-            ) {
-                this.addDescriptionButton = true;
-            }
-        },
-        showDescriptionInput() {
-            this.addDescriptionButton = false;
-            this.descriptionInput = true;
-        },
-        createDescription() {
-            var form = new FormData();
-            form.append("body", this.body);
-            form.append("photo_id", this.photoId);
-            axios
-                .post("http://carmeer.com/api/descriptions", form, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("access_token"),
-                        "content-type": "multipart/form-data"
-                    }
-                })
-                .then(
-                    res =>
-                        function(res) {
-                            this.descriptionInput = false;
-                            this.description = this.body;
-                        }
-                );
-        }
     },
     created: function() {
         axios
@@ -101,6 +82,85 @@ export default {
                 }
             )
             .then(res => this.setDescription(res.data));
+    },
+    watch: {
+        photoId: function() {
+            this.description = null;
+            this.addDescriptionButton = false;
+            this.descriptionInput = false;
+            this.body = "";
+            if (localStorage.getItem("auth_id") == this.user.id) {
+                this.isPhotoOwner = true;
+            } else {
+                this.isPhotoOwner = false;
+            }
+
+            axios
+                .get(
+                    "http://carmeer.com/api/photos/" +
+                        this.photoId +
+                        "/description",
+                    {
+                        headers: {
+                            Authorization:
+                                "Bearer " + localStorage.getItem("access_token")
+                        }
+                    }
+                )
+                .then(res => this.setDescription(res.data));
+        }
+    },
+    methods: {
+        /***********************************************
+         * setDescription
+         **********************************************/
+        setDescription(data) {
+            this.descriptionInput = false;
+            this.showDescription = true;
+            this.description = data;
+            this.body = data.body;
+            if (
+                (this.description == "" || this.description == null) &&
+                this.isPhotoOwner
+            ) {
+                this.addDescriptionButton = true;
+            }
+            if (
+                this.description != "" &&
+                this.description != null &&
+                this.isPhotoOwner
+            ) {
+                this.editDescriptionButton = true;
+                this.deleteDescriptionButton = true;
+            }
+        },
+        /***********************************************
+         * showDescriptionInput
+         **********************************************/
+        showDescriptionInput() {
+            this.addDescriptionButton = false;
+            this.editDescriptionButton = false;
+            this.deleteDescriptionButton = false;
+            this.showDescription = false;
+            this.descriptionInput = true;
+        },
+        /***********************************************
+         * createDescription
+         **********************************************/
+        createDescription() {
+            var form = new FormData();
+            form.append("body", this.body);
+            form.append("photo_id", this.photoId);
+            axios
+                .post("http://carmeer.com/api/descriptions", form, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("access_token"),
+                        "content-type": "multipart/form-data"
+                    }
+                })
+                .then(res => this.setDescription(res.data));
+        }
     }
 };
 </script>

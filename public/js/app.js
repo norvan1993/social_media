@@ -2249,45 +2249,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["user", "photoId"],
   data: function data() {
     return {
-      description: "",
+      description: null,
       addDescriptionButton: false,
       descriptionInput: false,
-      body: ""
+      body: "",
+      showDescription: true,
+      isPhotoOwner: false,
+      editDescriptionButton: false,
+      deleteDescriptionButton: false
     };
-  },
-  methods: {
-    setDescription: function setDescription(data) {
-      console.log(data);
-      this.description = data.body;
-
-      if (this.description == "" && localStorage.getItem("auth_id") == this.user.id) {
-        this.addDescriptionButton = true;
-      }
-    },
-    showDescriptionInput: function showDescriptionInput() {
-      this.addDescriptionButton = false;
-      this.descriptionInput = true;
-    },
-    createDescription: function createDescription() {
-      var form = new FormData();
-      form.append("body", this.body);
-      form.append("photo_id", this.photoId);
-      axios.post("http://carmeer.com/api/descriptions", form, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-          "content-type": "multipart/form-data"
-        }
-      }).then(function (res) {
-        return function (res) {
-          this.descriptionInput = false;
-          this.description = this.body;
-        };
-      });
-    }
   },
   created: function created() {
     var _this = this;
@@ -2299,6 +2286,80 @@ __webpack_require__.r(__webpack_exports__);
     }).then(function (res) {
       return _this.setDescription(res.data);
     });
+  },
+  watch: {
+    photoId: function photoId() {
+      var _this2 = this;
+
+      this.description = null;
+      this.addDescriptionButton = false;
+      this.descriptionInput = false;
+      this.body = "";
+
+      if (localStorage.getItem("auth_id") == this.user.id) {
+        this.isPhotoOwner = true;
+      } else {
+        this.isPhotoOwner = false;
+      }
+
+      axios.get("http://carmeer.com/api/photos/" + this.photoId + "/description", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token")
+        }
+      }).then(function (res) {
+        return _this2.setDescription(res.data);
+      });
+    }
+  },
+  methods: {
+    /***********************************************
+     * setDescription
+     **********************************************/
+    setDescription: function setDescription(data) {
+      this.descriptionInput = false;
+      this.showDescription = true;
+      this.description = data;
+      this.body = data.body;
+
+      if ((this.description == "" || this.description == null) && this.isPhotoOwner) {
+        this.addDescriptionButton = true;
+      }
+
+      if (this.description != "" && this.description != null && this.isPhotoOwner) {
+        this.editDescriptionButton = true;
+        this.deleteDescriptionButton = true;
+      }
+    },
+
+    /***********************************************
+     * showDescriptionInput
+     **********************************************/
+    showDescriptionInput: function showDescriptionInput() {
+      this.addDescriptionButton = false;
+      this.editDescriptionButton = false;
+      this.deleteDescriptionButton = false;
+      this.showDescription = false;
+      this.descriptionInput = true;
+    },
+
+    /***********************************************
+     * createDescription
+     **********************************************/
+    createDescription: function createDescription() {
+      var _this3 = this;
+
+      var form = new FormData();
+      form.append("body", this.body);
+      form.append("photo_id", this.photoId);
+      axios.post("http://carmeer.com/api/descriptions", form, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "content-type": "multipart/form-data"
+        }
+      }).then(function (res) {
+        return _this3.setDescription(res.data);
+      });
+    }
   }
 });
 
@@ -40391,13 +40452,16 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-12" }, [
-        _c(
-          "p",
-          {
-            staticClass: "ownerName d-inline-block ml-2 my-2 font-weight-normal"
-          },
-          [_vm._v(_vm._s(_vm.description))]
-        )
+        _vm.showDescription
+          ? _c(
+              "p",
+              {
+                staticClass:
+                  "ownerName d-inline-block ml-2 my-2 font-weight-normal"
+              },
+              [_vm._v(_vm._s(_vm.description.body))]
+            )
+          : _vm._e()
       ])
     ]),
     _vm._v(" "),
@@ -40407,7 +40471,7 @@ var render = function() {
           ? _c(
               "button",
               {
-                staticClass: "btn btn-primary",
+                staticClass: "btn btn-primary mt-3",
                 on: {
                   click: function($event) {
                     return _vm.showDescriptionInput()
@@ -40415,6 +40479,36 @@ var render = function() {
                 }
               },
               [_vm._v("Add Description")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.editDescriptionButton
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-success mt-3 ml-1",
+                on: {
+                  click: function($event) {
+                    return _vm.showDescriptionInput()
+                  }
+                }
+              },
+              [_vm._v("edit Description")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.deleteDescriptionButton
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-danger mt-3",
+                on: {
+                  click: function($event) {
+                    return _vm.deleteDescription()
+                  }
+                }
+              },
+              [_vm._v("delete Description")]
             )
           : _vm._e(),
         _vm._v(" "),
@@ -40445,10 +40539,10 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-12" }, [
-        _vm.descriptionInput
-          ? _c(
+    _vm.descriptionInput
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-12" }, [
+            _c(
               "button",
               {
                 staticClass: "btn btn-primary",
@@ -40460,9 +40554,9 @@ var render = function() {
               },
               [_vm._v("create Description")]
             )
-          : _vm._e()
-      ])
-    ])
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []

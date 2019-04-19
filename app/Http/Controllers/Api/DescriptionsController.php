@@ -30,7 +30,8 @@ class DescriptionsController extends Controller
         );
         //storing description
         $input = $request->only('photo_id', 'body');
-        Description::create($input);
+        $descriptiion = Description::create($input);
+        return $descriptiion;
     }
     /***************************************************************************
      * show
