@@ -58,6 +58,7 @@ class DescriptionsController extends Controller
         //updating description
         $input = $request->only('photo_id', 'body');
         $descriptiion->update($input);
+        return $descriptiion;
     }
     /***************************************************************************
      * destroy

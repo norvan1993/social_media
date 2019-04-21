@@ -2262,6 +2262,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["user", "photoId"],
   data: function data() {
@@ -2273,11 +2282,19 @@ __webpack_require__.r(__webpack_exports__);
       showDescription: true,
       isPhotoOwner: false,
       editDescriptionButton: false,
-      deleteDescriptionButton: false
+      deleteDescriptionButton: false,
+      store: false,
+      update: false
     };
   },
   created: function created() {
     var _this = this;
+
+    if (localStorage.getItem("auth_id") == this.user.id) {
+      this.isPhotoOwner = true;
+    } else {
+      this.isPhotoOwner = false;
+    }
 
     axios.get("http://carmeer.com/api/photos/" + this.photoId + "/description", {
       headers: {
@@ -2290,11 +2307,6 @@ __webpack_require__.r(__webpack_exports__);
   watch: {
     photoId: function photoId() {
       var _this2 = this;
-
-      this.description = null;
-      this.addDescriptionButton = false;
-      this.descriptionInput = false;
-      this.body = "";
 
       if (localStorage.getItem("auth_id") == this.user.id) {
         this.isPhotoOwner = true;
@@ -2313,10 +2325,49 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     /***********************************************
+     * createDescription
+     **********************************************/
+    createDescription: function createDescription() {
+      var _this3 = this;
+
+      var form = new FormData();
+      form.append("body", this.body);
+      form.append("photo_id", this.photoId);
+      axios.post("http://carmeer.com/api/descriptions", form, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "content-type": "multipart/form-data"
+        }
+      }).then(function (res) {
+        return _this3.setDescription(res.data);
+      });
+    },
+
+    /***********************************************
+     * updateDescription
+     **********************************************/
+    updateDescription: function updateDescription() {
+      var _this4 = this;
+
+      var form = new FormData();
+      form.append("_method", "PUT");
+      form.append("body", this.body);
+      form.append("photo_id", this.photoId);
+      axios.post("http://carmeer.com/api/descriptions/" + this.description.id, form, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "content-type": "multipart/form-data"
+        }
+      }).then(function (res) {
+        return _this4.setDescription(res.data);
+      });
+    },
+
+    /***********************************************
      * setDescription
      **********************************************/
     setDescription: function setDescription(data) {
-      this.descriptionInput = false;
+      this.resetDescriptionAndButtons();
       this.showDescription = true;
       this.description = data;
       this.body = data.body;
@@ -2334,31 +2385,34 @@ __webpack_require__.r(__webpack_exports__);
     /***********************************************
      * showDescriptionInput
      **********************************************/
-    showDescriptionInput: function showDescriptionInput() {
+    showDescriptionInput: function showDescriptionInput($status) {
       this.addDescriptionButton = false;
       this.editDescriptionButton = false;
       this.deleteDescriptionButton = false;
       this.showDescription = false;
       this.descriptionInput = true;
+
+      if ($status == "store") {
+        this.store = true;
+        this.update = false;
+      } else {
+        this.store = false;
+        this.update = true;
+      }
     },
 
-    /***********************************************
-     * createDescription
-     **********************************************/
-    createDescription: function createDescription() {
-      var _this3 = this;
-
-      var form = new FormData();
-      form.append("body", this.body);
-      form.append("photo_id", this.photoId);
-      axios.post("http://carmeer.com/api/descriptions", form, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-          "content-type": "multipart/form-data"
-        }
-      }).then(function (res) {
-        return _this3.setDescription(res.data);
-      });
+    /************************************************
+     *resetDescriptionAndButtons
+     ***********************************************/
+    resetDescriptionAndButtons: function resetDescriptionAndButtons() {
+      this.descriptionInput = false;
+      this.store = false;
+      this.update = false;
+      this.description = null;
+      this.body = "";
+      this.addDescriptionButton = false;
+      this.editDescriptionButton = false;
+      this.deleteDescriptionButton = false;
     }
   }
 });
@@ -40474,7 +40528,7 @@ var render = function() {
                 staticClass: "btn btn-primary mt-3",
                 on: {
                   click: function($event) {
-                    return _vm.showDescriptionInput()
+                    return _vm.showDescriptionInput("store")
                   }
                 }
               },
@@ -40489,7 +40543,7 @@ var render = function() {
                 staticClass: "btn btn-success mt-3 ml-1",
                 on: {
                   click: function($event) {
-                    return _vm.showDescriptionInput()
+                    return _vm.showDescriptionInput("update")
                   }
                 }
               },
@@ -40542,18 +40596,35 @@ var render = function() {
     _vm.descriptionInput
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-12" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                on: {
-                  click: function($event) {
-                    return _vm.createDescription()
-                  }
-                }
-              },
-              [_vm._v("create Description")]
-            )
+            _vm.update
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: {
+                      click: function($event) {
+                        return _vm.updateDescription()
+                      }
+                    }
+                  },
+                  [_vm._v("update Description")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.store
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: {
+                      click: function($event) {
+                        return _vm.createDescription()
+                      }
+                    }
+                  },
+                  [_vm._v("create Description")]
+                )
+              : _vm._e()
           ])
         ])
       : _vm._e()

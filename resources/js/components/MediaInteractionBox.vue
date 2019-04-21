@@ -21,12 +21,12 @@
             <div class="col-12">
                 <button
                     v-if="addDescriptionButton"
-                    @click="showDescriptionInput()"
+                    @click="showDescriptionInput('store')"
                     class="btn btn-primary mt-3"
                 >Add Description</button>
                 <button
                     v-if="editDescriptionButton"
-                    @click="showDescriptionInput()"
+                    @click="showDescriptionInput('update')"
                     class="btn btn-success mt-3 ml-1"
                 >edit Description</button>
                 <button
@@ -47,7 +47,16 @@
         <!------------create description button if exist----------->
         <div class="row" v-if="descriptionInput">
             <div class="col-12">
-                <button @click="createDescription()" class="btn btn-primary">create Description</button>
+                <button
+                    v-if="update"
+                    @click="updateDescription()"
+                    class="btn btn-primary"
+                >update Description</button>
+                <button
+                    v-if="store"
+                    @click="createDescription()"
+                    class="btn btn-primary"
+                >create Description</button>
             </div>
         </div>
     </div>
@@ -65,10 +74,18 @@ export default {
             showDescription: true,
             isPhotoOwner: false,
             editDescriptionButton: false,
-            deleteDescriptionButton: false
+            deleteDescriptionButton: false,
+            store: false,
+            update: false
         };
     },
     created: function() {
+        if (localStorage.getItem("auth_id") == this.user.id) {
+            this.isPhotoOwner = true;
+        } else {
+            this.isPhotoOwner = false;
+        }
+
         axios
             .get(
                 "http://carmeer.com/api/photos/" +
@@ -85,10 +102,6 @@ export default {
     },
     watch: {
         photoId: function() {
-            this.description = null;
-            this.addDescriptionButton = false;
-            this.descriptionInput = false;
-            this.body = "";
             if (localStorage.getItem("auth_id") == this.user.id) {
                 this.isPhotoOwner = true;
             } else {
@@ -112,10 +125,51 @@ export default {
     },
     methods: {
         /***********************************************
+         * createDescription
+         **********************************************/
+        createDescription() {
+            var form = new FormData();
+            form.append("body", this.body);
+            form.append("photo_id", this.photoId);
+            axios
+                .post("http://carmeer.com/api/descriptions", form, {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("access_token"),
+                        "content-type": "multipart/form-data"
+                    }
+                })
+                .then(res => this.setDescription(res.data));
+        },
+        /***********************************************
+         * updateDescription
+         **********************************************/
+        updateDescription() {
+            var form = new FormData();
+            form.append("_method", "PUT");
+            form.append("body", this.body);
+            form.append("photo_id", this.photoId);
+            axios
+                .post(
+                    "http://carmeer.com/api/descriptions/" +
+                        this.description.id,
+                    form,
+                    {
+                        headers: {
+                            Authorization:
+                                "Bearer " +
+                                localStorage.getItem("access_token"),
+                            "content-type": "multipart/form-data"
+                        }
+                    }
+                )
+                .then(res => this.setDescription(res.data));
+        },
+        /***********************************************
          * setDescription
          **********************************************/
         setDescription(data) {
-            this.descriptionInput = false;
+            this.resetDescriptionAndButtons();
             this.showDescription = true;
             this.description = data;
             this.body = data.body;
@@ -137,29 +191,32 @@ export default {
         /***********************************************
          * showDescriptionInput
          **********************************************/
-        showDescriptionInput() {
+        showDescriptionInput($status) {
             this.addDescriptionButton = false;
             this.editDescriptionButton = false;
             this.deleteDescriptionButton = false;
             this.showDescription = false;
             this.descriptionInput = true;
+            if ($status == "store") {
+                this.store = true;
+                this.update = false;
+            } else {
+                this.store = false;
+                this.update = true;
+            }
         },
-        /***********************************************
-         * createDescription
-         **********************************************/
-        createDescription() {
-            var form = new FormData();
-            form.append("body", this.body);
-            form.append("photo_id", this.photoId);
-            axios
-                .post("http://carmeer.com/api/descriptions", form, {
-                    headers: {
-                        Authorization:
-                            "Bearer " + localStorage.getItem("access_token"),
-                        "content-type": "multipart/form-data"
-                    }
-                })
-                .then(res => this.setDescription(res.data));
+        /************************************************
+         *resetDescriptionAndButtons
+         ***********************************************/
+        resetDescriptionAndButtons() {
+            this.descriptionInput = false;
+            this.store = false;
+            this.update = false;
+            this.description = null;
+            this.body = "";
+            this.addDescriptionButton = false;
+            this.editDescriptionButton = false;
+            this.deleteDescriptionButton = false;
         }
     }
 };
