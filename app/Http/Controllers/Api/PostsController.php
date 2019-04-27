@@ -8,7 +8,6 @@ use App\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Photo;
 use App\Rules\CheckDeletedPhotos;
-use Intervention\Image\ImageManagerStatic as Image;
 use App\Rules\CheckDefaultPrivacy;
 use Illuminate\Support\Facades\DB;
 use App\User;
@@ -19,7 +18,7 @@ class PostsController extends Controller
     public function __construct()
     {
         $this->middleware('is_auth')->only('update', 'updatePrivacy');
-        $this->middleware('is_auth_or_admin')->only('destroy');
+        $this->middleware('is_admin_or_auth')->only('destroy');
         $this->middleware('is_viewable')->only('show');
         $this->middleware('is_not_blocked')->only('userPosts');
     }

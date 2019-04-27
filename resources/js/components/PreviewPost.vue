@@ -1,8 +1,20 @@
 <template>
-    <div class="card mt-3">
-        <div class="card-header">
+    <div class="card mt-3" v-if="isExist">
+        <div class="card-header" style="max-height:70px;">
             <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
             <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
+            <i
+                class="fas fa-ellipsis-v optionsIcon float-right"
+                @click="openList"
+                v-if="isPostOwner"
+            ></i>
+            <post-options
+                @removePost="removePost()"
+                :post="post"
+                class="float-right"
+                v-if="isOpened"
+                @closeList="closeList()"
+            ></post-options>
         </div>
         <div class="card-body">
             <h4>
@@ -20,20 +32,34 @@
 
 <script>
 import PreviewImages from "./PreviewImages.vue";
+import PostOptions from "./PostOptions.vue";
 export default {
     props: ["user", "post"],
     data() {
         return {
-            photos: null
+            photos: null,
+            isPostOwner: false,
+            isOpened: false,
+            isExist: true
         };
     },
     methods: {
         setPhotos(photos) {
             this.photos = photos;
+        },
+        openList() {
+            this.isOpened = true;
+        },
+        closeList() {
+            this.isOpened = false;
+        },
+        removePost() {
+            this.isExist = false;
         }
     },
     components: {
-        "preview-images": PreviewImages
+        "preview-images": PreviewImages,
+        "post-options": PostOptions
     },
     created: function() {
         axios
@@ -44,6 +70,11 @@ export default {
                 }
             })
             .then(res => this.setPhotos(res.data));
+        if (localStorage.getItem("auth_id") == this.user.id) {
+            this.isPostOwner = true;
+        } else {
+            this.isPostOwner = false;
+        }
     }
 };
 </script>
@@ -53,6 +84,11 @@ export default {
     width: 40px;
     height: 40px;
     border: 1px solid black;
+}
+.optionsIcon {
+    height: 20px;
+    color: black;
+    cursor: pointer;
 }
 </style>
 

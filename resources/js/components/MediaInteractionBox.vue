@@ -166,6 +166,28 @@ export default {
                 .then(res => this.setDescription(res.data));
         },
         /***********************************************
+         * delete Description
+         **********************************************/
+        deleteDescription() {
+            var form = new FormData();
+            form.append("_method", "DELETE");
+            axios
+                .post(
+                    "http://carmeer.com/api/descriptions/" +
+                        this.description.id,
+                    form,
+                    {
+                        headers: {
+                            Authorization:
+                                "Bearer " +
+                                localStorage.getItem("access_token"),
+                            "content-type": "multipart/form-data"
+                        }
+                    }
+                )
+                .then(res => this.setDescription(res.data));
+        },
+        /***********************************************
          * setDescription
          **********************************************/
         setDescription(data) {
