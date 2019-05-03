@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Photo;
 use Illuminate\Validation\Rule;
 use App\Rules\CheckPhotoStatus;
-use Illuminate\Support\Facades\Route;
-use App\ModelItem;
+
 
 class CommentsController extends Controller
 {

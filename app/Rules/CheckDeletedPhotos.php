@@ -30,13 +30,15 @@ class CheckDeletedPhotos implements Rule
     public function passes($attribute, $value)
     {
         $photo = null;
+        if ($value !== null && $value !== '' && !empty($value)) {
+            if (!$photo = Photo::find($value)) {
+                return false;
+            }
+            if (!($photo->photoable->user_id == Auth::id())) {
+                return false;
+            }
+        }
 
-        if (!$photo = Photo::find($value)) {
-            return false;
-        }
-        if (!($photo->photoable->user_id == Auth::id())) {
-            return false;
-        }
 
 
         return true;

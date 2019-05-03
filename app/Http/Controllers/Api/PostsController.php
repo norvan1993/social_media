@@ -117,8 +117,8 @@ class PostsController extends Controller
                 'body' => ['sometimes', 'required'],
                 'privacy' => ['sometimes', 'required', new CheckDefaultPrivacy],
                 'photos.*' => ['sometimes', 'required', 'image'],
-                'deleted_photos' => ['sometimes', 'required', 'array'],
-                'deleted_photos.*' => ['sometimes', 'required', new CheckDeletedPhotos],
+                'deleted_photos' => ['present', 'array'],
+                'deleted_photos.*' => ['present', new CheckDeletedPhotos],
 
             ]
         );
@@ -138,7 +138,7 @@ class PostsController extends Controller
             }
         }
         //deleting old Photos
-        if ($request->deleted_photos) {
+        if (count($request->deleted_photos)) {
             foreach ($request->deleted_photos as $deleted_photo) {
                 Photo::find($deleted_photo)->delete();
             }
