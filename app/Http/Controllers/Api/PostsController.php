@@ -113,15 +113,17 @@ class PostsController extends Controller
         //validate request
         $validatedData = $request->validate(
             [
-                'title' => ['sometimes', 'required'],
-                'body' => ['sometimes', 'required'],
+                'title' => ['required'],
+                'body' => ['present'],
                 'privacy' => ['sometimes', 'required', new CheckDefaultPrivacy],
-                'photos.*' => ['sometimes', 'required', 'image'],
-                'deleted_photos' => ['present', 'array'],
-                'deleted_photos.*' => ['present', new CheckDeletedPhotos],
+                'photos' => ['required_without:body,deleted_photos', 'array'],
+                'photos.*' => ['image'],
+                'deleted_photos' => ['required_without:body,photos', 'array'],
+                'deleted_photos.*' => [new CheckDeletedPhotos],
 
             ]
         );
+
         //set direct user inputs
         $input = $request->only('title', 'body');
         //set user id
@@ -138,7 +140,7 @@ class PostsController extends Controller
             }
         }
         //deleting old Photos
-        if (count($request->deleted_photos)) {
+        if (isset($request->deleted_photos)) {
             foreach ($request->deleted_photos as $deleted_photo) {
                 Photo::find($deleted_photo)->delete();
             }

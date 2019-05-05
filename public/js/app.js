@@ -2048,13 +2048,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["csrf", "user", "oldFiles", "post"],
+  props: ["csrf", "user", "initialOldFiles", "post"],
   data: function data() {
     return {
       title: this.post.title,
       body: this.post.body,
+      oldFiles: this.initialOldFiles.slice(),
       deletedFiles: [],
       newFiles: []
     };
@@ -2075,7 +2086,7 @@ __webpack_require__.r(__webpack_exports__);
       return URL.createObjectURL(file);
     },
     deleteOldFile: function deleteOldFile(key) {
-      deletedFile = this.oldFiles.splice(key, 1);
+      var deletedFile = this.oldFiles.splice(key, 1);
       this.deletedFiles.push(deletedFile[0].id);
     },
     removeImage: function removeImage(key) {
@@ -2093,10 +2104,17 @@ __webpack_require__.r(__webpack_exports__);
       form.append("title", this.title);
       form.append("body", this.body);
       form.append("privacy", privacy);
-      form.append("deleted_photos[]", this.deletedFiles);
 
-      for (var i in this.newFiles) {
-        form.append("photos[]", this.newFiles[i]);
+      if (this.deletedFiles.length != 0) {
+        for (var i in this.deletedFiles) {
+          form.append("deleted_photos[]", this.deletedFiles[i]);
+        }
+      }
+
+      if (this.newFiles.length != 0) {
+        for (var i in this.newFiles) {
+          form.append("photos[]", this.newFiles[i]);
+        }
       }
 
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
@@ -2871,6 +2889,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PreviewImages_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PreviewImages.vue */ "./resources/js/components/PreviewImages.vue");
 /* harmony import */ var _PostOptions_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostOptions.vue */ "./resources/js/components/PostOptions.vue");
 /* harmony import */ var _EditPost_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditPost.vue */ "./resources/js/components/EditPost.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -8373,7 +8395,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-4292f396] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n.filesContainer[data-v-4292f396] {\n  width: 100%;\n  height: 150px;\n  background-color: white;\n  padding-left: 10px;\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n.filesContainer[data-v-4292f396]:after {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  width: 10px;\n}\n.imageBlock[data-v-4292f396] {\n  display: inline-block;\n  width: 100px;\n  height: 100px;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: cover;\n  background-color: rgb(202, 202, 202);\n  cursor: pointer;\n}\n.imageOverlay[data-v-4292f396] {\n  position: relative;\n  width: 100px;\n  height: 100px;\n  background-color: rgba(165, 165, 165, 0.6);\n  visibility: hidden;\n}\n.imageBlock:hover .imageOverlay[data-v-4292f396] {\n  visibility: visible;\n}\n.optionsArrow[data-v-4292f396] {\n  position: relative;\n  display: block;\n  top: -65px;\n  width: 30px;\n  visibility: hidden;\n  transition: all 0.2s ease-in-out;\n}\n.imageBlock:hover .optionsArrow[data-v-4292f396] {\n  visibility: visible;\n}\n.optionsArrow[data-v-4292f396]:hover {\n  -webkit-transform: scale(1.3);\n          transform: scale(1.3);\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-4292f396] {\n    width: 40px;\n    height: 40px;\n    border: 1px solid black;\n}\n.filesContainer[data-v-4292f396] {\n    width: 100%;\n    height: 150px;\n    background-color: white;\n    padding-left: 10px;\n    overflow-x: auto;\n    overflow-y: hidden;\n    white-space: nowrap;\n}\n.filesContainer[data-v-4292f396]:after {\n    content: \"\";\n    display: inline-block;\n    height: 100%;\n    width: 10px;\n}\n.imageBlock[data-v-4292f396] {\n    display: inline-block;\n    width: 100px;\n    height: 100px;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: cover;\n    background-color: rgb(202, 202, 202);\n    cursor: pointer;\n}\n.imageOverlay[data-v-4292f396] {\n    position: relative;\n    width: 100px;\n    height: 100px;\n    background-color: rgba(165, 165, 165, 0.6);\n    visibility: hidden;\n}\n.imageBlock:hover .imageOverlay[data-v-4292f396] {\n    visibility: visible;\n}\n.optionsArrow[data-v-4292f396] {\n    position: relative;\n    display: block;\n    top: -65px;\n    width: 30px;\n    visibility: hidden;\n    transition: all 0.2s ease-in-out;\n}\n.imageBlock:hover .optionsArrow[data-v-4292f396] {\n    visibility: visible;\n}\n.optionsArrow[data-v-4292f396]:hover {\n    -webkit-transform: scale(1.3);\n            transform: scale(1.3);\n}\n", ""]);
 
 // exports
 
@@ -8487,7 +8509,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-0481436d] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n.optionsIcon[data-v-0481436d] {\n  height: 20px;\n  color: black;\n  cursor: pointer;\n}\n.overlay[data-v-0481436d] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(255, 255, 255, 0.4);\n  z-index: 3;\n}\n.editPost[data-v-0481436d] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100%;\n  height: 100%;\n  z-index: 4;\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-0481436d] {\n    width: 40px;\n    height: 40px;\n    border: 1px solid black;\n}\n.optionsIcon[data-v-0481436d] {\n    height: 20px;\n    color: black;\n    cursor: pointer;\n}\n.overlay[data-v-0481436d] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(255, 255, 255, 0.4);\n    z-index: 3;\n}\n.editPost[data-v-0481436d] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 4;\n}\n", ""]);
 
 // exports
 
@@ -40614,29 +40636,32 @@ var render = function() {
           { staticClass: "d-block filesContainer" },
           [
             _vm._l(_vm.oldFiles, function(oldFile, oldKey) {
-              return _c(
-                "div",
-                {
-                  staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
-                  style: {
-                    backgroundImage:
-                      "url(http://carmeer.com/photo/" + oldFile.file + ")"
-                  }
-                },
-                [
-                  _c("div", { staticClass: "imageOverlay" }),
-                  _vm._v(" "),
-                  _c("img", {
-                    staticClass: "m-auto optionsArrow",
-                    attrs: { src: "/ic/cancel.png" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteOldFile(oldKey)
+              return _vm.oldFiles
+                ? _c(
+                    "div",
+                    {
+                      key: oldFile.id,
+                      staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
+                      style: {
+                        backgroundImage:
+                          "url(http://carmeer.com/photo/" + oldFile.file + ")"
                       }
-                    }
-                  })
-                ]
-              )
+                    },
+                    [
+                      _c("div", { staticClass: "imageOverlay" }),
+                      _vm._v(" "),
+                      _c("img", {
+                        staticClass: "m-auto optionsArrow",
+                        attrs: { src: "/ic/cancel.png" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteOldFile(oldKey)
+                          }
+                        }
+                      })
+                    ]
+                  )
+                : _vm._e()
             }),
             _vm._v(" "),
             _vm._l(_vm.newFiles, function(newFile, newKey) {
@@ -41500,7 +41525,7 @@ var render = function() {
                 staticClass: "editPost",
                 attrs: {
                   user: _vm.user,
-                  oldFiles: _vm.photos,
+                  initialOldFiles: _vm.photos,
                   csrf: _vm.csrf,
                   post: _vm.post
                 }
