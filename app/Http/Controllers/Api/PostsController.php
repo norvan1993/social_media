@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Photo;
+use App\Rules\CheckDeletedPhoto;
 use App\Rules\CheckDeletedPhotos;
 use App\Rules\CheckDefaultPrivacy;
 use Illuminate\Support\Facades\DB;
 use App\User;
-
+use App\Rules\CheckBodyOfUpdatingPost;
+use App\Rules\requireWithoutAllExceptBody;
 
 class PostsController extends Controller
 {
@@ -107,23 +109,22 @@ class PostsController extends Controller
      **************************************************************************/
     public function update(Request $request, $id)
     {
+
         //check post id
         $postModel = Post::findOrFail($id);
 
         //validate request
         $validatedData = $request->validate(
             [
-                'title' => ['required'],
-                'body' => ['present'],
-                'privacy' => ['sometimes', 'required', new CheckDefaultPrivacy],
-                'photos' => ['required_without:body,deleted_photos', 'array'],
+                'title' => [new requireWithoutAllExceptBody($request)],
+                'body' => [new requireWithoutAllExceptBody($request), new CheckBodyOfUpdatingPost($request, $id)],
+                'photos' => [new requireWithoutAllExceptBody($request), 'array'],
                 'photos.*' => ['image'],
-                'deleted_photos' => ['required_without:body,photos', 'array'],
-                'deleted_photos.*' => [new CheckDeletedPhotos],
+                'deleted_photos' => [new requireWithoutAllExceptBody($request), 'array', new CheckDeletedPhotos($request, $id)],
+                'deleted_photos.*' => [new CheckDeletedPhoto],
 
             ]
         );
-
         //set direct user inputs
         $input = $request->only('title', 'body');
         //set user id

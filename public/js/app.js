@@ -2095,15 +2095,23 @@ __webpack_require__.r(__webpack_exports__);
     updatePost: function updatePost() {
       var _this = this;
 
-      var privacy = {
-        status: "public"
+      /*
+      let privacy = {
+          status: "public"
       };
-      privacy = JSON.stringify(privacy);
+      */
+      // privacy = JSON.stringify(privacy);
       var form = new FormData();
       form.append("_method", "PUT");
-      form.append("title", this.title);
-      form.append("body", this.body);
-      form.append("privacy", privacy);
+
+      if (this.post.body != this.body) {
+        form.append("body", this.body);
+      }
+
+      if (this.post.title != this.title) {
+        form.append("title", this.title);
+      } //form.append("privacy", privacy);
+
 
       if (this.deletedFiles.length != 0) {
         for (var i in this.deletedFiles) {

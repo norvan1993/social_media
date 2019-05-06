@@ -5,11 +5,10 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use App\Post;
 
-class CheckDeletedPhotos implements Rule
+class CheckBodyOfUpdatingPost implements Rule
 {
     public $request;
     public $postId;
-    public $errorMessage;
     /**
      * Create a new rule instance.
      *
@@ -30,19 +29,20 @@ class CheckDeletedPhotos implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (count($value) == 0) {
-
-            return false;
-        }
-        $oldPhotos = Post::find($this->postId)->photos;
-        if (!$oldPhotos) {
-            $oldPhotos = [];
-        }
-        if (count($value) >= count($oldPhotos)) {
-            if (!$this->request->photos || count($this->request->photos) === 0) {
-                if (!$this->request->body) {
-
+        //check if no body and no photos
+        if (!isset($this->request->body)) {
+            $oldPhotos = Post::find($this->postId)->photos;
+            if (!$oldPhotos) {
+                if (!$this->request->photos) {
                     return false;
+                }
+                $oldPhotos = [];
+            }
+            if ($this->request->deleted_photos) {
+                if (count($this->request->deleted_photos) >= count($oldPhotos)) {
+                    if (!isset($this->request->photos)) {
+                        return false;
+                    }
                 }
             }
         }
@@ -56,6 +56,6 @@ class CheckDeletedPhotos implements Rule
      */
     public function message()
     {
-        return "something wrong happen when deleting photos";
+        return 'The validation error message.';
     }
 }
