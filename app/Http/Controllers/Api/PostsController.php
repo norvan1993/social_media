@@ -50,7 +50,6 @@ class PostsController extends Controller
                 'body' => ['required_without:photos'],
                 'privacy' => ['required', 'json', new CheckDefaultPrivacy],
                 'photos.*' => ['required_without:body', 'image'],
-
             ]
         );
         //selecting the direct inputs from the user

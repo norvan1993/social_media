@@ -1852,10 +1852,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-var _props$data$props$met;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _PostPrivacyIcon_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostPrivacyIcon.vue */ "./resources/js/components/PostPrivacyIcon.vue");
+//
 //
 //
 //
@@ -1909,68 +1907,73 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = (_props$data$props$met = {
-  props: ["csrf"],
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["csrf", "user"],
   data: function data() {
     return {
       files: [],
       body: "",
       title: ""
     };
-  }
-}, _defineProperty(_props$data$props$met, "props", ["user"]), _defineProperty(_props$data$props$met, "methods", {
-  //append the selected files to the files array in the structure of data
-  appendPhotos: function appendPhotos() {
-    for (var i = 0; i < this.$refs.filesSelector.files.length; i++) {
-      this.files.push(this.$refs.filesSelector.files[i]);
-    }
   },
-  //click on hidden input(type file) when the user click on choose files button
-  chooseFiles: function chooseFiles() {
-    this.$refs.filesSelector.click();
+  components: {
+    "post-privacy-icon": _PostPrivacyIcon_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  //convet the given file object to data
-  convertToData: function convertToData(file) {
-    return URL.createObjectURL(file);
-  },
-  removeImage: function removeImage(key) {
-    this.files.splice(key, 1);
-  },
-  post: function post() {
-    var _this = this;
-
-    var privacy = {
-      status: "public"
-    };
-    privacy = JSON.stringify(privacy);
-    var form = new FormData();
-    form.append("title", this.title);
-    form.append("body", this.body);
-    form.append("privacy", privacy);
-
-    for (var i in this.files) {
-      form.append("photos[]", this.files[i]);
-    }
-
-    axios__WEBPACK_IMPORTED_MODULE_0___default()({
-      method: "post",
-      //you can set what request you want to be
-      url: "http://carmeer.com/api/posts",
-      data: form,
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("access_token"),
-        "Content-Type": "multipart/form-data"
+  methods: {
+    //append the selected files to the files array in the structure of data
+    appendPhotos: function appendPhotos() {
+      for (var i = 0; i < this.$refs.filesSelector.files.length; i++) {
+        this.files.push(this.$refs.filesSelector.files[i]);
       }
-    }).then(function (res) {
-      return _this.handlePost(res.data[0]);
-    }).catch(function (error) {
-      return alert(JSON.stringify(error.response));
-    });
-  },
-  handlePost: function handlePost(data) {
-    alert(data.message);
+    },
+    //click on hidden input(type file) when the user click on choose files button
+    chooseFiles: function chooseFiles() {
+      this.$refs.filesSelector.click();
+    },
+    //convet the given file object to data
+    convertToData: function convertToData(file) {
+      return URL.createObjectURL(file);
+    },
+    removeImage: function removeImage(key) {
+      this.files.splice(key, 1);
+    },
+    post: function post() {
+      var _this = this;
+
+      var privacy = {
+        status: "public"
+      };
+      privacy = JSON.stringify(privacy);
+      var form = new FormData();
+      form.append("title", this.title);
+      form.append("body", this.body);
+      form.append("privacy", privacy);
+
+      for (var i in this.files) {
+        form.append("photos[]", this.files[i]);
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        method: "post",
+        //you can set what request you want to be
+        url: "http://carmeer.com/api/posts",
+        data: form,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (res) {
+        return _this.handlePost(res.data[0]);
+      }).catch(function (error) {
+        return alert(JSON.stringify(error.response));
+      });
+    },
+    handlePost: function handlePost(data) {
+      alert(data.message);
+    }
   }
-}), _props$data$props$met);
+});
 
 /***/ }),
 
@@ -2653,6 +2656,27 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit("editPost");
     }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPrivacyIcon.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostPrivacyIcon.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  created: {}
 });
 
 /***/ }),
@@ -8384,7 +8408,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-20838332] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n.filesContainer[data-v-20838332] {\n  width: 100%;\n  height: 150px;\n  background-color: white;\n  padding-left: 10px;\n\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n.filesContainer[data-v-20838332]:after {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  width: 10px;\n}\n.imageBlock[data-v-20838332] {\n  display: inline-block;\n  width: 100px;\n  height: 100px;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: cover;\n  background-color: rgb(202, 202, 202);\n  cursor: pointer;\n}\n.imageOverlay[data-v-20838332] {\n  position: relative;\n  width: 100px;\n  height: 100px;\n  background-color: rgba(165, 165, 165, 0.6);\n  visibility: hidden;\n}\n.imageBlock:hover .imageOverlay[data-v-20838332] {\n  visibility: visible;\n}\n.optionsArrow[data-v-20838332] {\n  position: relative;\n  display: block;\n  top: -65px;\n  width: 30px;\n  visibility: hidden;\n  transition: all 0.2s ease-in-out;\n}\n.imageBlock:hover .optionsArrow[data-v-20838332] {\n  visibility: visible;\n}\n.optionsArrow[data-v-20838332]:hover {\n  -webkit-transform: scale(1.3);\n          transform: scale(1.3);\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-20838332] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n.filesContainer[data-v-20838332] {\n  width: 100%;\n  height: 150px;\n  background-color: white;\n  padding-left: 10px;\n\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n.filesContainer[data-v-20838332]:after {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  width: 10px;\n}\n.imageBlock[data-v-20838332] {\n  display: inline-block;\n  width: 100px;\n  height: 100px;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: cover;\n  background-color: rgb(202, 202, 202);\n  cursor: pointer;\n}\n.imageOverlay[data-v-20838332] {\n  position: relative;\n  width: 100px;\n  height: 100px;\n  background-color: rgba(165, 165, 165, 0.6);\n  visibility: hidden;\n}\n.imageBlock:hover .imageOverlay[data-v-20838332] {\n  visibility: visible;\n}\n.optionsArrow[data-v-20838332] {\n  position: relative;\n  display: block;\n  top: -65px;\n  width: 30px;\n  visibility: hidden;\n  transition: all 0.2s ease-in-out;\n}\n.imageBlock:hover .optionsArrow[data-v-20838332] {\n  visibility: visible;\n}\n.optionsArrow[data-v-20838332]:hover {\n  -webkit-transform: scale(1.3);\n          transform: scale(1.3);\n}\n.privacyIcon[data-v-20838332] {\n  cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -40415,16 +40439,25 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card mt-3" }, [
-    _c("div", { staticClass: "card-header" }, [
-      _c("img", {
-        staticClass: "profileImg",
-        attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "ml-2", staticStyle: { cursor: "pointer" } }, [
-        _vm._v(_vm._s(_vm.user.name))
-      ])
-    ]),
+    _c(
+      "div",
+      { staticClass: "card-header" },
+      [
+        _c("img", {
+          staticClass: "profileImg",
+          attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
+        }),
+        _vm._v(" "),
+        _c(
+          "span",
+          { staticClass: "ml-2", staticStyle: { cursor: "pointer" } },
+          [_vm._v(_vm._s(_vm.user.name))]
+        ),
+        _vm._v(" "),
+        _c("post-privacy-icon", { staticClass: "float-right privacyIcon" })
+      ],
+      1
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _c("h4", [
@@ -41274,6 +41307,37 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPrivacyIcon.vue?vue&type=template&id=2fe1af46&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostPrivacyIcon.vue?vue&type=template&id=2fe1af46&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [_c("i", { staticClass: "fas fa-globe" })])
+  }
+]
 render._withStripped = true
 
 
@@ -59048,6 +59112,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostOptions_vue_vue_type_template_id_1a366dc3_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostOptions_vue_vue_type_template_id_1a366dc3_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PostPrivacyIcon.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/PostPrivacyIcon.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PostPrivacyIcon_vue_vue_type_template_id_2fe1af46_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostPrivacyIcon.vue?vue&type=template&id=2fe1af46&scoped=true& */ "./resources/js/components/PostPrivacyIcon.vue?vue&type=template&id=2fe1af46&scoped=true&");
+/* harmony import */ var _PostPrivacyIcon_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostPrivacyIcon.vue?vue&type=script&lang=js& */ "./resources/js/components/PostPrivacyIcon.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PostPrivacyIcon_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PostPrivacyIcon_vue_vue_type_template_id_2fe1af46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PostPrivacyIcon_vue_vue_type_template_id_2fe1af46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "2fe1af46",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PostPrivacyIcon.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PostPrivacyIcon.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/PostPrivacyIcon.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPrivacyIcon_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PostPrivacyIcon.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPrivacyIcon.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPrivacyIcon_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PostPrivacyIcon.vue?vue&type=template&id=2fe1af46&scoped=true&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/PostPrivacyIcon.vue?vue&type=template&id=2fe1af46&scoped=true& ***!
+  \************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPrivacyIcon_vue_vue_type_template_id_2fe1af46_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PostPrivacyIcon.vue?vue&type=template&id=2fe1af46&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostPrivacyIcon.vue?vue&type=template&id=2fe1af46&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPrivacyIcon_vue_vue_type_template_id_2fe1af46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PostPrivacyIcon_vue_vue_type_template_id_2fe1af46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

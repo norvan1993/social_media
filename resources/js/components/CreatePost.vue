@@ -3,6 +3,7 @@
     <div class="card-header">
       <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
       <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
+      <post-privacy-icon class="float-right privacyIcon"></post-privacy-icon>
     </div>
     <div class="card-body">
       <h4>
@@ -52,8 +53,9 @@
 
 <script>
 import axios from "axios";
+import PostPrivacyIcon from "./PostPrivacyIcon.vue";
 export default {
-  props: ["csrf"],
+  props: ["csrf", "user"],
   data() {
     return {
       files: [],
@@ -61,7 +63,9 @@ export default {
       title: ""
     };
   },
-  props: ["user"],
+  components: {
+    "post-privacy-icon": PostPrivacyIcon
+  },
   methods: {
     //append the selected files to the files array in the structure of data
     appendPhotos() {
@@ -168,5 +172,8 @@ export default {
 }
 .optionsArrow:hover {
   transform: scale(1.3);
+}
+.privacyIcon {
+  cursor: pointer;
 }
 </style>
