@@ -15,8 +15,8 @@ use Illuminate\Http\Request;
 
 Route::get('/auth', 'Api\UsersController@authId')->middleware('auth:api');
 //users routes
-
 Route::resource('/users', 'Api\UsersController')->except(['edit', 'create']);
+Route::get('/users/default', 'Api\UsersController@privacyo')->middleware('auth:api');
 
 Route::post('/login', 'AuthController@login');
 Route::post('/logout', 'AuthController@logout')->middleware('auth:api');

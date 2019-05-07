@@ -172,8 +172,18 @@ class UsersController extends Controller
         $input = $request->only('is_active', 'role_id');
         $userModel->update($input);
     }
+    /**************************************************************************
+     * authId
+     **************************************************************************/
     public function authId()
     {
         return Auth::id();
+    }
+    /**************************************************************************
+     *getPrivacy
+     **************************************************************************/
+    public function privacy()
+    {
+        return "2";
     }
 }

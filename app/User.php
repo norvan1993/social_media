@@ -62,7 +62,16 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Comment');
     }
-
+    //has many default viewers
+    public function dafault_viewers()
+    {
+        return $this->hasMany('App\DefaultPostPrivacy', 'owner_id', 'id');
+    }
+    //has many default owners
+    public function dafault_owners()
+    {
+        return $this->hasMany('App\DefaultPostPrivacy', 'viewer_id', 'id');
+    }
     /***********************************************************************
      *model events
      ************************************************************************/
