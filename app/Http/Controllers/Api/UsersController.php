@@ -13,6 +13,7 @@ use App\Rules\CheckRoleId;
 use Illuminate\Support\Facades\DB;
 use App\Photo;
 use Illuminate\Support\Facades\Auth;
+use function GuzzleHttp\json_encode;
 
 class UsersController extends Controller
 {
@@ -182,8 +183,13 @@ class UsersController extends Controller
     /**************************************************************************
      *getPrivacy
      **************************************************************************/
-    public function privacy()
+    public function defaultPrivacy()
     {
-        return "2";
+        $privacy['status'] = Auth::user()->default_post_privacy;
+        if ($privacy['status'] == "custom") {
+            $privacy['id_list'] = Auth::user()->default_viewers->pluck('viewer_id')->toArray();
+        }
+        $json = json_encode($privacy);
+        return response($json, 200)->header('Content-Type', 'application/json');
     }
 }

@@ -18,7 +18,7 @@ export default {
     created: function() {
         axios({
             method: "get", //you can set what request you want to be
-            url: "http://carmeer.com/api/users/default_privacy",
+            url: "http://carmeer.com/api/default_privacy",
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("access_token")
             }
