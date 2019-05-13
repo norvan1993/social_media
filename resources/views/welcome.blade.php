@@ -32,7 +32,9 @@
     <body>
 
     <div id='app'>
-    <router-view errors="{{$errors}}" csrf="{{ csrf_token() }}"></router-view>
+     <distributor>
+        <router-view errors="{{$errors}}" csrf="{{ csrf_token() }}"></router-view>
+    </distributor>
     </div>
 
 

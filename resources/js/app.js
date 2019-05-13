@@ -73,6 +73,7 @@ const router = new VueRouter({
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component("auth-header", require("./components/AuthHeader.vue").default);
+Vue.component("distributor", require("./components/Distributor.vue").default);
 Vue.component(
     "passport-authorized",
     require("./components/passport/AuthorizedClients.vue").default
