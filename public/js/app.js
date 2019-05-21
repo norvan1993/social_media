@@ -1992,7 +1992,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    checkAuthState: function checkAuthState() {
+      if (localStorage.getItem("access_token")) {
+        if (window.location.href == "welcome" || window.location.href == "login" || window.location.href == "register") {
+          this.$router.push({
+            path: "/home"
+          });
+        }
+      }
+    }
+  }
+});
 
 /***/ }),
 
