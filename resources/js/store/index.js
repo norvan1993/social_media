@@ -5,6 +5,15 @@ export default {
             return state.counter * 2;
         }
     },
-    actions: {},
-    mutations: {}
+
+    mutations: {
+        increcement: state => {
+            return state.counter++;
+        }
+    },
+    actions: {
+        increcement: ({ commit }) => {
+            commit("increcement");
+        }
+    }
 };

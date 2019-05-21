@@ -30,21 +30,26 @@
             </div>
         </div>
         <button class="btn btn-primary" @click="showAlert()">vuex</button>
+        <button class="btn btn-primary" @click="increcement()">increcement</button>
     </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
     props: ["errors"],
     data() {
-        return {
-            al: this.$store.getters.doubleCounter
-        };
+        return {};
+    },
+    computed: {
+        ...mapGetters(["doubleCounter"])
     },
     components: {},
     methods: {
+        ...mapActions(["increcement"]),
         showAlert() {
-            alert(this.al);
+            alert(this.doubleCounter);
         }
     }
 };

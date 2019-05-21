@@ -3314,6 +3314,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3349,19 +3354,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["errors"],
   data: function data() {
-    return {
-      al: this.$store.getters.doubleCounter
-    };
+    return {};
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["doubleCounter"])),
   components: {},
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["increcement"]), {
     showAlert: function showAlert() {
-      alert(this.al);
+      alert(this.doubleCounter);
     }
-  }
+  })
 });
 
 /***/ }),
@@ -42103,6 +42110,19 @@ var render = function() {
         }
       },
       [_vm._v("vuex")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-primary",
+        on: {
+          click: function($event) {
+            return _vm.increcement()
+          }
+        }
+      },
+      [_vm._v("increcement")]
     )
   ])
 }
@@ -59042,7 +59062,7 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/index */ "./resources/js/store/index.js");
+/* harmony import */ var _store_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/index.js */ "./resources/js/store/index.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -59095,9 +59115,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
 }); // Make sure to call Vue.use(Vuex) first if using a module system
 
 
-var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
-  storeData: _store_index__WEBPACK_IMPORTED_MODULE_2__["default"]
-});
+var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store(_store_index_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -61243,8 +61261,17 @@ __webpack_require__.r(__webpack_exports__);
       return state.counter * 2;
     }
   },
-  actions: {},
-  mutations: {}
+  mutations: {
+    increcement: function increcement(state) {
+      return state.counter++;
+    }
+  },
+  actions: {
+    increcement: function increcement(_ref) {
+      var commit = _ref.commit;
+      commit("increcement");
+    }
+  }
 });
 
 /***/ }),

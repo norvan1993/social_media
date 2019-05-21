@@ -66,8 +66,8 @@ const router = new VueRouter({
 });
 
 // Make sure to call Vue.use(Vuex) first if using a module system
-import storeData from "./store/index";
-const store = new Vuex.Store({ storeData });
+import storeData from "./store/index.js";
+const store = new Vuex.Store(storeData);
 
 /**
  * The following block of code may be used to automatically register your
