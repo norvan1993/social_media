@@ -1,37 +1,35 @@
 <template>
-  <div class="row">
-    <div class="col-8 col-md-4" align="center">
-      <brand></brand>
+    <div class="row">
+        <div class="col-8 col-md-4" align="center">
+            <brand></brand>
+        </div>
+        <logout-button></logout-button>
     </div>
-    <logout-button>
-      <slot></slot>
-    </logout-button>
-  </div>
 </template>
 
 <script>
 import Brand from "./Brand.vue";
 import AuthNavButtons from "./AuthNavButtons.vue";
 export default {
-  components: {
-    brand: Brand,
-    "logout-button": AuthNavButtons
-  }
+    components: {
+        brand: Brand,
+        "logout-button": AuthNavButtons
+    }
 };
 </script>
 
 <style scoped>
 .brand {
-  font-size: 32px;
-  font-family: "Monoton";
-  color: rgb(29, 29, 127);
+    font-size: 32px;
+    font-family: "Monoton";
+    color: rgb(29, 29, 127);
 }
 .signin {
-  color: white;
-  background-color: rgb(29, 29, 127);
+    color: white;
+    background-color: rgb(29, 29, 127);
 }
 .signup {
-  color: rgb(29, 29, 127);
-  background-color: white;
+    color: rgb(29, 29, 127);
+    background-color: white;
 }
 </style>

@@ -17,21 +17,15 @@ Vue.use(Vuex);
 let routes = [
     {
         path: "/",
-        component: require("./components/Guest.vue").default,
-        children: [
-            {
-                path: "",
-                component: require("./components/Welcome.vue").default
-            },
-            {
-                path: "/login",
-                component: require("./components/LogIn.vue").default
-            },
-            {
-                path: "/register",
-                component: require("./components/Register.vue").default
-            }
-        ]
+        component: require("./components/Welcome.vue").default
+    },
+    {
+        path: "/login",
+        component: require("./components/LogIn.vue").default
+    },
+    {
+        path: "/register",
+        component: require("./components/Register.vue").default
     },
     {
         path: "/home",

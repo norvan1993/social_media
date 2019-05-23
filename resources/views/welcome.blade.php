@@ -33,7 +33,7 @@
 
     <div id='app'>
      <distributor>
-        <router-view errors="{{$errors}}" csrf="{{ csrf_token() }}"></router-view>
+        <router-view></router-view>
     </distributor>
     </div>
 

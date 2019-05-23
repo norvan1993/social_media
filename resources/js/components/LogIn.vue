@@ -6,12 +6,7 @@
                     <div class="card-header">LogIn</div>
 
                     <div class="card-body">
-                        <form
-                            method="POST"
-                            action="http://carmeer.com/login"
-                            ref="logForm"
-                            @submit.prevent="login()"
-                        >
+                        <form @submit.prevent="login()">
                             <input type="text" name="_token" :value="csrf" hidden>
                             <div class="form-group row">
                                 <label
@@ -92,7 +87,6 @@ export default {
         handleToken(data) {
             localStorage.setItem("access_token", data.access_token);
             this.getAuthIdFromServerAndSaveInStorage();
-            this.$refs.logForm.submit();
         },
         getAuthIdFromServerAndSaveInStorage() {
             axios
