@@ -7,7 +7,6 @@
 
                     <div class="card-body">
                         <form @submit.prevent="login()">
-                            <input type="text" name="_token" :value="csrf" hidden>
                             <div class="form-group row">
                                 <label
                                     for="email"
@@ -100,6 +99,7 @@ export default {
         },
         setAuthIdInLocalStorage(data) {
             localStorage.setItem("auth_id", data);
+            this.$router.push({ path: "/home" });
         }
     }
 };

@@ -2375,12 +2375,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["errors", "csrf"],
@@ -2408,7 +2402,6 @@ __webpack_require__.r(__webpack_exports__);
     handleToken: function handleToken(data) {
       localStorage.setItem("access_token", data.access_token);
       this.getAuthIdFromServerAndSaveInStorage();
-      this.$refs.logForm.submit();
     },
     getAuthIdFromServerAndSaveInStorage: function getAuthIdFromServerAndSaveInStorage() {
       var _this2 = this;
@@ -2423,6 +2416,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     setAuthIdInLocalStorage: function setAuthIdInLocalStorage(data) {
       localStorage.setItem("auth_id", data);
+      this.$router.push({
+        path: "/home"
+      });
     }
   }
 });
@@ -41078,8 +41074,6 @@ var render = function() {
             _c(
               "form",
               {
-                ref: "logForm",
-                attrs: { method: "POST", action: "http://carmeer.com/login" },
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
@@ -41088,11 +41082,6 @@ var render = function() {
                 }
               },
               [
-                _c("input", {
-                  attrs: { type: "text", name: "_token", hidden: "" },
-                  domProps: { value: _vm.csrf }
-                }),
-                _vm._v(" "),
                 _c("div", { staticClass: "form-group row" }, [
                   _c(
                     "label",
