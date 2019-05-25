@@ -18,9 +18,9 @@ Route::get('/auth', 'Api\UsersController@authId')->middleware('auth:api');
 Route::resource('/users', 'Api\UsersController')->except(['edit', 'create']);
 Route::get('/default_privacy', 'Api\UsersController@defaultPrivacy')->middleware('auth:api');
 
-Route::post('/login', 'AuthController@login');
-Route::post('/logout', 'AuthController@logout')->middleware('auth:api');
-Route::post('/register', 'AuthController@register');
+Route::post('/login', 'AuthController@login')->middleware('guest:api');
+Route::get('/logout', 'AuthController@logout')->middleware('auth:api');
+Route::post('/register', 'AuthController@register')->middleware('guest:api');
 
 Route::post('/users/{user}/old_password', 'Api\UsersController@oldPassword');
 Route::put('/users/{user}/reset_password', 'Api\UsersController@resetPassword');

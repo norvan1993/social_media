@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 
 class AuthController extends Controller
@@ -18,7 +19,7 @@ class AuthController extends Controller
             $response = $http->post('http://carmeer.com/oauth/token', ['form_params' => [
                 'grant_type' => 'password',
                 'client_id' => 2,
-                'client_secret' => 'W6F6uuNLRuuXiWQlM6iSDYsNtpRbe6hSNI5DEs0j',
+                'client_secret' => '7LhrUhAxOIHy4LK5NV7i3aCJgXdIYgmkFdYE5KgB',
                 'username' => $request->email,
                 'password' => $request->password
             ]]);
@@ -39,7 +40,7 @@ class AuthController extends Controller
      *********************************************************/
     public function register(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
@@ -54,7 +55,7 @@ class AuthController extends Controller
             $response = $http->post('http://carmeer.com/oauth/token', ['form_params' => [
                 'grant_type' => 'password',
                 'client_id' => 2,
-                'client_secret' => 'W6F6uuNLRuuXiWQlM6iSDYsNtpRbe6hSNI5DEs0j',
+                'client_secret' => '7LhrUhAxOIHy4LK5NV7i3aCJgXdIYgmkFdYE5KgB',
                 'username' => $request->email,
                 'password' => $request->password
             ]]);
