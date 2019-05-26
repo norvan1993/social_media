@@ -56,14 +56,13 @@
                 </div>
             </div>
         </div>
-        <div>{{errors}}</div>
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import { mapMutations } from "vuex";
 export default {
-    props: ["errors", "csrf"],
     data() {
         return {
             email: "",
@@ -71,6 +70,7 @@ export default {
         };
     },
     methods: {
+        ...mapMutations(["vuexLogIn"]),
         login() {
             var form = new FormData();
             form.append("email", this.email);
@@ -99,6 +99,7 @@ export default {
         },
         setAuthIdInLocalStorage(data) {
             localStorage.setItem("auth_id", data);
+            this.vuexLogIn();
             this.$router.push({ path: "/home" });
         }
     }

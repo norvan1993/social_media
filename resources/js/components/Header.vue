@@ -8,19 +8,13 @@
 <script>
 import AuthHeader from "./AuthHeader.vue";
 import GuestHeader from "./GuestHeader.vue";
+import { mapState } from "vuex";
 export default {
     data() {
-        return {
-            auth: false,
-            guest: false
-        };
+        return {};
     },
-    created: function() {
-        if (localStorage.getItem("access_token")) {
-            this.auth = true;
-        } else {
-            this.guest = true;
-        }
+    computed: {
+        ...mapState(["auth", "guest"])
     },
     components: {
         "auth-header": AuthHeader,

@@ -1794,6 +1794,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1805,8 +1810,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["vuexLogOut"]), {
     logOut: function logOut() {
       var _this = this;
 
@@ -1820,11 +1826,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     handleToken: function handleToken(data) {
       localStorage.clear();
+      this.vuexLogOut();
       this.$router.push({
         path: "/"
       });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -1992,6 +1999,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Header.vue */ "./resources/js/components/Header.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2000,8 +2012,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(["vuexLogIn", "vuexLogOut"]), {
     checkAuthState: function checkAuthState() {
       if (localStorage.getItem("access_token")) {
         if (window.location.href == "http://carmeer.com" || window.location.href == "http://carmeer.com/login" || window.location.href == "http://carmeer.com/register") {
@@ -2017,9 +2030,19 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     }
-  },
+  }),
+  computed: {},
   components: {
     "vue-header": _Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  created: function created() {
+    if (localStorage.getItem("access_token")) {
+      this.vuexLogIn();
+    } else {
+      this.vuexLogOut();
+    }
+
+    this.checkAuthState();
   }
 });
 
@@ -2261,6 +2284,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AuthHeader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthHeader.vue */ "./resources/js/components/AuthHeader.vue");
 /* harmony import */ var _GuestHeader_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GuestHeader.vue */ "./resources/js/components/GuestHeader.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2268,22 +2296,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      auth: false,
-      guest: false
-    };
+    return {};
   },
-  created: function created() {
-    if (localStorage.getItem("access_token")) {
-      this.auth = true;
-    } else {
-      this.guest = true;
-    }
-  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["auth", "guest"])),
   components: {
     "auth-header": _AuthHeader_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     "guest-header": _GuestHeader_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -2322,7 +2342,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-//
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2385,15 +2409,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["errors", "csrf"],
   data: function data() {
     return {
       email: "",
       password: ""
     };
   },
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapMutations"])(["vuexLogIn"]), {
     login: function login() {
       var _this = this;
 
@@ -2425,11 +2449,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     setAuthIdInLocalStorage: function setAuthIdInLocalStorage(data) {
       localStorage.setItem("auth_id", data);
+      this.vuexLogIn();
       this.$router.push({
         path: "/home"
       });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -3193,6 +3218,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3259,6 +3289,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3267,7 +3304,7 @@ __webpack_require__.r(__webpack_exports__);
       password: ""
     };
   },
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["vuexLogIn"]), {
     register: function register() {
       var _this = this;
 
@@ -3300,11 +3337,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     setAuthIdInLocalStorage: function setAuthIdInLocalStorage(data) {
       localStorage.setItem("auth_id", data);
+      this.vuexLogIn();
       this.$router.push({
         path: "/home"
       });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -3418,6 +3456,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3425,13 +3466,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {};
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["doubleCounter"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["auth", "guest"])),
   components: {},
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["increcement"]), {
-    showAlert: function showAlert() {
-      alert(this.doubleCounter);
-    }
-  })
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(["vuexLogIn", "vuexLogOut"]))
 });
 
 /***/ }),
@@ -8501,7 +8538,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.logout[data-v-2111be5e] {\n  color: white;\n  background-color: rgb(29, 29, 127);\n}\n", ""]);
+exports.push([module.i, "\n.logout[data-v-2111be5e] {\n    color: white;\n    background-color: rgb(29, 29, 127);\n}\n", ""]);
 
 // exports
 
@@ -41193,9 +41230,7 @@ var render = function() {
           ])
         ])
       ])
-    ]),
-    _vm._v(" "),
-    _c("div", [_vm._v(_vm._s(_vm.errors))])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -42179,11 +42214,11 @@ var render = function() {
         staticClass: "btn btn-primary",
         on: {
           click: function($event) {
-            return _vm.showAlert()
+            return _vm.vuexLogIn()
           }
         }
       },
-      [_vm._v("vuex")]
+      [_vm._v("vuexLogIn")]
     ),
     _vm._v(" "),
     _c(
@@ -42192,12 +42227,16 @@ var render = function() {
         staticClass: "btn btn-primary",
         on: {
           click: function($event) {
-            return _vm.increcement()
+            return _vm.vuexLogOut()
           }
         }
       },
-      [_vm._v("increcement")]
-    )
+      [_vm._v("vuexLogOut")]
+    ),
+    _vm._v(" "),
+    _vm.auth ? _c("p", [_vm._v("auth")]) : _vm._e(),
+    _vm._v(" "),
+    _vm.guest ? _c("p", [_vm._v("guest")]) : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -61324,24 +61363,24 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
-    counter: 5
+    auth: false,
+    guest: false
   },
-  getters: {
-    doubleCounter: function doubleCounter(state) {
-      return state.counter * 2;
-    }
-  },
+  getters: {},
   mutations: {
     increcement: function increcement(state) {
       return state.counter++;
+    },
+    vuexLogIn: function vuexLogIn(state) {
+      state.auth = true;
+      state.guest = false;
+    },
+    vuexLogOut: function vuexLogOut(state) {
+      state.auth = false;
+      state.guest = true;
     }
   },
-  actions: {
-    increcement: function increcement(_ref) {
-      var commit = _ref.commit;
-      commit("increcement");
-    }
-  }
+  actions: {}
 });
 
 /***/ }),

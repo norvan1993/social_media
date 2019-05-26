@@ -7,8 +7,10 @@
 
 <script>
 import Header from "./Header.vue";
+import { mapMutations } from "vuex";
 export default {
     methods: {
+        ...mapMutations(["vuexLogIn", "vuexLogOut"]),
         checkAuthState() {
             if (localStorage.getItem("access_token")) {
                 if (
@@ -29,8 +31,17 @@ export default {
             }
         }
     },
+    computed: {},
     components: {
         "vue-header": Header
+    },
+    created: function() {
+        if (localStorage.getItem("access_token")) {
+            this.vuexLogIn();
+        } else {
+            this.vuexLogOut();
+        }
+        this.checkAuthState();
     }
 };
 </script>

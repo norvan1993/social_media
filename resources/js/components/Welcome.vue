@@ -29,28 +29,28 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-primary" @click="showAlert()">vuex</button>
-        <button class="btn btn-primary" @click="increcement()">increcement</button>
+
+        <button class="btn btn-primary" @click="vuexLogIn()">vuexLogIn</button>
+        <button class="btn btn-primary" @click="vuexLogOut()">vuexLogOut</button>
+        <p v-if="auth">auth</p>
+        <p v-if="guest">guest</p>
     </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
+import { mapState } from "vuex";
+import { mapMutations } from "vuex";
 export default {
     props: ["errors"],
     data() {
         return {};
     },
     computed: {
-        ...mapGetters(["doubleCounter"])
+        ...mapState(["auth", "guest"])
     },
     components: {},
     methods: {
-        ...mapActions(["increcement"]),
-        showAlert() {
-            alert(this.doubleCounter);
-        }
+        ...mapMutations(["vuexLogIn", "vuexLogOut"])
     }
 };
 </script>

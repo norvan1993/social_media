@@ -1,19 +1,21 @@
 export default {
-    state: { counter: 5 },
-    getters: {
-        doubleCounter: state => {
-            return state.counter * 2;
-        }
+    state: {
+        auth: false,
+        guest: false
     },
-
+    getters: {},
     mutations: {
         increcement: state => {
             return state.counter++;
+        },
+        vuexLogIn: state => {
+            state.auth = true;
+            state.guest = false;
+        },
+        vuexLogOut: state => {
+            state.auth = false;
+            state.guest = true;
         }
     },
-    actions: {
-        increcement: ({ commit }) => {
-            commit("increcement");
-        }
-    }
+    actions: {}
 };
