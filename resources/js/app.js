@@ -88,7 +88,18 @@ Vue.component(
     "passport-tokens",
     require("./components/passport/PersonalAccessTokens.vue").default
 );
-
+router.beforeEach((to, from, next) => {
+    if (localStorage.getItem("access_token")) {
+        if (to.path == "/" || to.path == "/login" || to.path == "/register") {
+            next({ path: "/home" });
+        }
+    } else {
+        if (to.path != "/" && to.path != "/login" && to.path != "/register") {
+            next({ path: "/" });
+        }
+    }
+    next();
+});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

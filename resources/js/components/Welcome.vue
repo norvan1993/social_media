@@ -1,57 +1,58 @@
 <template>
     <div>
-        <!--new row-->
-        <div class="row mt-1 back-clr justify-content-center align-items-center">
-            <p class="my-auto d-inline-block align-middle p-2">why should you choose us</p>
-        </div>
+        <!--header-->
+        <vue-header></vue-header>
+        <div>
+            <!--new row-->
+            <div class="row mt-1 back-clr justify-content-center align-items-center">
+                <p class="my-auto d-inline-block align-middle p-2">why should you choose us</p>
+            </div>
 
-        <!--new row-->
-        <div class="row m-3 justify-content-center">
-            <!--find new friends card-->
-            <div class="card col-md-2 m-3" style="width: 18rem;">
-                <img class="card-img-top" src="/svg/icons/findFriends.svg" alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">find new friends</p>
+            <!--new row-->
+            <div class="row m-3 justify-content-center">
+                <!--find new friends card-->
+                <div class="card col-md-2 m-3" style="width: 18rem;">
+                    <img class="card-img-top" src="/svg/icons/findFriends.svg" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">find new friends</p>
+                    </div>
                 </div>
-            </div>
-            <!--markets card-->
-            <div class="card col-md-2 m-3" style="width: 18rem;">
-                <img class="card-img-top" src="/svg/icons/basket.svg" alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">browse markets nearby</p>
+                <!--markets card-->
+                <div class="card col-md-2 m-3" style="width: 18rem;">
+                    <img class="card-img-top" src="/svg/icons/basket.svg" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">browse markets nearby</p>
+                    </div>
                 </div>
-            </div>
-            <!--read articles-->
-            <div class="card col-md-2 m-3" style="width: 18rem;">
-                <img class="card-img-top" src="/svg/icons/readArticles.svg" alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">find new articles</p>
+                <!--read articles-->
+                <div class="card col-md-2 m-3" style="width: 18rem;">
+                    <img
+                        class="card-img-top"
+                        src="/svg/icons/readArticles.svg"
+                        alt="Card image cap"
+                    >
+                    <div class="card-body">
+                        <p class="card-text">find new articles</p>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <button class="btn btn-primary" @click="vuexLogIn()">vuexLogIn</button>
-        <button class="btn btn-primary" @click="vuexLogOut()">vuexLogOut</button>
-        <p v-if="auth">auth</p>
-        <p v-if="guest">guest</p>
     </div>
 </template>
 
 <script>
+import Header from "./Header.vue";
 import { mapState } from "vuex";
 import { mapMutations } from "vuex";
 export default {
-    props: ["errors"],
     data() {
         return {};
     },
-    computed: {
-        ...mapState(["auth", "guest"])
+
+    components: {
+        "vue-header": Header
     },
-    components: {},
-    methods: {
-        ...mapMutations(["vuexLogIn", "vuexLogOut"])
-    }
+    methods: {}
 };
 </script>
 

@@ -33,7 +33,9 @@
 
     <div id='app'>
      <distributor>
-        <router-view></router-view>
+         <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" appear>
+            <router-view></router-view>
+         </transition>
     </distributor>
     </div>
 

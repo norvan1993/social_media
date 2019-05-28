@@ -10,11 +10,9 @@ export default {
         },
         vuexLogIn: state => {
             state.auth = true;
-            state.guest = false;
         },
         vuexLogOut: state => {
             state.auth = false;
-            state.guest = true;
         }
     },
     actions: {}
