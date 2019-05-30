@@ -82,7 +82,8 @@ export default {
         return {
             name: "",
             email: "",
-            password: ""
+            password: "",
+            photo: ""
         };
     },
     components: {
@@ -95,6 +96,10 @@ export default {
             form.append("name", this.name);
             form.append("email", this.email);
             form.append("password", this.password);
+            if (this.photo) {
+                form.append("photo", this.photo);
+            }
+
             axios
                 .post("http://carmeer.com/api/register", form, {
                     headers: {

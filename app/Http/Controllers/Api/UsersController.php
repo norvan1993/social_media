@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use Intervention\Image\ImageManagerStatic as Image;
-use App\UserImage;
+
 use App\Rules\CheckIsActive;
 use App\Rules\CheckRoleId;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +19,7 @@ class UsersController extends Controller
     public function __construct()
     {
 
-        $this->middleware(['auth:api', 'is_admin'])->only('store');
+        $this->middleware(['guest:api'])->only('store');
         $this->middleware(['auth:api', 'is_auth'])->only(['update', 'oldPassword', 'resetPassword']);
         $this->middleware(['auth:api', 'is_admin'])->only(['updateAdmin']);
         $this->middleware(['auth:api', 'is_admin_or_auth'])->only(['destroy']);
@@ -41,14 +40,15 @@ class UsersController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'role_id' => ['required', new CheckRoleId],
-            'is_active' => ['required', new CheckIsActive],
             'password' => 'required',
-            'photo' => 'sometimes|required|image',
+            'photo' => 'sometimes|image',
         ]);
 
-        $input = $request->only(['name', 'is_active', 'role_id', 'email']);
+        $input = $request->only(['name', 'email']);
         $input['password'] = bcrypt($request->password);
+        $input['is_active'] = "1";
+        $input['role_id'] = "2";
+        $input['default_post_privacy'] = "public";
         $user = User::create($input);
         if ($file = $request->file('photo')) {
             if ($file->isValid()) {
@@ -65,12 +65,7 @@ class UsersController extends Controller
      **************************************************************************/
     public function show($id)
     {
-        //getting users info
-        $userArray = DB::table('users')
-            ->leftJoin('photos', 'users.id', '=', 'photos.photoable_id')
-            ->where('users.id', '=', $id)->where('photos.photoable_type', '=', 'App\\User')
-            ->select('users.id', 'users.name', 'photos.file')->distinct()->get()->toArray();
-        //convert users info to json and send it to frontend
+        $userArray = User::select('id', 'name')->where('id', '=', $id)->get()->toArray();
         $json = json_encode($userArray);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
@@ -191,5 +186,15 @@ class UsersController extends Controller
         }
         $json = json_encode($privacy);
         return response($json, 200)->header('Content-Type', 'application/json');
+    }
+    //
+    public function getProfilePhoto($id)
+    {
+        if (User::find($id)->photo) {
+            $profilePhotoArray = array();
+            $profilePhotoArray['photoName'] = User::find($id)->photo->file;
+            $json = json_encode($profilePhotoArray);
+            return response($json, 200)->header('Content-Type', 'application/json');
+        }
     }
 }

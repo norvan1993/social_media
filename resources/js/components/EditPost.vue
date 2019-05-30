@@ -66,6 +66,11 @@
                     class="btn btn-outline-success d-block mr-3 float-right"
                     @click="chooseFiles()"
                 >Choose Files</button>
+                <button
+                    type="button"
+                    class="btn btn-outline-success d-block mr-3 float-right"
+                    @click="cancelEdit()"
+                >cancel</button>
             </div>
         </div>
     </div>
@@ -152,6 +157,9 @@ export default {
         },
         handlePost(data) {
             alert(data.message);
+        },
+        cancelEdit() {
+            this.$emit("cancelEdit");
         }
     }
 };

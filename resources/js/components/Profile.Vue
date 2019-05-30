@@ -4,7 +4,8 @@
         <vue-header></vue-header>
         <div v-if="user">
             <div class="profileTemp p-3 border" align="center">
-                <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
+                <img :src="profilePhoto" class="profileImg">
+
                 <p class="mt-3 h3 userName">{{user.name}}</p>
                 <router-link
                     class="d-block p-3"
@@ -31,7 +32,7 @@
                 >about</router-link>
             </div>
         </div>
-        <router-view :user="user" :csrf="csrf"></router-view>
+        <router-view :user="user"></router-view>
     </div>
 </template>
 
@@ -39,11 +40,11 @@
 import Header from "./Header.vue";
 import axios from "axios";
 export default {
-    props: ["csrf"],
     data() {
         return {
             id: this.$route.params.id,
-            user: {}
+            user: {},
+            profilePhoto: ""
         };
     },
     watch: {
@@ -54,6 +55,14 @@ export default {
     methods: {
         loadUserData(obj) {
             this.user = obj;
+        },
+        loadprofilePhoto(data) {
+            if (data.photoName) {
+                this.profilePhoto =
+                    "http://carmeer.com/photo/" + data.photoName;
+            } else {
+                this.profilePhoto = "http://carmeer.com/ic/profile.png";
+            }
         }
     },
     components: {
@@ -64,6 +73,14 @@ export default {
         axios
             .get("http://carmeer.com/api/users/" + this.$route.params.id)
             .then(res => this.loadUserData(res.data[0]));
+
+        axios
+            .get(
+                "http://carmeer.com/api/users/" +
+                    this.$route.params.id +
+                    "/profile_photo"
+            )
+            .then(res => this.loadprofilePhoto(res.data));
     }
 };
 </script>

@@ -2107,6 +2107,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["csrf", "user", "initialOldFiles", "post"],
@@ -2191,6 +2196,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     handlePost: function handlePost(data) {
       alert(data.message);
+    },
+    cancelEdit: function cancelEdit() {
+      this.$emit("cancelEdit");
     }
   }
 });
@@ -2753,6 +2761,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2781,7 +2803,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     handlePost: function handlePost(data) {
-      console.log(data);
+      if (data.status == "public") {
+        this.public = true;
+      }
     }
   }
 });
@@ -3071,6 +3095,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -3100,6 +3125,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     editPost: function editPost() {
       this.editPostOverlay = true;
+    },
+    closeEditPostOverlay: function closeEditPostOverlay() {
+      this.editPostOverlay = false;
     }
   },
   components: {
@@ -3177,14 +3205,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["csrf"],
   data: function data() {
     return {
       id: this.$route.params.id,
-      user: {}
+      user: {},
+      profilePhoto: ""
     };
   },
   watch: {
@@ -3195,6 +3224,13 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     loadUserData: function loadUserData(obj) {
       this.user = obj;
+    },
+    loadprofilePhoto: function loadprofilePhoto(data) {
+      if (data.photoName) {
+        this.profilePhoto = "http://carmeer.com/photo/" + data.photoName;
+      } else {
+        this.profilePhoto = "http://carmeer.com/ic/profile.png";
+      }
     }
   },
   components: {
@@ -3206,6 +3242,9 @@ __webpack_require__.r(__webpack_exports__);
     //get user infos
     axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("http://carmeer.com/api/users/" + this.$route.params.id).then(function (res) {
       return _this.loadUserData(res.data[0]);
+    });
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("http://carmeer.com/api/users/" + this.$route.params.id + "/profile_photo").then(function (res) {
+      return _this.loadprofilePhoto(res.data);
     });
   }
 });
@@ -3310,7 +3349,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       name: "",
       email: "",
-      password: ""
+      password: "",
+      photo: ""
     };
   },
   components: {
@@ -3324,6 +3364,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       form.append("name", this.name);
       form.append("email", this.email);
       form.append("password", this.password);
+
+      if (this.photo) {
+        form.append("photo", this.photo);
+      }
+
       axios.post("http://carmeer.com/api/register", form, {
         headers: {
           "content-type": "multipart/form-data"
@@ -40971,6 +41016,20 @@ var render = function() {
             }
           },
           [_vm._v("Choose Files")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-outline-success d-block mr-3 float-right",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.cancelEdit()
+              }
+            }
+          },
+          [_vm._v("cancel")]
         )
       ])
     ])
@@ -41527,16 +41586,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm.public
+      ? _c("div", [_c("i", { staticClass: "fas fa-globe" })])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.friends
+      ? _c("div", [_c("i", { staticClass: "fas fa-user-friends" })])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.private
+      ? _c("div", [_c("i", { staticClass: "fas fa-lock" })])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.custom
+      ? _c("div", [_c("i", { staticClass: "fas fa-star-of-life" })])
+      : _vm._e()
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("i", { staticClass: "fas fa-globe" })])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -41799,6 +41867,11 @@ var render = function() {
                   initialOldFiles: _vm.photos,
                   csrf: _vm.csrf,
                   post: _vm.post
+                },
+                on: {
+                  cancelEdit: function($event) {
+                    return _vm.closeEditPostOverlay()
+                  }
                 }
               })
             : _vm._e(),
@@ -41916,7 +41989,7 @@ var render = function() {
               [
                 _c("img", {
                   staticClass: "profileImg",
-                  attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
+                  attrs: { src: _vm.profilePhoto }
                 }),
                 _vm._v(" "),
                 _c("p", { staticClass: "mt-3 h3 userName" }, [
@@ -41982,7 +42055,7 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("router-view", { attrs: { user: _vm.user, csrf: _vm.csrf } })
+      _c("router-view", { attrs: { user: _vm.user } })
     ],
     1
   )
@@ -60805,14 +60878,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************!*\
   !*** ./resources/js/components/Profile.vue ***!
   \*********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Profile_vue_vue_type_template_id_3bd692e4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Profile.vue?vue&type=template&id=3bd692e4&scoped=true& */ "./resources/js/components/Profile.vue?vue&type=template&id=3bd692e4&scoped=true&");
 /* harmony import */ var _Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Profile.vue?vue&type=script&lang=js& */ "./resources/js/components/Profile.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Profile_vue_vue_type_style_index_0_id_3bd692e4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Profile.vue?vue&type=style&index=0&id=3bd692e4&scoped=true&lang=css& */ "./resources/js/components/Profile.vue?vue&type=style&index=0&id=3bd692e4&scoped=true&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _Profile_vue_vue_type_style_index_0_id_3bd692e4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Profile.vue?vue&type=style&index=0&id=3bd692e4&scoped=true&lang=css& */ "./resources/js/components/Profile.vue?vue&type=style&index=0&id=3bd692e4&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -60844,7 +60918,7 @@ component.options.__file = "resources/js/components/Profile.vue"
 /*!**********************************************************************!*\
   !*** ./resources/js/components/Profile.vue?vue&type=script&lang=js& ***!
   \**********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

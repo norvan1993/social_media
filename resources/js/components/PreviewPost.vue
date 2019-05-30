@@ -3,6 +3,7 @@
         <div class="overlay" v-if="editPostOverlay"></div>
         <edit-post
             v-if="editPostOverlay"
+            @cancelEdit="closeEditPostOverlay()"
             class="editPost"
             :user="user"
             :initialOldFiles="photos"
@@ -71,6 +72,9 @@ export default {
         },
         editPost() {
             this.editPostOverlay = true;
+        },
+        closeEditPostOverlay() {
+            this.editPostOverlay = false;
         }
     },
     components: {

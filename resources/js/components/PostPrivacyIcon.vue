@@ -1,6 +1,20 @@
 <template>
     <div>
-        <i class="fas fa-globe"></i>
+        <div v-if="public">
+            <i class="fas fa-globe"></i>
+        </div>
+
+        <div v-if="friends">
+            <i class="fas fa-user-friends"></i>
+        </div>
+
+        <div v-if="private">
+            <i class="fas fa-lock"></i>
+        </div>
+
+        <div v-if="custom">
+            <i class="fas fa-star-of-life"></i>
+        </div>
     </div>
 </template>
 
@@ -29,7 +43,9 @@ export default {
 
     methods: {
         handlePost(data) {
-            console.log(data);
+            if (data.status == "public") {
+                this.public = true;
+            }
         }
     }
 };

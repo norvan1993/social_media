@@ -40,17 +40,23 @@ class AuthController extends Controller
      *********************************************************/
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
 
-        $input = $request->only(['name', 'email']);
-        $input['password'] = bcrypt($request->password);
-        User::create($input);
-        //login
+        //create new user
         $http = new \GuzzleHttp\Client;
+        try {
+            $response = $http->post('http://carmeer.com/api/users', ['form_params' => [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password
+            ]]);
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
+            if ($e->getCode() == 400) {
+                return response()->json('invalid Request', $e->getCode());
+            } else if ($e->getCode() == 401) {
+                return response()->json('your credential are incorrect', $e->getCode());
+            }
+            return response()->json('something went wrong on server', $e->getCode());
+        }
         try {
             $response = $http->post('http://carmeer.com/oauth/token', ['form_params' => [
                 'grant_type' => 'password',
