@@ -7,12 +7,12 @@
             class="editPost"
             :user="user"
             :initialOldFiles="photos"
-            :csrf="csrf"
             :post="post"
+            :profilePhoto="profilePhoto"
         ></edit-post>
 
         <div class="card-header" style="max-height:70px;">
-            <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
+            <img :src="profilePhoto" class="profileImg">
             <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
             <i
                 class="fas fa-ellipsis-v optionsIcon float-right"
@@ -47,7 +47,7 @@ import PreviewImages from "./PreviewImages.vue";
 import PostOptions from "./PostOptions.vue";
 import EditPost from "./EditPost.vue";
 export default {
-    props: ["user", "post", "csrf"],
+    props: ["user", "post", "profilePhoto"],
     data() {
         return {
             photos: null,
@@ -117,7 +117,7 @@ export default {
     left: 0px;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(0, 0, 0, 0.85);
     z-index: 3;
 }
 .editPost {

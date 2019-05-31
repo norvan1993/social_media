@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="photoIndex"
-        style="background-color:rgba(0,0,0,0.5); position:fixed; top:0px; left:0px; width:100%; height:100%; z-index:3;"
+        style="background-color:rgba(0,0,0,0.8); position:fixed; top:0px; left:0px; width:100%; height:100%; z-index:3;"
     >
         <div
             style="background-position:center;background-repeat:no-repeat;background-size:contain;"

@@ -1,10 +1,39 @@
 <template>
     <div>
+        <div v-if="screenOverlay" class="screenOverlay"></div>
+        <div v-if="screenOverlay" class="updateProfilePhotoBoxContainer">
+            <div class="row justify-content-center" style="margin-top:100px;">
+                <div class="bg-white col-sm-6" style="height:400px;" align="center">
+                    <div class="row justify-content-center">
+                        <img :src="profilePhoto" class="profileImgUpdate mt-2">
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-xs-8 col-sm-6 col-md-5 mt-2">
+                            <input
+                                @change="appendPhoto()"
+                                type="file"
+                                ref="profilePhotoSelector"
+                                hidden
+                            >
+                            <button class="btn btn-primary btn-block">choose photo</button>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-xs-8 col-sm-6 col-md-5 mt-2">
+                            <button class="btn btn-primary btn-block">update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--header-->
         <vue-header></vue-header>
         <div v-if="user">
             <div class="profileTemp p-3 border" align="center">
-                <img :src="profilePhoto" class="profileImg">
+                <div @click="openScreenOverlay()">
+                    <img :src="profilePhoto" class="profileImg">
+                    <div class="profilePhotoOverlay"></div>
+                </div>
 
                 <p class="mt-3 h3 userName">{{user.name}}</p>
                 <router-link
@@ -32,7 +61,7 @@
                 >about</router-link>
             </div>
         </div>
-        <router-view :user="user"></router-view>
+        <router-view :user="user" :profilePhoto="profilePhoto"></router-view>
     </div>
 </template>
 
@@ -44,7 +73,8 @@ export default {
         return {
             id: this.$route.params.id,
             user: {},
-            profilePhoto: ""
+            profilePhoto: "",
+            screenOverlay: false
         };
     },
     watch: {
@@ -63,6 +93,9 @@ export default {
             } else {
                 this.profilePhoto = "http://carmeer.com/ic/profile.png";
             }
+        },
+        openScreenOverlay() {
+            this.screenOverlay = true;
         }
     },
     components: {
@@ -101,5 +134,39 @@ export default {
 }
 .router-link-active {
     background-color: rgb(234, 234, 234);
+}
+.profilePhotoOverlay {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0);
+    top: -100px;
+}
+.profilePhotoOverlay:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+}
+.screenOverlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 3;
+}
+.updateProfilePhotoBoxContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+}
+.profileImgUpdate {
+    width: 250px;
+    height: 250px;
+    border: 2px solid white;
+    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);
 }
 </style>

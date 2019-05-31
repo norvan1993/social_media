@@ -1,57 +1,59 @@
 <template>
-    <div>
-        <div class="card mt-3">
-            <div class="card-header">
-                <img :src="'http://carmeer.com/photo/'+user.file" class="profileImg">
-                <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
-            </div>
-            <div class="card-body">
-                <h4>
-                    <input
-                        type="text"
-                        placeholder="Title Here"
-                        class="d-block border-0"
-                        style="width:100%;"
-                        v-model="title"
-                    >
-                    <hr>
-                </h4>
-                <div class="card-text">
-                    <textarea
-                        placeholder="write something"
-                        rows="4"
-                        class="d-block ml-3 border-0"
-                        style="width:100%; resize:none;"
-                        v-model="body"
-                    ></textarea>
+    <div class="row justify-content-center">
+        <div class="col-sm-8 col-md-7">
+            <div class="card mt-3 ml-3">
+                <div class="card-header">
+                    <img :src="profilePhoto" class="profileImg">
+                    <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
                 </div>
-                <div class="d-block filesContainer">
-                    <div
-                        v-if="oldFiles"
-                        v-for="(oldFile, oldKey) in oldFiles"
-                        class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
-                        :style="{backgroundImage:'url(http://carmeer.com/photo/'+oldFile.file+')'}"
-                        :key="oldFile.id"
-                    >
-                        <div class="imageOverlay"></div>
-                        <img
-                            src="/ic/cancel.png"
-                            class="m-auto optionsArrow"
-                            @click="deleteOldFile(oldKey)"
+                <div class="card-body">
+                    <h4>
+                        <input
+                            type="text"
+                            placeholder="Title Here"
+                            class="d-block border-0"
+                            style="width:100%;"
+                            v-model="title"
                         >
+                        <hr>
+                    </h4>
+                    <div class="card-text">
+                        <textarea
+                            placeholder="write something"
+                            rows="4"
+                            class="d-block ml-3 border-0"
+                            style="width:100%; resize:none;"
+                            v-model="body"
+                        ></textarea>
                     </div>
-
-                    <div
-                        v-for="(newFile, newKey)  in newFiles"
-                        class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
-                        :style="{backgroundImage:'url('+convertToData(newFile)+')'}"
-                    >
-                        <div class="imageOverlay"></div>
-                        <img
-                            src="/ic/cancel.png"
-                            class="m-auto optionsArrow"
-                            @click="removeImage(newKey)"
+                    <div class="d-block filesContainer">
+                        <div
+                            v-if="oldFiles"
+                            v-for="(oldFile, oldKey) in oldFiles"
+                            class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
+                            :style="{backgroundImage:'url(http://carmeer.com/photo/'+oldFile.file+')'}"
+                            :key="oldFile.id"
                         >
+                            <div class="imageOverlay"></div>
+                            <img
+                                src="/ic/cancel.png"
+                                class="m-auto optionsArrow"
+                                @click="deleteOldFile(oldKey)"
+                            >
+                        </div>
+
+                        <div
+                            v-for="(newFile, newKey)  in newFiles"
+                            class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
+                            :style="{backgroundImage:'url('+convertToData(newFile)+')'}"
+                        >
+                            <div class="imageOverlay"></div>
+                            <img
+                                src="/ic/cancel.png"
+                                class="m-auto optionsArrow"
+                                @click="removeImage(newKey)"
+                            >
+                        </div>
                     </div>
                 </div>
                 <hr>
@@ -79,7 +81,7 @@
 <script>
 import axios from "axios";
 export default {
-    props: ["csrf", "user", "initialOldFiles", "post"],
+    props: ["profilePhoto", "user", "initialOldFiles", "post"],
     data() {
         return {
             title: this.post.title,

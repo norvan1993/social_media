@@ -1921,7 +1921,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["csrf", "user"],
+  props: ["profilePhoto", "user"],
   data: function data() {
     return {
       files: [],
@@ -2112,9 +2112,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["csrf", "user", "initialOldFiles", "post"],
+  props: ["profilePhoto", "user", "initialOldFiles", "post"],
   data: function data() {
     return {
       title: this.post.title,
@@ -3100,7 +3102,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["user", "post", "csrf"],
+  props: ["user", "post", "profilePhoto"],
   data: function data() {
     return {
       photos: null,
@@ -3206,6 +3208,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3213,7 +3244,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       id: this.$route.params.id,
       user: {},
-      profilePhoto: ""
+      profilePhoto: "",
+      screenOverlay: false
     };
   },
   watch: {
@@ -3231,6 +3263,9 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.profilePhoto = "http://carmeer.com/ic/profile.png";
       }
+    },
+    openScreenOverlay: function openScreenOverlay() {
+      this.screenOverlay = true;
     }
   },
   components: {
@@ -3432,7 +3467,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["csrf", "user"],
+  props: ["user", "profilePhoto"],
   data: function data() {
     return {
       postData: ""
@@ -8634,7 +8669,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-20838332] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n.filesContainer[data-v-20838332] {\n  width: 100%;\n  height: 150px;\n  background-color: white;\n  padding-left: 10px;\n\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n.filesContainer[data-v-20838332]:after {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  width: 10px;\n}\n.imageBlock[data-v-20838332] {\n  display: inline-block;\n  width: 100px;\n  height: 100px;\n  background-position: center;\n  background-repeat: no-repeat;\n  background-size: cover;\n  background-color: rgb(202, 202, 202);\n  cursor: pointer;\n}\n.imageOverlay[data-v-20838332] {\n  position: relative;\n  width: 100px;\n  height: 100px;\n  background-color: rgba(165, 165, 165, 0.6);\n  visibility: hidden;\n}\n.imageBlock:hover .imageOverlay[data-v-20838332] {\n  visibility: visible;\n}\n.optionsArrow[data-v-20838332] {\n  position: relative;\n  display: block;\n  top: -65px;\n  width: 30px;\n  visibility: hidden;\n  transition: all 0.2s ease-in-out;\n}\n.imageBlock:hover .optionsArrow[data-v-20838332] {\n  visibility: visible;\n}\n.optionsArrow[data-v-20838332]:hover {\n  -webkit-transform: scale(1.3);\n          transform: scale(1.3);\n}\n.privacyIcon[data-v-20838332] {\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-20838332] {\n    width: 40px;\n    height: 40px;\n    border: 1px solid black;\n}\n.filesContainer[data-v-20838332] {\n    width: 100%;\n    height: 150px;\n    background-color: white;\n    padding-left: 10px;\n\n    overflow-x: auto;\n    overflow-y: hidden;\n    white-space: nowrap;\n}\n.filesContainer[data-v-20838332]:after {\n    content: \"\";\n    display: inline-block;\n    height: 100%;\n    width: 10px;\n}\n.imageBlock[data-v-20838332] {\n    display: inline-block;\n    width: 100px;\n    height: 100px;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: cover;\n    background-color: rgb(202, 202, 202);\n    cursor: pointer;\n}\n.imageOverlay[data-v-20838332] {\n    position: relative;\n    width: 100px;\n    height: 100px;\n    background-color: rgba(165, 165, 165, 0.6);\n    visibility: hidden;\n}\n.imageBlock:hover .imageOverlay[data-v-20838332] {\n    visibility: visible;\n}\n.optionsArrow[data-v-20838332] {\n    position: relative;\n    display: block;\n    top: -65px;\n    width: 30px;\n    visibility: hidden;\n    transition: all 0.2s ease-in-out;\n}\n.imageBlock:hover .optionsArrow[data-v-20838332] {\n    visibility: visible;\n}\n.optionsArrow[data-v-20838332]:hover {\n    -webkit-transform: scale(1.3);\n            transform: scale(1.3);\n}\n.privacyIcon[data-v-20838332] {\n    cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -8767,7 +8802,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-0481436d] {\n    width: 40px;\n    height: 40px;\n    border: 1px solid black;\n}\n.optionsIcon[data-v-0481436d] {\n    height: 20px;\n    color: black;\n    cursor: pointer;\n}\n.overlay[data-v-0481436d] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(255, 255, 255, 0.4);\n    z-index: 3;\n}\n.editPost[data-v-0481436d] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 4;\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-0481436d] {\n    width: 40px;\n    height: 40px;\n    border: 1px solid black;\n}\n.optionsIcon[data-v-0481436d] {\n    height: 20px;\n    color: black;\n    cursor: pointer;\n}\n.overlay[data-v-0481436d] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.85);\n    z-index: 3;\n}\n.editPost[data-v-0481436d] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 4;\n}\n", ""]);
 
 // exports
 
@@ -8786,7 +8821,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-3bd692e4] {\n    width: 100px;\n    height: 100px;\n    border: 5px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profileTemp[data-v-3bd692e4] {\n    position: fixed;\n    top: 100px;\n    height: 500px;\n}\n.userName[data-v-3bd692e4] {\n    text-transform: capitalize;\n}\n.router-link-active[data-v-3bd692e4] {\n    background-color: rgb(234, 234, 234);\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-3bd692e4] {\n    width: 100px;\n    height: 100px;\n    border: 5px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profileTemp[data-v-3bd692e4] {\n    position: fixed;\n    top: 100px;\n    height: 500px;\n}\n.userName[data-v-3bd692e4] {\n    text-transform: capitalize;\n}\n.router-link-active[data-v-3bd692e4] {\n    background-color: rgb(234, 234, 234);\n}\n.profilePhotoOverlay[data-v-3bd692e4] {\n    position: relative;\n    width: 100px;\n    height: 100px;\n    background-color: rgba(255, 255, 255, 0);\n    top: -100px;\n}\n.profilePhotoOverlay[data-v-3bd692e4]:hover {\n    background-color: rgba(255, 255, 255, 0.4);\n    cursor: pointer;\n}\n.screenOverlay[data-v-3bd692e4] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.85);\n    z-index: 3;\n}\n.updateProfilePhotoBoxContainer[data-v-3bd692e4] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 4;\n}\n.profileImgUpdate[data-v-3bd692e4] {\n    width: 250px;\n    height: 250px;\n    border: 2px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n", ""]);
 
 // exports
 
@@ -40666,7 +40701,7 @@ var render = function() {
       [
         _c("img", {
           staticClass: "profileImg",
-          attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
+          attrs: { src: _vm.profilePhoto }
         }),
         _vm._v(" "),
         _c(
@@ -40849,134 +40884,136 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "card mt-3" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("img", {
-          staticClass: "profileImg",
-          attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
-        }),
-        _vm._v(" "),
-        _c(
-          "span",
-          { staticClass: "ml-2", staticStyle: { cursor: "pointer" } },
-          [_vm._v(_vm._s(_vm.user.name))]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("h4", [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.title,
-                expression: "title"
-              }
-            ],
-            staticClass: "d-block border-0",
-            staticStyle: { width: "100%" },
-            attrs: { type: "text", placeholder: "Title Here" },
-            domProps: { value: _vm.title },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.title = $event.target.value
-              }
-            }
+  return _c("div", { staticClass: "row justify-content-center" }, [
+    _c("div", { staticClass: "col-sm-8 col-md-7" }, [
+      _c("div", { staticClass: "card mt-3 ml-3" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _c("img", {
+            staticClass: "profileImg",
+            attrs: { src: _vm.profilePhoto }
           }),
           _vm._v(" "),
-          _c("hr")
+          _c(
+            "span",
+            { staticClass: "ml-2", staticStyle: { cursor: "pointer" } },
+            [_vm._v(_vm._s(_vm.user.name))]
+          )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "card-text" }, [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.body,
-                expression: "body"
-              }
-            ],
-            staticClass: "d-block ml-3 border-0",
-            staticStyle: { width: "100%", resize: "none" },
-            attrs: { placeholder: "write something", rows: "4" },
-            domProps: { value: _vm.body },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+        _c("div", { staticClass: "card-body" }, [
+          _c("h4", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.title,
+                  expression: "title"
                 }
-                _vm.body = $event.target.value
+              ],
+              staticClass: "d-block border-0",
+              staticStyle: { width: "100%" },
+              attrs: { type: "text", placeholder: "Title Here" },
+              domProps: { value: _vm.title },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.title = $event.target.value
+                }
               }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "d-block filesContainer" },
-          [
-            _vm._l(_vm.oldFiles, function(oldFile, oldKey) {
-              return _vm.oldFiles
-                ? _c(
-                    "div",
-                    {
-                      key: oldFile.id,
-                      staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
-                      style: {
-                        backgroundImage:
-                          "url(http://carmeer.com/photo/" + oldFile.file + ")"
-                      }
-                    },
-                    [
-                      _c("div", { staticClass: "imageOverlay" }),
-                      _vm._v(" "),
-                      _c("img", {
-                        staticClass: "m-auto optionsArrow",
-                        attrs: { src: "/ic/cancel.png" },
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteOldFile(oldKey)
-                          }
-                        }
-                      })
-                    ]
-                  )
-                : _vm._e()
             }),
             _vm._v(" "),
-            _vm._l(_vm.newFiles, function(newFile, newKey) {
-              return _c(
-                "div",
+            _c("hr")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-text" }, [
+            _c("textarea", {
+              directives: [
                 {
-                  staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
-                  style: {
-                    backgroundImage: "url(" + _vm.convertToData(newFile) + ")"
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.body,
+                  expression: "body"
+                }
+              ],
+              staticClass: "d-block ml-3 border-0",
+              staticStyle: { width: "100%", resize: "none" },
+              attrs: { placeholder: "write something", rows: "4" },
+              domProps: { value: _vm.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                },
-                [
-                  _c("div", { staticClass: "imageOverlay" }),
-                  _vm._v(" "),
-                  _c("img", {
-                    staticClass: "m-auto optionsArrow",
-                    attrs: { src: "/ic/cancel.png" },
-                    on: {
-                      click: function($event) {
-                        return _vm.removeImage(newKey)
-                      }
-                    }
-                  })
-                ]
-              )
+                  _vm.body = $event.target.value
+                }
+              }
             })
-          ],
-          2
-        ),
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "d-block filesContainer" },
+            [
+              _vm._l(_vm.oldFiles, function(oldFile, oldKey) {
+                return _vm.oldFiles
+                  ? _c(
+                      "div",
+                      {
+                        key: oldFile.id,
+                        staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
+                        style: {
+                          backgroundImage:
+                            "url(http://carmeer.com/photo/" + oldFile.file + ")"
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "imageOverlay" }),
+                        _vm._v(" "),
+                        _c("img", {
+                          staticClass: "m-auto optionsArrow",
+                          attrs: { src: "/ic/cancel.png" },
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteOldFile(oldKey)
+                            }
+                          }
+                        })
+                      ]
+                    )
+                  : _vm._e()
+              }),
+              _vm._v(" "),
+              _vm._l(_vm.newFiles, function(newFile, newKey) {
+                return _c(
+                  "div",
+                  {
+                    staticClass: "mt-3 mb-3 ml-3 rounded shadow imageBlock",
+                    style: {
+                      backgroundImage: "url(" + _vm.convertToData(newFile) + ")"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "imageOverlay" }),
+                    _vm._v(" "),
+                    _c("img", {
+                      staticClass: "m-auto optionsArrow",
+                      attrs: { src: "/ic/cancel.png" },
+                      on: {
+                        click: function($event) {
+                          return _vm.removeImage(newKey)
+                        }
+                      }
+                    })
+                  ]
+                )
+              })
+            ],
+            2
+          )
+        ]),
         _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
@@ -41631,7 +41668,7 @@ var render = function() {
         "div",
         {
           staticStyle: {
-            "background-color": "rgba(0,0,0,0.5)",
+            "background-color": "rgba(0,0,0,0.8)",
             position: "fixed",
             top: "0px",
             left: "0px",
@@ -41865,8 +41902,8 @@ var render = function() {
                 attrs: {
                   user: _vm.user,
                   initialOldFiles: _vm.photos,
-                  csrf: _vm.csrf,
-                  post: _vm.post
+                  post: _vm.post,
+                  profilePhoto: _vm.profilePhoto
                 },
                 on: {
                   cancelEdit: function($event) {
@@ -41885,7 +41922,7 @@ var render = function() {
             [
               _c("img", {
                 staticClass: "profileImg",
-                attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
+                attrs: { src: _vm.profilePhoto }
               }),
               _vm._v(" "),
               _c(
@@ -41976,6 +42013,66 @@ var render = function() {
   return _c(
     "div",
     [
+      _vm.screenOverlay
+        ? _c("div", { staticClass: "screenOverlay" })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.screenOverlay
+        ? _c("div", { staticClass: "updateProfilePhotoBoxContainer" }, [
+            _c(
+              "div",
+              {
+                staticClass: "row justify-content-center",
+                staticStyle: { "margin-top": "100px" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "bg-white col-sm-6",
+                    staticStyle: { height: "400px" },
+                    attrs: { align: "center" }
+                  },
+                  [
+                    _c("div", { staticClass: "row justify-content-center" }, [
+                      _c("img", {
+                        staticClass: "profileImgUpdate mt-2",
+                        attrs: { src: _vm.profilePhoto }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row justify-content-center" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-xs-8 col-sm-6 col-md-5 mt-2" },
+                        [
+                          _c("input", {
+                            ref: "profilePhotoSelector",
+                            attrs: { type: "file", hidden: "" },
+                            on: {
+                              change: function($event) {
+                                return _vm.appendPhoto()
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            { staticClass: "btn btn-primary btn-block" },
+                            [_vm._v("choose photo")]
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ]
+                )
+              ]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("vue-header"),
       _vm._v(" "),
       _vm.user
@@ -41987,10 +42084,24 @@ var render = function() {
                 attrs: { align: "center" }
               },
               [
-                _c("img", {
-                  staticClass: "profileImg",
-                  attrs: { src: _vm.profilePhoto }
-                }),
+                _c(
+                  "div",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.openScreenOverlay()
+                      }
+                    }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "profileImg",
+                      attrs: { src: _vm.profilePhoto }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "profilePhotoOverlay" })
+                  ]
+                ),
                 _vm._v(" "),
                 _c("p", { staticClass: "mt-3 h3 userName" }, [
                   _vm._v(_vm._s(_vm.user.name))
@@ -42055,12 +42166,27 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("router-view", { attrs: { user: _vm.user } })
+      _c("router-view", {
+        attrs: { user: _vm.user, profilePhoto: _vm.profilePhoto }
+      })
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-xs-8 col-sm-6 col-md-5 mt-2" }, [
+        _c("button", { staticClass: "btn btn-primary btn-block" }, [
+          _vm._v("update")
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -42267,14 +42393,20 @@ var render = function() {
       "div",
       { staticClass: "col-sm-5" },
       [
-        _c("create-post", { attrs: { user: _vm.user, csrf: _vm.csrf } }),
+        _c("create-post", {
+          attrs: { user: _vm.user, profilePhoto: _vm.profilePhoto }
+        }),
         _vm._v(" "),
         _vm._l(_vm.postData.data, function(post) {
           return _c(
             "div",
             [
               _c("preview-post", {
-                attrs: { user: _vm.user, post: post, csrf: _vm.csrf }
+                attrs: {
+                  user: _vm.user,
+                  post: post,
+                  profilePhoto: _vm.profilePhoto
+                }
               })
             ],
             1
@@ -60878,15 +61010,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************!*\
   !*** ./resources/js/components/Profile.vue ***!
   \*********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Profile_vue_vue_type_template_id_3bd692e4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Profile.vue?vue&type=template&id=3bd692e4&scoped=true& */ "./resources/js/components/Profile.vue?vue&type=template&id=3bd692e4&scoped=true&");
 /* harmony import */ var _Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Profile.vue?vue&type=script&lang=js& */ "./resources/js/components/Profile.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _Profile_vue_vue_type_style_index_0_id_3bd692e4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Profile.vue?vue&type=style&index=0&id=3bd692e4&scoped=true&lang=css& */ "./resources/js/components/Profile.vue?vue&type=style&index=0&id=3bd692e4&scoped=true&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Profile_vue_vue_type_style_index_0_id_3bd692e4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Profile.vue?vue&type=style&index=0&id=3bd692e4&scoped=true&lang=css& */ "./resources/js/components/Profile.vue?vue&type=style&index=0&id=3bd692e4&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -60918,7 +61049,7 @@ component.options.__file = "resources/js/components/Profile.vue"
 /*!**********************************************************************!*\
   !*** ./resources/js/components/Profile.vue?vue&type=script&lang=js& ***!
   \**********************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
