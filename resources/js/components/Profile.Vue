@@ -10,12 +10,15 @@
                     <div class="row justify-content-center">
                         <div class="col-xs-8 col-sm-6 col-md-5 mt-2">
                             <input
-                                @change="appendPhoto()"
+                                @change="previewProfilePhoto()"
                                 type="file"
                                 ref="profilePhotoSelector"
                                 hidden
                             >
-                            <button class="btn btn-primary btn-block">choose photo</button>
+                            <button
+                                class="btn btn-primary btn-block"
+                                @click="$refs.profilePhotoSelector.click()"
+                            >choose photo</button>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -96,7 +99,8 @@ export default {
         },
         openScreenOverlay() {
             this.screenOverlay = true;
-        }
+        },
+        previewProfilePhoto() {}
     },
     components: {
         "vue-header": Header
@@ -147,7 +151,7 @@ export default {
     cursor: pointer;
 }
 .screenOverlay {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     width: 100%;
@@ -156,7 +160,7 @@ export default {
     z-index: 3;
 }
 .updateProfilePhotoBoxContainer {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     width: 100%;

@@ -3237,6 +3237,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3266,7 +3269,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     openScreenOverlay: function openScreenOverlay() {
       this.screenOverlay = true;
-    }
+    },
+    previewProfilePhoto: function previewProfilePhoto() {}
   },
   components: {
     "vue-header": _Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -8821,7 +8825,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-3bd692e4] {\n    width: 100px;\n    height: 100px;\n    border: 5px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profileTemp[data-v-3bd692e4] {\n    position: fixed;\n    top: 100px;\n    height: 500px;\n}\n.userName[data-v-3bd692e4] {\n    text-transform: capitalize;\n}\n.router-link-active[data-v-3bd692e4] {\n    background-color: rgb(234, 234, 234);\n}\n.profilePhotoOverlay[data-v-3bd692e4] {\n    position: relative;\n    width: 100px;\n    height: 100px;\n    background-color: rgba(255, 255, 255, 0);\n    top: -100px;\n}\n.profilePhotoOverlay[data-v-3bd692e4]:hover {\n    background-color: rgba(255, 255, 255, 0.4);\n    cursor: pointer;\n}\n.screenOverlay[data-v-3bd692e4] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.85);\n    z-index: 3;\n}\n.updateProfilePhotoBoxContainer[data-v-3bd692e4] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 4;\n}\n.profileImgUpdate[data-v-3bd692e4] {\n    width: 250px;\n    height: 250px;\n    border: 2px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-3bd692e4] {\n    width: 100px;\n    height: 100px;\n    border: 5px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profileTemp[data-v-3bd692e4] {\n    position: fixed;\n    top: 100px;\n    height: 500px;\n}\n.userName[data-v-3bd692e4] {\n    text-transform: capitalize;\n}\n.router-link-active[data-v-3bd692e4] {\n    background-color: rgb(234, 234, 234);\n}\n.profilePhotoOverlay[data-v-3bd692e4] {\n    position: relative;\n    width: 100px;\n    height: 100px;\n    background-color: rgba(255, 255, 255, 0);\n    top: -100px;\n}\n.profilePhotoOverlay[data-v-3bd692e4]:hover {\n    background-color: rgba(255, 255, 255, 0.4);\n    cursor: pointer;\n}\n.screenOverlay[data-v-3bd692e4] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.85);\n    z-index: 3;\n}\n.updateProfilePhotoBoxContainer[data-v-3bd692e4] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 4;\n}\n.profileImgUpdate[data-v-3bd692e4] {\n    width: 250px;\n    height: 250px;\n    border: 2px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n", ""]);
 
 // exports
 
@@ -42051,14 +42055,21 @@ var render = function() {
                             attrs: { type: "file", hidden: "" },
                             on: {
                               change: function($event) {
-                                return _vm.appendPhoto()
+                                return _vm.previewProfilePhoto()
                               }
                             }
                           }),
                           _vm._v(" "),
                           _c(
                             "button",
-                            { staticClass: "btn btn-primary btn-block" },
+                            {
+                              staticClass: "btn btn-primary btn-block",
+                              on: {
+                                click: function($event) {
+                                  return _vm.$refs.profilePhotoSelector.click()
+                                }
+                              }
+                            },
                             [_vm._v("choose photo")]
                           )
                         ]
