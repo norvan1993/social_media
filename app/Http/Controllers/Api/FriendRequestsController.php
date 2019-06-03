@@ -171,32 +171,9 @@ class FriendRequestsController extends Controller
      **************************************************************************/
     public function friendStatus($id)
     {
-        $friendStatusArray["status"] = "";
-
-        if (Auth::id() == $id) { }
-
-
-        $array1 = FriendRequest::where('sender_id', '=', Auth::id())->where('status', '=', 'friend')->pluck('receiver_id')->toArray();
-        $array2 = FriendRequest::where('receiver_id', '=', Auth::id())->where('status', '=', 'friend')->pluck('sender_id')->toArray();
-
-        $friendsArray["friendsList"] = array_merge($array1, $array2);
+        $friendStatusArray["status"] = FriendRequest::relationType($id);
         //sending friend status of given id
-        $json = json_encode($friendsArray);
+        $json = json_encode($friendStatusArray);
         return response($json, 200)->header('Content-Type', 'application/json');
-    }
-    /**************************************************************************
-     *custom functions
-     **************************************************************************/
-    public function friendStatusAsText($id)
-    {
-        if (Auth::id() == $id) {
-            return "owner";
-        }
-        if (FriendRequest::isFriend()) {
-            return "friend";
-        }
-        if (FriendRequest::isFriend()) {
-            return "friend";
-        }
     }
 }

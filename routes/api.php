@@ -45,6 +45,7 @@ Route::post('/friendship/block', 'Api\FriendRequestsController@block')->middlewa
 Route::delete('/friendship/remove_block', 'Api\FriendRequestsController@removeBlock')->middleware('auth:api');
 Route::delete('/friendship/unfriend', 'Api\FriendRequestsController@unfriend')->middleware('auth:api');
 Route::get('/friendship/friends_list', 'Api\FriendRequestsController@friendsList')->middleware('auth:api');
+Route::get('/friendship/{id}/friend_status', 'Api\FriendRequestsController@friendStatus')->middleware('auth:api');
 //post privacy routes
 Route::put('/set_default_viewers', 'Api\DefaultPostViewersController@setViewers')->middleware('auth:api');
 Route::get('/get_default_viewers', 'Api\DefaultPostViewersController@getViewers')->middleware('auth:api');

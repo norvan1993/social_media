@@ -3216,9 +3216,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -3229,7 +3226,8 @@ __webpack_require__.r(__webpack_exports__);
       user: {},
       profilePhoto: "",
       screenOverlay: false,
-      isAuth: false
+      isAuth: false,
+      profileRelationType: ""
     };
   },
   watch: {
@@ -3252,6 +3250,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     openScreenOverlay: function openScreenOverlay() {
       this.screenOverlay = true;
+    },
+    loadProfileRelationType: function loadProfileRelationType(data) {
+      console.log(data);
+      this.profileRelationType = data.status;
     }
   },
   components: {
@@ -3270,9 +3272,18 @@ __webpack_require__.r(__webpack_exports__);
 
     axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("http://carmeer.com/api/users/" + this.$route.params.id).then(function (res) {
       return _this.loadUserData(res.data[0]);
-    });
+    }); //get profile photo
+
     axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("http://carmeer.com/api/users/" + this.$route.params.id + "/profile_photo").then(function (res) {
       return _this.loadProfilePhoto(res.data);
+    }); //get relation with opened profile
+
+    axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("http://carmeer.com/api/friendship/" + this.$route.params.id + "/friend_status", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    }).then(function (res) {
+      return _this.loadProfileRelationType(res.data);
     });
   }
 });
@@ -8909,7 +8920,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-3bd692e4] {\n    width: 100px;\n    height: 100px;\n    border: 5px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profileTemp[data-v-3bd692e4] {\n    position: fixed;\n    top: 100px;\n    height: 500px;\n}\n.userName[data-v-3bd692e4] {\n    text-transform: capitalize;\n}\n.router-link-active[data-v-3bd692e4] {\n    background-color: rgb(234, 234, 234);\n}\n.profilePhotoOverlay[data-v-3bd692e4] {\n    position: relative;\n    width: 100px;\n    height: 100px;\n    background-color: rgba(255, 255, 255, 0);\n    top: -100px;\n}\n.profilePhotoOverlay[data-v-3bd692e4]:hover {\n    background-color: rgba(255, 255, 255, 0.4);\n    cursor: pointer;\n}\n.screenOverlay[data-v-3bd692e4] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.85);\n    z-index: 3;\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-3bd692e4] {\n  width: 100px;\n  height: 100px;\n  border: 5px solid white;\n  box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profileTemp[data-v-3bd692e4] {\n  position: fixed;\n  top: 100px;\n  height: 500px;\n}\n.userName[data-v-3bd692e4] {\n  text-transform: capitalize;\n}\n.router-link-active[data-v-3bd692e4] {\n  background-color: rgb(234, 234, 234);\n}\n.profilePhotoOverlay[data-v-3bd692e4] {\n  position: relative;\n  width: 100px;\n  height: 100px;\n  background-color: rgba(255, 255, 255, 0);\n  top: -100px;\n}\n.profilePhotoOverlay[data-v-3bd692e4]:hover {\n  background-color: rgba(255, 255, 255, 0.4);\n  cursor: pointer;\n}\n.screenOverlay[data-v-3bd692e4] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.85);\n  z-index: 3;\n}\n", ""]);
 
 // exports
 
@@ -42197,6 +42208,10 @@ var render = function() {
                 _vm._v(" "),
                 _c("p", { staticClass: "mt-3 h3 userName" }, [
                   _vm._v(_vm._s(_vm.user.name))
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "mt-3 h3 userName" }, [
+                  _vm._v(_vm._s(_vm.profileRelationType))
                 ]),
                 _vm._v(" "),
                 _c(

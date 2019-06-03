@@ -22,7 +22,7 @@ class FriendRequest extends Model
     /*****************************************************************************
      *custom functions
      ***************************************************************************/
-//isSentTo
+    //isSentTo
     public static function isSentTo($receiver_id)
     {
         if (self::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $receiver_id)->where('status', '=', 'sent')->first()) {
@@ -30,16 +30,15 @@ class FriendRequest extends Model
         }
         return false;
     }
-//isReceivedFrom
+    //isReceivedFrom
     public static function isReceivedFrom($sender_id)
     {
         if (self::where('sender_id', '=', $sender_id)->where('receiver_id', '=', Auth::id())->where('status', '=', 'sent')->first()) {
             return true;
         }
         return false;
-
     }
-//isRelated
+    //isRelated
     public static function isRelated($user_id)
     {
         if (self::where('sender_id', '=', $user_id)->where('receiver_id', '=', Auth::id())->first()) {
@@ -50,27 +49,24 @@ class FriendRequest extends Model
             return true;
         }
         return false;
-
     }
-//isBlockByUser
+    //isBlockByUser
     public static function isBlockedByUser($user_id)
     {
         if (self::where('sender_id', '=', $user_id)->where('receiver_id', '=', Auth::id())->where('status', '=', 'block')->first()) {
             return true;
         }
         return false;
-
     }
-//isBlockedByAuth
+    //isBlockedByAuth
     public static function isBlockedByAuth($user_id)
     {
         if (self::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $user_id)->where('status', '=', 'block')->first()) {
             return true;
         }
         return false;
-
     }
-//isBlocked
+    //isBlocked
     public static function isBlocked($user_id)
     {
         if (self::isBlockedByAuth($user_id)) {
@@ -81,9 +77,8 @@ class FriendRequest extends Model
         }
 
         return false;
-
     }
-//isFriend
+    //isFriend
     public static function isFriend($user_id)
     {
         if (self::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $user_id)->where('status', '=', 'friend')->first()) {
@@ -94,7 +89,7 @@ class FriendRequest extends Model
         }
         return false;
     }
-//isSender
+    //isSender
     public static function isSender($user_id)
     {
         $tableRow = self::where('sender_id', '=', $user_id)->where('receiver_id', '=', Auth::id())->where('status', '=', 'friend')->first();
@@ -103,7 +98,7 @@ class FriendRequest extends Model
         }
         return false;
     }
-//isReceiver
+    //isReceiver
     public static function isReceiver($user_id)
     {
         $tableRow = self::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $user_id)->where('status', '=', 'friend')->first();
@@ -112,5 +107,20 @@ class FriendRequest extends Model
         }
         return false;
     }
+    //relationType
+    public static function relationType($user_id)
+    {
+        $relation = null;
+        if (Auth::id() == $user_id) {
+            return "owner";
+        }
+        if ($relation = self::where('sender_id', '=', $user_id)->where('receiver_id', '=', Auth::id())->first()) {
+            return $relation->status;
+        }
 
+        if ($relation = self::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $user_id)->first()) {
+            return $relation->status;
+        }
+        return "not_friend";
+    }
 }
