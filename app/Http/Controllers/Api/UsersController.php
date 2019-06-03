@@ -20,7 +20,7 @@ class UsersController extends Controller
     {
 
         $this->middleware(['guest:api'])->only('store');
-        $this->middleware(['auth:api', 'is_auth'])->only(['update', 'oldPassword', 'resetPassword']);
+        $this->middleware(['auth:api', 'is_auth'])->only(['update', 'updateProfilePhoto', 'oldPassword', 'resetPassword']);
         $this->middleware(['auth:api', 'is_admin'])->only(['updateAdmin']);
         $this->middleware(['auth:api', 'is_admin_or_auth'])->only(['destroy']);
     }
@@ -78,13 +78,29 @@ class UsersController extends Controller
         $validatedData = $request->validate([
             'name' => 'sometimes|required',
             'is_active' => ['sometimes', 'required', new CheckIsActive],
-            'photo' => 'sometimes|required|image',
 
         ]);
 
         //check user id
         $user = User::findOrFail($id);
         $input = $request->only('name', 'is_active');
+
+        //updating user
+        $user->update($input);
+    }
+    /**************************************************************************
+     * updateProfilePhoto
+     **************************************************************************/
+    public function updateProfilePhoto(Request $request, $id)
+    {
+        //validating request
+        $request->validate([
+            'photo' => 'required|image',
+        ]);
+
+        //check user id
+        $user = User::findOrFail($id);
+
         $photo = null;
         //check user photo(profile photo)
         if ($file = $request->file('photo')) {
@@ -99,8 +115,10 @@ class UsersController extends Controller
                 /** */
             }
         }
-        //updating user
-        $user->update($input);
+        $profilePhotoArray = array();
+        $profilePhotoArray['photoName'] = $photo->file;
+        $json = json_encode($profilePhotoArray);
+        return response($json, 200)->header('Content-Type', 'application/json');
     }
     /**************************************************************************
      * destroy

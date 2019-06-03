@@ -1,39 +1,17 @@
 <template>
     <div>
-        <div v-if="screenOverlay" class="screenOverlay"></div>
-        <div v-if="screenOverlay" class="updateProfilePhotoBoxContainer">
-            <div class="row justify-content-center" style="margin-top:100px;">
-                <div class="bg-white col-sm-6" style="height:400px;" align="center">
-                    <div class="row justify-content-center">
-                        <img :src="profilePhoto" class="profileImgUpdate mt-2">
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-xs-8 col-sm-6 col-md-5 mt-2">
-                            <input
-                                @change="previewProfilePhoto()"
-                                type="file"
-                                ref="profilePhotoSelector"
-                                hidden
-                            >
-                            <button
-                                class="btn btn-primary btn-block"
-                                @click="$refs.profilePhotoSelector.click()"
-                            >choose photo</button>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-xs-8 col-sm-6 col-md-5 mt-2">
-                            <button class="btn btn-primary btn-block">update</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div v-if="screenOverlay && isAuth" class="screenOverlay"></div>
+        <update-profile-photo
+            v-if="screenOverlay && isAuth"
+            :profilePhoto="profilePhoto"
+            @update="loadProfilePhoto($event)"
+        ></update-profile-photo>
+
         <!--header-->
         <vue-header></vue-header>
         <div v-if="user">
             <div class="profileTemp p-3 border" align="center">
-                <div @click="openScreenOverlay()">
+                <div @click="openScreenOverlay($event)">
                     <img :src="profilePhoto" class="profileImg">
                     <div class="profilePhotoOverlay"></div>
                 </div>
@@ -70,6 +48,7 @@
 
 <script>
 import Header from "./Header.vue";
+import UpdateProfilePhoto from "./UpdateProfilePhoto.vue";
 import axios from "axios";
 export default {
     data() {
@@ -77,7 +56,8 @@ export default {
             id: this.$route.params.id,
             user: {},
             profilePhoto: "",
-            screenOverlay: false
+            screenOverlay: false,
+            isAuth: false
         };
     },
     watch: {
@@ -89,23 +69,30 @@ export default {
         loadUserData(obj) {
             this.user = obj;
         },
-        loadprofilePhoto(data) {
-            if (data.photoName) {
+        loadProfilePhoto(event) {
+            console.log(event);
+            if (event.photoName) {
                 this.profilePhoto =
-                    "http://carmeer.com/photo/" + data.photoName;
+                    "http://carmeer.com/photo/" + event.photoName;
             } else {
                 this.profilePhoto = "http://carmeer.com/ic/profile.png";
             }
         },
         openScreenOverlay() {
             this.screenOverlay = true;
-        },
-        previewProfilePhoto() {}
+        }
     },
     components: {
-        "vue-header": Header
+        "vue-header": Header,
+        "update-profile-photo": UpdateProfilePhoto
     },
     created: function() {
+        if (localStorage.getItem("auth_id") == this.$route.params.id) {
+            this.isAuth = true;
+        } else {
+            this.isAuth = false;
+        }
+
         //get user infos
         axios
             .get("http://carmeer.com/api/users/" + this.$route.params.id)
@@ -117,7 +104,7 @@ export default {
                     this.$route.params.id +
                     "/profile_photo"
             )
-            .then(res => this.loadprofilePhoto(res.data));
+            .then(res => this.loadProfilePhoto(res.data));
     }
 };
 </script>
@@ -158,19 +145,5 @@ export default {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.85);
     z-index: 3;
-}
-.updateProfilePhotoBoxContainer {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 4;
-}
-.profileImgUpdate {
-    width: 250px;
-    height: 250px;
-    border: 2px solid white;
-    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);
 }
 </style>

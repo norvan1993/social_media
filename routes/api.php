@@ -18,6 +18,7 @@ Route::get('/auth', 'Api\UsersController@authId')->middleware('auth:api');
 Route::resource('/users', 'Api\UsersController')->except(['edit', 'create']);
 Route::get('/default_privacy', 'Api\UsersController@defaultPrivacy')->middleware('auth:api');
 Route::get('/users/{user}/profile_photo', 'Api\UsersController@getProfilePhoto');
+Route::put('/users/{user}/update_profile_photo', 'Api\UsersController@updateProfilePhoto');
 
 Route::post('/login', 'AuthController@login')->middleware('guest:api');
 Route::get('/logout', 'AuthController@logout')->middleware('auth:api');
