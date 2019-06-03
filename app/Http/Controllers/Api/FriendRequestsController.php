@@ -25,7 +25,7 @@ class FriendRequestsController extends Controller
     public function send(Request $request)
     {
         //request validating
-        $validatedData = $request->validate([
+        $request->validate([
             'receiver_id' => ['required', new CheckFriendshipSending],
         ]);
 
@@ -165,5 +165,38 @@ class FriendRequestsController extends Controller
         //sending list of friends id as json
         $json = json_encode($friendsArray);
         return response($json, 200)->header('Content-Type', 'application/json');
+    }
+    /**************************************************************************
+     * friendStatus//via GET:api/friendship/{id}/friend_status
+     **************************************************************************/
+    public function friendStatus($id)
+    {
+        $friendStatusArray["status"] = "";
+
+        if (Auth::id() == $id) { }
+
+
+        $array1 = FriendRequest::where('sender_id', '=', Auth::id())->where('status', '=', 'friend')->pluck('receiver_id')->toArray();
+        $array2 = FriendRequest::where('receiver_id', '=', Auth::id())->where('status', '=', 'friend')->pluck('sender_id')->toArray();
+
+        $friendsArray["friendsList"] = array_merge($array1, $array2);
+        //sending friend status of given id
+        $json = json_encode($friendsArray);
+        return response($json, 200)->header('Content-Type', 'application/json');
+    }
+    /**************************************************************************
+     *custom functions
+     **************************************************************************/
+    public function friendStatusAsText($id)
+    {
+        if (Auth::id() == $id) {
+            return "owner";
+        }
+        if (FriendRequest::isFriend()) {
+            return "friend";
+        }
+        if (FriendRequest::isFriend()) {
+            return "friend";
+        }
     }
 }
