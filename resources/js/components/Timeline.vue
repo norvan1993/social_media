@@ -1,7 +1,11 @@
 <template>
     <div class="row justify-content-center">
         <div class="col-sm-5">
-            <create-post :user="user" :profilePhoto="profilePhoto"></create-post>
+            <create-post
+                v-if="profileRelationType=='owner'"
+                :user="user"
+                :profilePhoto="profilePhoto"
+            ></create-post>
             <div v-for="post in postData.data">
                 <preview-post :user="user" :post="post" :profilePhoto="profilePhoto"></preview-post>
             </div>
@@ -14,7 +18,7 @@ import CreatePost from "./CreatePost.vue";
 import PreviewPost from "./PreviewPost.vue";
 import axios from "axios";
 export default {
-    props: ["user", "profilePhoto"],
+    props: ["user", "profilePhoto", "profileRelationType"],
     data() {
         return {
             postData: ""

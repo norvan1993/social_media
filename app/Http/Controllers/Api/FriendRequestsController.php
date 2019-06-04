@@ -172,7 +172,7 @@ class FriendRequestsController extends Controller
     public function friendStatus($id)
     {
         $friendStatusArray["status"] = FriendRequest::relationType($id);
-        //sending friend status of given id
+        //sending friend status for given id
         $json = json_encode($friendStatusArray);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
