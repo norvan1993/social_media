@@ -3314,12 +3314,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["id", "user", "profileRelationType", "screenOverlay", "profilePhoto"],
   methods: {
     openScreenOverlay: function openScreenOverlay() {
       this.$emit("openScreenOverlay");
-    }
+    },
+    addFriend: function addFriend() {}
   }
 });
 
@@ -8978,7 +8987,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profilePhoto[data-v-7d5ecb36] {\n    width: 100px;\n    height: 100px;\n}\n.profileImg[data-v-7d5ecb36] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n    border: 5px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profilePhotoOverlay[data-v-7d5ecb36] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n}\n.profilePhotoOverlay[data-v-7d5ecb36]:hover {\n    background-color: rgba(255, 255, 255, 0.4);\n    cursor: pointer;\n}\n.userName[data-v-7d5ecb36] {\n    position: relative;\n    top: 25px;\n    text-transform: capitalize;\n}\n.router-link-active[data-v-7d5ecb36] {\n    background-color: rgb(234, 234, 234);\n}\n", ""]);
+exports.push([module.i, "\n.profilePhoto[data-v-7d5ecb36] {\n  width: 100px;\n  height: 100px;\n}\n.profileImg[data-v-7d5ecb36] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 100px;\n  height: 100px;\n  border: 5px solid white;\n  box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profilePhotoOverlay[data-v-7d5ecb36] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 100px;\n  height: 100px;\n}\n.profilePhotoOverlay[data-v-7d5ecb36]:hover {\n  background-color: rgba(255, 255, 255, 0.4);\n  cursor: pointer;\n}\n.userName[data-v-7d5ecb36] {\n  position: relative;\n  top: 25px;\n  text-transform: capitalize;\n}\n.router-link-active[data-v-7d5ecb36] {\n  background-color: rgb(234, 234, 234);\n}\n", ""]);
 
 // exports
 
@@ -42353,16 +42362,53 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("p", { staticClass: "userName h3 float-left ml-3" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.user.name) +
-                  "\n                "
-              ),
+              _vm._v("\n        " + _vm._s(_vm.user.name) + "\n        "),
               _c("br"),
               _vm._v(" "),
-              _c("button", { staticClass: "btn btn-primary" }, [
-                _vm._v("add friend")
-              ])
+              _vm.profileRelationType == "not_friend"
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.addFriend()
+                        }
+                      }
+                    },
+                    [_vm._v("add friend")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.profileRelationType == "sender"
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.respondTofriendRequest()
+                        }
+                      }
+                    },
+                    [_vm._v("respond")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.profileRelationType == "receiver"
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.cancelFriendRequest()
+                        }
+                      }
+                    },
+                    [_vm._v("cancel")]
+                  )
+                : _vm._e()
             ])
           ])
         ]),

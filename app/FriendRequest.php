@@ -115,10 +115,15 @@ class FriendRequest extends Model
             return "owner";
         }
         if ($relation = self::where('sender_id', '=', $user_id)->where('receiver_id', '=', Auth::id())->first()) {
+            if ($relation->status == "sent") {
+                return "sender";
+            }
             return $relation->status;
         }
-
         if ($relation = self::where('sender_id', '=', Auth::id())->where('receiver_id', '=', $user_id)->first()) {
+            if ($relation->status == "sent") {
+                return "receiver";
+            }
             return $relation->status;
         }
         return "not_friend";
