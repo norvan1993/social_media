@@ -14,7 +14,7 @@
           <button
             class="btn btn-primary"
             v-if="profileRelationType=='not_friend'"
-            @click="addFriend()"
+            @click="sendFriendRequest()"
           >add friend</button>
           <button
             class="btn btn-primary"
@@ -50,7 +50,47 @@ export default {
     openScreenOverlay() {
       this.$emit("openScreenOverlay");
     },
-    addFriend() {}
+    sendFriendRequest() {
+            var form = new FormData();
+            form.append("receiver_id", this.user.id);
+
+      axios({
+                method: "post", //you can set what request you want to be
+                url: "http://carmeer.com/api/friendship/send",
+                data: form,
+                headers: {
+                    Authorization:
+                        "Bearer " + localStorage.getItem("access_token"),
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+                .then(res => this.handleFriendRequestSending(res.data[0]))
+                .catch(error => alert(JSON.stringify(error.response)));
+    },
+    handleFriendRequestSending(){
+      alert("success");
+    },
+    cancelFriendRequest() {
+            var form = new FormData();
+            form.append("_method", "DELETE");
+            form.append("receiver_id", this.user.id);
+
+      axios({
+                method: "post", //you can set what request you want to be
+                url: "http://carmeer.com/api/friendship/cancel",
+                data: form,
+                headers: {
+                    Authorization:
+                        "Bearer " + localStorage.getItem("access_token"),
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+                .then(res => this.handleFriendRequestCanceling(res.data[0]))
+                .catch(error => alert(JSON.stringify(error.response)));
+    },
+    handleFriendRequestCanceling(){
+      alert("success");
+    }
   }
 };
 </script>

@@ -3328,7 +3328,53 @@ __webpack_require__.r(__webpack_exports__);
     openScreenOverlay: function openScreenOverlay() {
       this.$emit("openScreenOverlay");
     },
-    addFriend: function addFriend() {}
+    sendFriendRequest: function sendFriendRequest() {
+      var _this = this;
+
+      var form = new FormData();
+      form.append("receiver_id", this.user.id);
+      axios({
+        method: "post",
+        //you can set what request you want to be
+        url: "http://carmeer.com/api/friendship/send",
+        data: form,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (res) {
+        return _this.handleFriendRequestSending(res.data[0]);
+      }).catch(function (error) {
+        return alert(JSON.stringify(error.response));
+      });
+    },
+    handleFriendRequestSending: function handleFriendRequestSending() {
+      alert("success");
+    },
+    cancelFriendRequest: function cancelFriendRequest() {
+      var _this2 = this;
+
+      var form = new FormData();
+      form.append("_method", "DELETE");
+      form.append("receiver_id", this.user.id);
+      axios({
+        method: "post",
+        //you can set what request you want to be
+        url: "http://carmeer.com/api/friendship/cancel",
+        data: form,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (res) {
+        return _this2.handleFriendRequestCanceling(res.data[0]);
+      }).catch(function (error) {
+        return alert(JSON.stringify(error.response));
+      });
+    },
+    handleFriendRequestCanceling: function handleFriendRequestCanceling() {
+      alert("success");
+    }
   }
 });
 
@@ -42372,7 +42418,7 @@ var render = function() {
                       staticClass: "btn btn-primary",
                       on: {
                         click: function($event) {
-                          return _vm.addFriend()
+                          return _vm.sendFriendRequest()
                         }
                       }
                     },
