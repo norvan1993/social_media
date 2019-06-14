@@ -195,7 +195,7 @@ class PostsController extends Controller
     {
         User::findOrFail($userId);
         if (Auth::user()->role_id == 1 || Auth::id() == $userId) {
-            return Post::where('user_id', '=', $userId)->paginate(10);
+            return Post::where('user_id', '=', $userId)->orderBy('created_at', 'desc')->paginate(10);
         }
         return Post::viewablePostsOfUser($userId);
     }

@@ -19,7 +19,7 @@ class AuthController extends Controller
             $response = $http->post('http://carmeer.com/oauth/token', ['form_params' => [
                 'grant_type' => 'password',
                 'client_id' => 2,
-                'client_secret' => 'W6F6uuNLRuuXiWQlM6iSDYsNtpRbe6hSNI5DEs0j',
+                'client_secret' => '7LhrUhAxOIHy4LK5NV7i3aCJgXdIYgmkFdYE5KgB',
                 'username' => $request->email,
                 'password' => $request->password
             ]]);
@@ -61,7 +61,7 @@ class AuthController extends Controller
             $response = $http->post('http://carmeer.com/oauth/token', ['form_params' => [
                 'grant_type' => 'password',
                 'client_id' => 2,
-                'client_secret' => 'W6F6uuNLRuuXiWQlM6iSDYsNtpRbe6hSNI5DEs0j',
+                'client_secret' => '7LhrUhAxOIHy4LK5NV7i3aCJgXdIYgmkFdYE5KgB',
                 'username' => $request->email,
                 'password' => $request->password
             ]]);

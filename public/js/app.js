@@ -2530,12 +2530,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["user", "photoId"],
+  props: ["user", "photoId", "profilePhoto"],
   data: function data() {
     return {
       description: null,
@@ -2843,9 +2839,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["photoIndex", "files", "user"],
+  props: ["photoIndex", "files", "user", "profilePhoto"],
   data: function data() {
     return {};
   },
@@ -2928,9 +2928,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["files", "user"],
+  props: ["files", "user", "profilePhoto"],
   data: function data() {
     return {
       first: "",
@@ -3054,10 +3055,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PreviewImages_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PreviewImages.vue */ "./resources/js/components/PreviewImages.vue");
 /* harmony import */ var _PostOptions_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostOptions.vue */ "./resources/js/components/PostOptions.vue");
 /* harmony import */ var _EditPost_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditPost.vue */ "./resources/js/components/EditPost.vue");
-//
-//
-//
-//
 //
 //
 //
@@ -8919,7 +8916,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.mediaBox[data-v-270baac2] {\n    position: absolute;\n    left: 60%;\n    right: 5%;\n    bottom: 10%;\n    top: 10%;\n    background-color: white;\n}\n.profileImg[data-v-270baac2] {\n    width: 50px;\n    height: 50px;\n    border: 1px solid black;\n    display: inline-block;\n}\n.ownerName[data-v-270baac2] {\n    color: black;\n    position: relative;\n    top: 17px;\n    text-transform: capitalize;\n}\n", ""]);
+exports.push([module.i, "\n.mediaBox[data-v-270baac2] {\n  position: absolute;\n  left: 60%;\n  right: 5%;\n  bottom: 10%;\n  top: 10%;\n  background-color: white;\n}\n.profileImg[data-v-270baac2] {\n  width: 50px;\n  height: 50px;\n  border: 1px solid black;\n  display: inline-block;\n}\n.ownerName[data-v-270baac2] {\n  color: black;\n  position: relative;\n  top: 17px;\n  text-transform: capitalize;\n}\n", ""]);
 
 // exports
 
@@ -8957,7 +8954,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n@media only screen and (max-width: 575px) {\n.imageBlock[data-v-3ae61644] {\n        position: absolute;\n        width: 100%;\n        height: 100%;\n        background-color: black;\n}\n}\n@media only screen and (min-width: 576px) {\n.imageBlock[data-v-3ae61644] {\n        position: absolute;\n        left: 5%;\n        right: 40%;\n        bottom: 10%;\n        top: 10%;\n        background-color: black;\n}\n}\n.closeImage[data-v-3ae61644] {\n    position: absolute;\n    top: 10px;\n    left: 10px;\n    cursor: pointer;\n    z-index: 2;\n    color: rgba(255, 255, 255, 0.7);\n    font-size: 36px;\n}\n.next[data-v-3ae61644] {\n    position: absolute;\n    bottom: 40%;\n    right: 5px;\n    cursor: pointer;\n    z-index: 2;\n    color: rgba(255, 255, 255, 0.3);\n    font-size: 72px;\n}\n.previous[data-v-3ae61644] {\n    position: absolute;\n    bottom: 40%;\n    left: 5px;\n    cursor: pointer;\n    z-index: 2;\n    color: rgba(255, 255, 255, 0.3);\n    font-size: 72px;\n}\n", ""]);
+exports.push([module.i, "\n@media only screen and (max-width: 575px) {\n.imageBlock[data-v-3ae61644] {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    background-color: black;\n}\n}\n@media only screen and (min-width: 576px) {\n.imageBlock[data-v-3ae61644] {\n    position: absolute;\n    left: 5%;\n    right: 40%;\n    bottom: 10%;\n    top: 10%;\n    background-color: black;\n}\n}\n.closeImage[data-v-3ae61644] {\n  position: absolute;\n  top: 10px;\n  left: 10px;\n  cursor: pointer;\n  z-index: 2;\n  color: rgba(255, 255, 255, 0.7);\n  font-size: 36px;\n}\n.next[data-v-3ae61644] {\n  position: absolute;\n  bottom: 40%;\n  right: 5px;\n  cursor: pointer;\n  z-index: 2;\n  color: rgba(255, 255, 255, 0.3);\n  font-size: 72px;\n}\n.previous[data-v-3ae61644] {\n  position: absolute;\n  bottom: 40%;\n  left: 5px;\n  cursor: pointer;\n  z-index: 2;\n  color: rgba(255, 255, 255, 0.3);\n  font-size: 72px;\n}\n", ""]);
 
 // exports
 
@@ -8976,7 +8973,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n@media only screen and (max-width: 575px) {\n.imagesContainer[data-v-72bd4805] {\n        display: flex;\n        width: 100%;\n        height: 90vw;\n        color: white;\n}\n}\n@media only screen and (min-width: 576px) {\n.imagesContainer[data-v-72bd4805] {\n        display: flex;\n        width: 100%;\n        height: 35vmax;\n        color: white;\n}\n}\n.item[data-v-72bd4805] {\n    display: flex;\n    flex-grow: 1;\n}\n.itemInner[data-v-72bd4805] {\n    flex-grow: 1;\n    border: solid 1px white;\n    cursor: pointer;\n}\n", ""]);
+exports.push([module.i, "\n@media only screen and (max-width: 575px) {\n.imagesContainer[data-v-72bd4805] {\n    display: flex;\n    width: 100%;\n    height: 90vw;\n    color: white;\n}\n}\n@media only screen and (min-width: 576px) {\n.imagesContainer[data-v-72bd4805] {\n    display: flex;\n    width: 100%;\n    height: 35vmax;\n    color: white;\n}\n}\n.item[data-v-72bd4805] {\n  display: flex;\n  flex-grow: 1;\n}\n.itemInner[data-v-72bd4805] {\n  flex-grow: 1;\n  border: solid 1px white;\n  cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -8995,7 +8992,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profileImg[data-v-0481436d] {\n    width: 40px;\n    height: 40px;\n    border: 1px solid black;\n}\n.optionsIcon[data-v-0481436d] {\n    height: 20px;\n    color: black;\n    cursor: pointer;\n}\n.overlay[data-v-0481436d] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0, 0, 0, 0.85);\n    z-index: 3;\n}\n.editPost[data-v-0481436d] {\n    position: fixed;\n    top: 0px;\n    left: 0px;\n    width: 100%;\n    height: 100%;\n    z-index: 4;\n}\n", ""]);
+exports.push([module.i, "\n.profileImg[data-v-0481436d] {\n  width: 40px;\n  height: 40px;\n  border: 1px solid black;\n}\n.optionsIcon[data-v-0481436d] {\n  height: 20px;\n  color: black;\n  cursor: pointer;\n}\n.overlay[data-v-0481436d] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.85);\n  z-index: 3;\n}\n.editPost[data-v-0481436d] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100%;\n  height: 100%;\n  z-index: 4;\n}\n", ""]);
 
 // exports
 
@@ -41691,7 +41688,7 @@ var render = function() {
       _c("div", { staticClass: "col-12" }, [
         _c("img", {
           staticClass: "profileImg ml-2 my-2",
-          attrs: { src: "http://carmeer.com/photo/" + _vm.user.file }
+          attrs: { src: _vm.profilePhoto }
         }),
         _vm._v(" "),
         _c(
@@ -42032,7 +42029,11 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("media-intrection-box", {
-            attrs: { user: _vm.user, photoId: _vm.files[_vm.photoIndex - 1].id }
+            attrs: {
+              user: _vm.user,
+              photoId: _vm.files[_vm.photoIndex - 1].id,
+              profilePhoto: _vm.profilePhoto
+            }
           })
         ],
         1
@@ -42145,7 +42146,12 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("preview-image", {
-        attrs: { user: _vm.user, files: _vm.files, photoIndex: _vm.photoIndex },
+        attrs: {
+          user: _vm.user,
+          files: _vm.files,
+          photoIndex: _vm.photoIndex,
+          profilePhoto: _vm.profilePhoto
+        },
         on: {
           changePhotoIndex: function($event) {
             _vm.photoIndex = $event
@@ -42268,7 +42274,11 @@ var render = function() {
               _vm._v(" "),
               _vm.photos
                 ? _c("preview-images", {
-                    attrs: { user: _vm.user, files: _vm.photos }
+                    attrs: {
+                      user: _vm.user,
+                      files: _vm.photos,
+                      profilePhoto: _vm.profilePhoto
+                    }
                   })
                 : _vm._e()
             ],
