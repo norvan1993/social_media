@@ -7,6 +7,9 @@
 require("./bootstrap");
 
 window.Vue = require("vue");
+import Vuetify from "vuetify";
+
+Vue.use(Vuetify);
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
