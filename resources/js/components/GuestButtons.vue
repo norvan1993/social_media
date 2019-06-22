@@ -1,8 +1,8 @@
 <template>
-  <div class="btn-group border float-md-right mr-1 ml-1" role="group" aria-label="Basic example">
-    <a class="btn signup" href="/register">SignUp</a>
-    <a class="btn signin" href="/login">SignIn</a>
-  </div>
+    <v-toolbar-items class="hidden-sm-and-down mt-1">
+        <v-btn to="/register" flat dark class="indigo darken-3">SignUp</v-btn>
+        <v-btn to="/login" flat light class="white indigo--text text--darken-3">SignIn</v-btn>
+    </v-toolbar-items>
 </template>
 
 <script>
@@ -10,12 +10,4 @@ export default {};
 </script>
 
 <style scoped>
-.signin {
-  color: white;
-  background-color: rgb(29, 29, 127);
-}
-.signup {
-  color: rgb(29, 29, 127);
-  background-color: white;
-}
 </style>

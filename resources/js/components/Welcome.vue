@@ -4,8 +4,10 @@
         <vue-header></vue-header>
         <div>
             <!--new row-->
-            <div class="row mt-1 back-clr justify-content-center align-items-center">
-                <p class="my-auto d-inline-block align-middle p-2">why should you choose us</p>
+            <div dark class="row mt-1 justify-content-center align-items-center indigo darken-3">
+                <p
+                    class="my-auto d-inline-block align-middle p-2 white--text"
+                >why should you choose us</p>
             </div>
 
             <!--new row-->
@@ -57,8 +59,4 @@ export default {
 </script>
 
 <style scoped>
-.back-clr {
-    background-color: rgb(29, 29, 127);
-    color: white;
-}
 </style>

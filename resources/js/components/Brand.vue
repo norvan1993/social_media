@@ -1,5 +1,5 @@
 <template>
-  <p class="my-auto ml-2 brand float-left">Carmeer</p>
+    <v-toolbar-title class="brand indigo--text text--darken-3">Carmeer</v-toolbar-title>
 </template>
 
 <script>
@@ -8,8 +8,7 @@ export default {};
 
 <style scoped>
 .brand {
-  font-size: 32px;
-  font-family: "Monoton";
-  color: rgb(29, 29, 127);
+    font-size: 32px;
+    font-family: "Monoton";
 }
 </style>
