@@ -2531,6 +2531,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["user", "photoId", "profilePhoto"],
   data: function data() {
@@ -8886,7 +8890,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.mediaBox[data-v-270baac2] {\n  position: absolute;\n  left: 60%;\n  right: 5%;\n  bottom: 10%;\n  top: 10%;\n  background-color: white;\n}\n.profileImg[data-v-270baac2] {\n  width: 50px;\n  height: 50px;\n  border: 1px solid black;\n  display: inline-block;\n}\n.ownerName[data-v-270baac2] {\n  color: black;\n  position: relative;\n  top: 17px;\n  text-transform: capitalize;\n}\n", ""]);
+exports.push([module.i, "\n.mediaBox[data-v-270baac2] {\n    position: absolute;\n    left: 60%;\n    right: 5%;\n    bottom: 10%;\n    top: 10%;\n}\n.profileImg[data-v-270baac2] {\n    width: 50px;\n    height: 50px;\n    border: 1px solid black;\n    display: inline-block;\n}\n.ownerName[data-v-270baac2] {\n    color: black;\n    position: relative;\n    top: 17px;\n    text-transform: capitalize;\n}\n", ""]);
 
 // exports
 
@@ -8924,7 +8928,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n@media only screen and (max-width: 575px) {\n.imageBlock[data-v-3ae61644] {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    background-color: black;\n}\n}\n@media only screen and (min-width: 576px) {\n.imageBlock[data-v-3ae61644] {\n    position: absolute;\n    left: 5%;\n    right: 40%;\n    bottom: 10%;\n    top: 10%;\n    background-color: black;\n}\n}\n.closeImage[data-v-3ae61644] {\n  position: absolute;\n  top: 10px;\n  left: 10px;\n  cursor: pointer;\n  z-index: 2;\n  color: rgba(255, 255, 255, 0.7);\n  font-size: 36px;\n}\n.next[data-v-3ae61644] {\n  position: absolute;\n  bottom: 40%;\n  right: 5px;\n  cursor: pointer;\n  z-index: 2;\n  color: rgba(255, 255, 255, 0.3);\n  font-size: 72px;\n}\n.previous[data-v-3ae61644] {\n  position: absolute;\n  bottom: 40%;\n  left: 5px;\n  cursor: pointer;\n  z-index: 2;\n  color: rgba(255, 255, 255, 0.3);\n  font-size: 72px;\n}\n", ""]);
+exports.push([module.i, "\n@media only screen and (max-width: 600px) {\n.imageBlock[data-v-3ae61644] {\n        position: absolute;\n        width: 100%;\n        height: 100%;\n        background-color: black;\n}\n}\n@media only screen and (min-width: 601px) {\n.imageBlock[data-v-3ae61644] {\n        position: absolute;\n        left: 5%;\n        right: 40%;\n        bottom: 10%;\n        top: 10%;\n        background-color: black;\n}\n}\n.closeImage[data-v-3ae61644] {\n    position: absolute;\n    top: 10px;\n    left: 10px;\n    cursor: pointer;\n    z-index: 2;\n    color: rgba(255, 255, 255, 0.7);\n    font-size: 36px;\n}\n.next[data-v-3ae61644] {\n    position: absolute;\n    bottom: 40%;\n    right: 5px;\n    cursor: pointer;\n    z-index: 2;\n    color: rgba(255, 255, 255, 0.3);\n    font-size: 72px;\n}\n.previous[data-v-3ae61644] {\n    position: absolute;\n    bottom: 40%;\n    left: 5px;\n    cursor: pointer;\n    z-index: 2;\n    color: rgba(255, 255, 255, 0.3);\n    font-size: 72px;\n}\n", ""]);
 
 // exports
 
@@ -41537,7 +41541,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mediaBox d-none d-sm-block" }, [
+  return _c("div", { staticClass: "mediaBox hidden-xs-only grey lighten-3" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-12" }, [
         _c("img", {
