@@ -114,6 +114,9 @@ class FriendRequest extends Model
         if (Auth::id() == $user_id) {
             return "owner";
         }
+        if (self::isFriend($user_id)) {
+            return "friend";
+        }
         if ($relation = self::where('sender_id', '=', $user_id)->where('receiver_id', '=', Auth::id())->first()) {
             if ($relation->status == "sent") {
                 return "sender";

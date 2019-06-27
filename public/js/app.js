@@ -3326,9 +3326,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["id", "user", "profileRelationType", "screenOverlay", "profilePhoto"],
+  data: function data() {},
   components: {
     "respond-dailog": _RespondDailog_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -3569,8 +3587,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      isDisabled: false,
+      dailog: false
+    };
+  },
+  props: ["user"],
   methods: {
-    accept: function accept() {},
+    accept: function accept() {
+      var _this = this;
+
+      this.isDisabled = true;
+      var form = new FormData();
+      form.append("_method", "PUT");
+      form.append("sender_id", this.user.id);
+      axios({
+        method: "post",
+        //you can set what request you want to be
+        url: "http://carmeer.com/api/friendship/accept",
+        data: form,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (res) {
+        return _this.dailog = false;
+      });
+    },
     reject: function reject() {},
     ignore: function ignore() {}
   }
@@ -9042,7 +9086,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profilePhoto[data-v-7d5ecb36] {\n  width: 100px;\n  height: 100px;\n}\n.profileImg[data-v-7d5ecb36] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 100px;\n  height: 100px;\n  border: 5px solid white;\n  box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profilePhotoOverlay[data-v-7d5ecb36] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 100px;\n  height: 100px;\n}\n.profilePhotoOverlay[data-v-7d5ecb36]:hover {\n  background-color: rgba(255, 255, 255, 0.4);\n  cursor: pointer;\n}\n.userName[data-v-7d5ecb36] {\n  position: relative;\n  top: 25px;\n  text-transform: capitalize;\n}\n.router-link-active[data-v-7d5ecb36] {\n  background-color: rgb(234, 234, 234);\n}\n", ""]);
+exports.push([module.i, "\n.profilePhoto[data-v-7d5ecb36] {\n    width: 100px;\n    height: 100px;\n}\n.profileImg[data-v-7d5ecb36] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n    border: 5px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profilePhotoOverlay[data-v-7d5ecb36] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n}\n.profilePhotoOverlay[data-v-7d5ecb36]:hover {\n    background-color: rgba(255, 255, 255, 0.4);\n    cursor: pointer;\n}\n.userName[data-v-7d5ecb36] {\n    position: relative;\n    top: 25px;\n    text-transform: capitalize;\n}\n.router-link-active[data-v-7d5ecb36] {\n    background-color: rgb(234, 234, 234);\n}\n", ""]);
 
 // exports
 
@@ -42320,13 +42364,58 @@ var render = function() {
                 "p",
                 { staticClass: "userName h3 float-left ml-3" },
                 [
-                  _vm._v("\n        " + _vm._s(_vm.user.name) + "\n        "),
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.user.name) +
+                      "\n                "
+                  ),
                   _c("br"),
+                  _vm._v(" "),
+                  _vm.profileRelationType == "friend"
+                    ? _c(
+                        "v-btn-toggle",
+                        { staticClass: "ml-4" },
+                        [
+                          _c(
+                            "span",
+                            {
+                              staticClass:
+                                "blue darken-1 px-2 white--text subheading"
+                            },
+                            [
+                              _c(
+                                "v-icon",
+                                {
+                                  staticClass:
+                                    "px-1 white--text subheading mt-2"
+                                },
+                                [_vm._v("fa-check-square")]
+                              ),
+                              _vm._v("friends\n                    ")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            { attrs: { flat: "" } },
+                            [
+                              _c("v-icon", { attrs: { small: "" } }, [
+                                _vm._v("fa-chevron-down")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
                   _vm.profileRelationType == "not_friend"
                     ? _c(
                         "v-btn",
                         {
+                          staticClass: "ml-3",
                           attrs: { color: "success" },
                           on: {
                             click: function($event) {
@@ -42340,7 +42429,8 @@ var render = function() {
                   _vm._v(" "),
                   _vm.profileRelationType == "sender"
                     ? _c("respond-dailog", {
-                        attrs: { color: "success" },
+                        staticClass: "ml-3",
+                        attrs: { user: _vm.user, color: "success" },
                         on: {
                           click: function($event) {
                             return _vm.respondTofriendRequest()
@@ -42353,6 +42443,7 @@ var render = function() {
                     ? _c(
                         "v-btn",
                         {
+                          staticClass: "ml-3",
                           attrs: { color: "error" },
                           on: {
                             click: function($event) {
@@ -42634,7 +42725,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-dialog",
-    { attrs: { "max-width": "300px", "full-width": "" } },
+    {
+      attrs: { "max-width": "300px", "full-width": "" },
+      model: {
+        value: _vm.dailog,
+        callback: function($$v) {
+          _vm.dailog = $$v
+        },
+        expression: "dailog"
+      }
+    },
     [
       _c(
         "v-btn",
@@ -42662,7 +42762,7 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "info",
-                  attrs: { flat: "", block: "" },
+                  attrs: { flat: "", block: "", disabled: _vm.isDisabled },
                   on: {
                     click: function($event) {
                       return _vm.accept()
@@ -42683,7 +42783,7 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "error",
-                  attrs: { flat: "", block: "" },
+                  attrs: { flat: "", block: "", disabled: _vm.isDisabled },
                   on: {
                     click: function($event) {
                       return _vm.reject()
@@ -42704,7 +42804,7 @@ var render = function() {
                 "v-btn",
                 {
                   staticClass: "warning",
-                  attrs: { flat: "", block: "" },
+                  attrs: { flat: "", block: "", disabled: _vm.isDisabled },
                   on: {
                     click: function($event) {
                       return _vm.ignore()
