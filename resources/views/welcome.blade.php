@@ -35,14 +35,14 @@
     <body>
 
     <div id='app'>
+    <v-app>
 
      <distributor>
          <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" appear>
             <router-view></router-view>
          </transition>
     </distributor>
-
-
+</v-app>
 
     </div>
 
