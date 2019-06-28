@@ -13,7 +13,7 @@ use App\Rules\CheckUnfriending;
 use App\Rules\CheckBlocking;
 use App\Rules\CheckBlockRemoving;
 use App\FriendRequest;
-
+use App\User;
 
 class FriendRequestsController extends Controller
 {
@@ -153,13 +153,13 @@ class FriendRequestsController extends Controller
         return response($json, 200)->header('Content-Type', 'application/json');
     }
     /**************************************************************************
-     * friendList//via GET:api/friendship/friend_list
+     * friendList//via GET:api/friendship/{user_id}/friends_list
      **************************************************************************/
-    public function friendsList()
+    public function friendsList($id)
     {
 
-        $array1 = FriendRequest::where('sender_id', '=', Auth::id())->where('status', '=', 'friend')->pluck('receiver_id')->toArray();
-        $array2 = FriendRequest::where('receiver_id', '=', Auth::id())->where('status', '=', 'friend')->pluck('sender_id')->toArray();
+        $array1 = FriendRequest::where('sender_id', '=', $id)->where('status', '=', 'friend')->pluck('receiver_id')->toArray();
+        $array2 = FriendRequest::where('receiver_id', '=', $id)->where('status', '=', 'friend')->pluck('sender_id')->toArray();
 
         $friendsArray["friendsList"] = array_merge($array1, $array2);
         //sending list of friends id as json
