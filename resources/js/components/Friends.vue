@@ -21,10 +21,20 @@
 
 <script>
 export default {
+    props: ["user", "profilePhoto", "profileRelationType"],
     data() {
         return {};
     },
-    props: ["user", "profilePhoto", "profileRelationType"]
+    created: function() {
+        axios
+            .get("api/friendship/friend_list" + this.post.id + "/photos", {
+                headers: {
+                    Authorization:
+                        "Bearer " + localStorage.getItem("access_token")
+                }
+            })
+            .then(res => this.setPhotos(res.data));
+    }
 };
 </script>
 

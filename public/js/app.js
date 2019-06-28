@@ -2240,10 +2240,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["user", "profilePhoto", "profileRelationType"],
   data: function data() {
     return {};
   },
-  props: ["user", "profilePhoto", "profileRelationType"]
+  created: function created() {
+    var _this = this;
+
+    axios.get("api/friendship/friend_list" + this.post.id + "/photos", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    }).then(function (res) {
+      return _this.setPhotos(res.data);
+    });
+  }
 });
 
 /***/ }),
