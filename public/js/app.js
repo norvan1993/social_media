@@ -41874,7 +41874,7 @@ var render = function() {
           ? _c(
               "button",
               {
-                staticClass: "btn btn-primary mt-3",
+                staticClass: "btn btn-primary mt-3 ml-2",
                 on: {
                   click: function($event) {
                     return _vm.showDescriptionInput("store")
@@ -41925,7 +41925,7 @@ var render = function() {
                   expression: "body"
                 }
               ],
-              staticClass: "d-block ml-3 border",
+              staticClass: "d-block ml-3 mt-3 border black--text",
               staticStyle: { width: "70%", resize: "none" },
               attrs: { placeholder: "write something", rows: "4" },
               domProps: { value: _vm.body },
@@ -41949,7 +41949,7 @@ var render = function() {
               ? _c(
                   "button",
                   {
-                    staticClass: "btn btn-primary",
+                    staticClass: "btn btn-primary ml-3 mt-2",
                     on: {
                       click: function($event) {
                         return _vm.updateDescription()
@@ -41964,7 +41964,7 @@ var render = function() {
               ? _c(
                   "button",
                   {
-                    staticClass: "btn btn-primary",
+                    staticClass: "btn btn-primary ml-3 mt-2",
                     on: {
                       click: function($event) {
                         return _vm.createDescription()

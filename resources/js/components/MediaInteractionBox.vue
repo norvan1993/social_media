@@ -16,13 +16,13 @@
                 >{{description.body}}</p>
             </div>
         </div>
-        <!------------add description button || description text area ||edit desciption ||delete description------------>
+        <!------------add description button || description text area ||edit desciption || delete description------------>
         <div class="row">
             <div class="col-12">
                 <button
                     v-if="addDescriptionButton"
                     @click="showDescriptionInput('store')"
-                    class="btn btn-primary mt-3"
+                    class="btn btn-primary mt-3 ml-2"
                 >Add Description</button>
                 <button
                     v-if="editDescriptionButton"
@@ -38,7 +38,7 @@
                     v-if=" descriptionInput"
                     placeholder="write something"
                     rows="4"
-                    class="d-block ml-3 border"
+                    class="d-block ml-3 mt-3 border black--text"
                     style="width:70%; resize:none;"
                     v-model="body"
                 ></textarea>
@@ -50,12 +50,12 @@
                 <button
                     v-if="update"
                     @click="updateDescription()"
-                    class="btn btn-primary"
+                    class="btn btn-primary ml-3 mt-2"
                 >update Description</button>
                 <button
                     v-if="store"
                     @click="createDescription()"
-                    class="btn btn-primary"
+                    class="btn btn-primary ml-3 mt-2"
                 >create Description</button>
             </div>
         </div>
