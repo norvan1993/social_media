@@ -1,25 +1,26 @@
 <template>
     <div>
         <div v-if="public">
-            <i class="fas fa-globe"></i>
+            <post-privacy-dailog ic="fa-globe"></post-privacy-dailog>
         </div>
 
         <div v-if="friends">
-            <i class="fas fa-user-friends"></i>
+            <post-privacy-dailog ic="fa-user-friends"></post-privacy-dailog>
         </div>
 
         <div v-if="private">
-            <i class="fas fa-lock"></i>
+            <post-privacy-dailog ic="fa-lock"></post-privacy-dailog>
         </div>
 
         <div v-if="custom">
-            <i class="fas fa-star-of-life"></i>
+            <post-privacy-dailog ic="fa-star-of-life"></post-privacy-dailog>
         </div>
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import PostPrivacyDailog from "./PostPrivacyDailog.vue";
 export default {
     data() {
         return {
@@ -29,6 +30,9 @@ export default {
             custom: false
         };
     },
+    components: {
+        "post-privacy-dailog": PostPrivacyDailog
+    },
     created: function() {
         axios({
             method: "get", //you can set what request you want to be
@@ -37,7 +41,7 @@ export default {
                 Authorization: "Bearer " + localStorage.getItem("access_token")
             }
         })
-            .then(res => this.handlePost(res.data))
+            .then(res => this.handlePostPrivacy(res.data))
             .catch(error => alert(JSON.stringify(error.response)));
     },
 
