@@ -1,19 +1,19 @@
 <template>
     <div>
         <div v-if="public">
-            <post-privacy-dailog ic="fa-globe"></post-privacy-dailog>
+            <post-privacy-dailog ic="fa-globe" :postPrivacy="postPrivacy"></post-privacy-dailog>
         </div>
 
         <div v-if="friends">
-            <post-privacy-dailog ic="fa-user-friends"></post-privacy-dailog>
+            <post-privacy-dailog ic="fa-user-friends" :postPrivacy="postPrivacy"></post-privacy-dailog>
         </div>
 
         <div v-if="private">
-            <post-privacy-dailog ic="fa-lock"></post-privacy-dailog>
+            <post-privacy-dailog ic="fa-lock" :postPrivacy="postPrivacy"></post-privacy-dailog>
         </div>
 
         <div v-if="custom">
-            <post-privacy-dailog ic="fa-star-of-life"></post-privacy-dailog>
+            <post-privacy-dailog ic="fa-star-of-life" :postPrivacy="postPrivacy"></post-privacy-dailog>
         </div>
     </div>
 </template>
@@ -27,7 +27,8 @@ export default {
             public: false,
             private: false,
             friends: false,
-            custom: false
+            custom: false,
+            postPrivacy: {}
         };
     },
     components: {
@@ -40,16 +41,24 @@ export default {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("access_token")
             }
-        })
-            .then(res => this.handlePostPrivacy(res.data))
-            .catch(error => alert(JSON.stringify(error.response)));
+        }).then(res => this.handlePostPrivacy(res.data));
     },
 
     methods: {
-        handlePost(data) {
+        handlePostPrivacy(data) {
             if (data.status == "public") {
                 this.public = true;
             }
+            if (data.status == "custom") {
+                this.custom = true;
+            }
+            if (data.status == "private") {
+                this.private = true;
+            }
+            if (data.status == "friends") {
+                this.friends = true;
+            }
+            this.postPrivacy = this.data;
         }
     }
 };

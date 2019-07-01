@@ -2881,43 +2881,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["ic"],
+  props: ["ic", "postPrivacy"],
   data: function data() {
-    return {
-      isDisabled: false,
-      dailog: false
-    };
+    return {};
   },
-  methods: {
-    accept: function accept() {
-      var _this = this;
-
-      this.isDisabled = true;
-      var form = new FormData();
-      form.append("_method", "PUT");
-      form.append("sender_id", this.user.id);
-      axios({
-        method: "post",
-        //you can set what request you want to be
-        url: "http://carmeer.com/api/friendship/accept",
-        data: form,
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-          "Content-Type": "multipart/form-data"
-        }
-      }).then(function (res) {
-        return _this.dailog = false;
-      });
-    },
-    reject: function reject() {},
-    ignore: function ignore() {}
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -2962,7 +2931,8 @@ __webpack_require__.r(__webpack_exports__);
       public: false,
       private: false,
       friends: false,
-      custom: false
+      custom: false,
+      postPrivacy: {}
     };
   },
   components: {
@@ -2979,16 +2949,28 @@ __webpack_require__.r(__webpack_exports__);
         Authorization: "Bearer " + localStorage.getItem("access_token")
       }
     }).then(function (res) {
-      return _this.handlePost(res.data);
-    }).catch(function (error) {
-      return alert(JSON.stringify(error.response));
+      return _this.handlePostPrivacy(res.data);
     });
   },
   methods: {
-    handlePost: function handlePost(data) {
+    handlePostPrivacy: function handlePostPrivacy(data) {
       if (data.status == "public") {
         this.public = true;
       }
+
+      if (data.status == "custom") {
+        this.custom = true;
+      }
+
+      if (data.status == "private") {
+        this.private = true;
+      }
+
+      if (data.status == "friends") {
+        this.friends = true;
+      }
+
+      this.postPrivacy = this.data;
     }
   }
 });
@@ -42133,16 +42115,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-dialog",
-    {
-      attrs: { "max-width": "300px", "full-width": "" },
-      model: {
-        value: _vm.dailog,
-        callback: function($$v) {
-          _vm.dailog = $$v
-        },
-        expression: "dailog"
-      }
-    },
+    { attrs: { "max-width": "300px", "full-width": "" } },
     [
       _c(
         "v-icon",
@@ -42154,75 +42127,15 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-layout",
-        {
-          staticClass: "text-xs-center white",
-          staticStyle: { width: "100%" },
-          attrs: { row: "", wrap: "" }
-        },
+        "v-card",
         [
-          _c(
-            "v-flex",
-            { attrs: { xs12: "", "px-2": "" } },
-            [
-              _c(
-                "v-btn",
-                {
-                  staticClass: "info",
-                  attrs: { flat: "", block: "", disabled: _vm.isDisabled },
-                  on: {
-                    click: function($event) {
-                      return _vm.accept()
-                    }
-                  }
-                },
-                [_vm._v("accept")]
-              )
-            ],
-            1
-          ),
+          _c("v-card-title", { attrs: { "primary-title": "" } }, [
+            _c("h3", { staticClass: "headline mb-0" }, [
+              _vm._v("who can see your post")
+            ])
+          ]),
           _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { xs12: "", "px-2": "" } },
-            [
-              _c(
-                "v-btn",
-                {
-                  staticClass: "error",
-                  attrs: { flat: "", block: "", disabled: _vm.isDisabled },
-                  on: {
-                    click: function($event) {
-                      return _vm.reject()
-                    }
-                  }
-                },
-                [_vm._v("reject")]
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-flex",
-            { attrs: { xs12: "", "px-2": "" } },
-            [
-              _c(
-                "v-btn",
-                {
-                  staticClass: "warning",
-                  attrs: { flat: "", block: "", disabled: _vm.isDisabled },
-                  on: {
-                    click: function($event) {
-                      return _vm.ignore()
-                    }
-                  }
-                },
-                [_vm._v("ignore")]
-              )
-            ],
-            1
-          )
+          _c("v-card-text")
         ],
         1
       )
@@ -42254,25 +42167,49 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.public
-      ? _c("div", [_c("post-privacy-dailog", { attrs: { ic: "fa-globe" } })], 1)
+      ? _c(
+          "div",
+          [
+            _c("post-privacy-dailog", {
+              attrs: { ic: "fa-globe", postPrivacy: _vm.postPrivacy }
+            })
+          ],
+          1
+        )
       : _vm._e(),
     _vm._v(" "),
     _vm.friends
       ? _c(
           "div",
-          [_c("post-privacy-dailog", { attrs: { ic: "fa-user-friends" } })],
+          [
+            _c("post-privacy-dailog", {
+              attrs: { ic: "fa-user-friends", postPrivacy: _vm.postPrivacy }
+            })
+          ],
           1
         )
       : _vm._e(),
     _vm._v(" "),
     _vm.private
-      ? _c("div", [_c("post-privacy-dailog", { attrs: { ic: "fa-lock" } })], 1)
+      ? _c(
+          "div",
+          [
+            _c("post-privacy-dailog", {
+              attrs: { ic: "fa-lock", postPrivacy: _vm.postPrivacy }
+            })
+          ],
+          1
+        )
       : _vm._e(),
     _vm._v(" "),
     _vm.custom
       ? _c(
           "div",
-          [_c("post-privacy-dailog", { attrs: { ic: "fa-star-of-life" } })],
+          [
+            _c("post-privacy-dailog", {
+              attrs: { ic: "fa-star-of-life", postPrivacy: _vm.postPrivacy }
+            })
+          ],
           1
         )
       : _vm._e()

@@ -205,7 +205,9 @@ class UsersController extends Controller
         $json = json_encode($privacy);
         return response($json, 200)->header('Content-Type', 'application/json');
     }
-    //
+    /**************************************************************************
+     *getProfilePhoto
+     **************************************************************************/
     public function getProfilePhoto($id)
     {
         if (User::find($id)->photo) {
