@@ -6,7 +6,12 @@
             <v-card-title primary-title>
                 <h3 class="headline mb-0">who can see your post</h3>
             </v-card-title>
-            <v-card-text></v-card-text>
+            <hr />
+            <v-card-text>
+                <v-form class="px-3">
+                    <v-text-field label="Title" color="success"></v-text-field>
+                </v-form>
+            </v-card-text>
         </v-card>
     </v-dialog>
 </template>
@@ -21,7 +26,6 @@ export default {
     methods: {}
 };
 </script>
-
 <style lang="scss" scoped>
 </style>
 

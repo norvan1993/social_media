@@ -2881,6 +2881,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["ic", "postPrivacy"],
   data: function data() {
@@ -42135,7 +42140,24 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("v-card-text")
+          _c("hr"),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c(
+                "v-form",
+                { staticClass: "px-3" },
+                [
+                  _c("v-text-field", {
+                    attrs: { label: "Title", color: "success" }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )
