@@ -2886,10 +2886,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["ic", "postPrivacy"],
   data: function data() {
-    return {};
+    return {
+      items: ["private", "public", "friends", "custom"],
+      postPrivacyD: this.postPrivacy
+    };
   },
   methods: {}
 });
@@ -42140,7 +42151,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("hr"),
+          _c("hr", { staticClass: "black--text" }),
           _vm._v(" "),
           _c(
             "v-card-text",
@@ -42149,8 +42160,22 @@ var render = function() {
                 "v-form",
                 { staticClass: "px-3" },
                 [
-                  _c("v-text-field", {
-                    attrs: { label: "Title", color: "success" }
+                  _c("v-select", {
+                    staticClass: "material-icons",
+                    attrs: {
+                      items: _vm.items,
+                      "item-text": "name",
+                      "item-value": "last",
+                      label: "Status",
+                      "append-icon": "fas fa-caret-down"
+                    },
+                    model: {
+                      value: _vm.postPrivacyD.status,
+                      callback: function($$v) {
+                        _vm.$set(_vm.postPrivacyD, "status", $$v)
+                      },
+                      expression: "postPrivacyD.status"
+                    }
                   })
                 ],
                 1

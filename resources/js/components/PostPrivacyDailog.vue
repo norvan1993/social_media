@@ -6,10 +6,18 @@
             <v-card-title primary-title>
                 <h3 class="headline mb-0">who can see your post</h3>
             </v-card-title>
-            <hr />
+            <hr class="black--text" />
             <v-card-text>
                 <v-form class="px-3">
-                    <v-text-field label="Title" color="success"></v-text-field>
+                    <v-select
+                        :items="items"
+                        item-text="name"
+                        item-value="last"
+                        label="Status"
+                        class="material-icons"
+                        append-icon="fas fa-caret-down"
+                        v-model="postPrivacyD.status"
+                    ></v-select>
                 </v-form>
             </v-card-text>
         </v-card>
@@ -20,7 +28,10 @@
 export default {
     props: ["ic", "postPrivacy"],
     data() {
-        return {};
+        return {
+            items: ["private", "public", "friends", "custom"],
+            postPrivacyD: this.postPrivacy
+        };
     },
 
     methods: {}
