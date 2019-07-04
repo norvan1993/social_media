@@ -4,13 +4,13 @@
             <div class="col-sm-6 p-3" align="center">
                 <div class="profilePhoto float-left" @click="openScreenOverlay()">
                     <div style="width:100%; height:100%; position:relative;">
-                        <img :src="profilePhoto" class="profileImg">
+                        <img :src="profilePhoto" class="profileImg" />
                         <div class="profilePhotoOverlay"></div>
                     </div>
                 </div>
                 <p class="userName h3 float-left ml-3">
                     {{user.name}}
-                    <br>
+                    <br />
                     <v-btn-toggle v-if="profileRelationType=='friend'" class="ml-4">
                         <span class="blue darken-1 px-2 white--text subheading">
                             <v-icon class="px-1 white--text subheading mt-2">fa-check-square</v-icon>friends
@@ -46,15 +46,15 @@
 
         <div class="row p-3 border justify-content-center">
             <router-link class="p-3" :to="'/profile/'+this.$route.params.id" exact>timeline</router-link>
-            <hr>
+            <hr />
             <router-link
                 class="p-3"
                 :to="'/profile/'+this.$route.params.id+'/friends'"
                 exact
             >friends</router-link>
-            <hr>
+            <hr />
             <router-link class="p-3" :to="'/profile/'+this.$route.params.id+'/photos'" exact>photos</router-link>
-            <hr>
+            <hr />
             <router-link class="p-3" :to="'/profile/'+this.$route.params.id+'/about'" exact>about</router-link>
         </div>
     </div>
@@ -70,7 +70,7 @@ export default {
         "screenOverlay",
         "profilePhoto"
     ],
-    data() {},
+
     components: {
         "respond-dailog": RespondDailog
     },

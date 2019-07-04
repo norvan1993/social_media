@@ -2891,18 +2891,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["ic", "postPrivacy"],
   data: function data() {
     return {
       items: ["private", "public", "friends", "custom"],
-      postPrivacyD: this.postPrivacy
+      status: ""
     };
   },
-  methods: {}
+  methods: {},
+  created: function created() {
+    this.status = this.postPrivacy.status;
+    console.log("hello");
+  }
 });
 
 /***/ }),
@@ -2948,7 +2949,7 @@ __webpack_require__.r(__webpack_exports__);
       private: false,
       friends: false,
       custom: false,
-      postPrivacy: {}
+      postPrivacy: false
     };
   },
   components: {
@@ -3524,7 +3525,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["id", "user", "profileRelationType", "screenOverlay", "profilePhoto"],
-  data: function data() {},
   components: {
     "respond-dailog": _RespondDailog_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -42161,20 +42161,17 @@ var render = function() {
                 { staticClass: "px-3" },
                 [
                   _c("v-select", {
-                    staticClass: "material-icons",
                     attrs: {
                       items: _vm.items,
-                      "item-text": "name",
-                      "item-value": "last",
                       label: "Status",
                       "append-icon": "fas fa-caret-down"
                     },
                     model: {
-                      value: _vm.postPrivacyD.status,
+                      value: _vm.status,
                       callback: function($$v) {
-                        _vm.$set(_vm.postPrivacyD, "status", $$v)
+                        _vm.status = $$v
                       },
-                      expression: "postPrivacyD.status"
+                      expression: "status"
                     }
                   })
                 ],
@@ -42253,9 +42250,11 @@ var render = function() {
       ? _c(
           "div",
           [
-            _c("post-privacy-dailog", {
-              attrs: { ic: "fa-star-of-life", postPrivacy: _vm.postPrivacy }
-            })
+            _vm.postPrivacy
+              ? _c("post-privacy-dailog", {
+                  attrs: { ic: "fa-star-of-life", postPrivacy: _vm.postPrivacy }
+                })
+              : _vm._e()
           ],
           1
         )

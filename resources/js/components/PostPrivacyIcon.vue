@@ -13,7 +13,7 @@
         </div>
 
         <div v-if="custom">
-            <post-privacy-dailog ic="fa-star-of-life" :postPrivacy="postPrivacy"></post-privacy-dailog>
+            <post-privacy-dailog v-if="postPrivacy" ic="fa-star-of-life" :postPrivacy="postPrivacy"></post-privacy-dailog>
         </div>
     </div>
 </template>
@@ -28,7 +28,7 @@ export default {
             private: false,
             friends: false,
             custom: false,
-            postPrivacy: {}
+            postPrivacy: false
         };
     },
     components: {

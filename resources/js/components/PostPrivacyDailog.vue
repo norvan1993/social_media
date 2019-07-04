@@ -11,12 +11,9 @@
                 <v-form class="px-3">
                     <v-select
                         :items="items"
-                        item-text="name"
-                        item-value="last"
                         label="Status"
-                        class="material-icons"
                         append-icon="fas fa-caret-down"
-                        v-model="postPrivacyD.status"
+                        v-model="status"
                     ></v-select>
                 </v-form>
             </v-card-text>
@@ -30,11 +27,15 @@ export default {
     data() {
         return {
             items: ["private", "public", "friends", "custom"],
-            postPrivacyD: this.postPrivacy
+            status: ""
         };
     },
 
-    methods: {}
+    methods: {},
+    created: function() {
+        this.status = this.postPrivacy.status;
+        console.log("hello");
+    }
 };
 </script>
 <style lang="scss" scoped>
