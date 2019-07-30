@@ -1,18 +1,18 @@
 <template>
     <div v-if="user">
-        <div class="row p-3 border">
-            <div class="col-sm-6 p-3" align="center">
-                <div class="profilePhoto float-left" @click="openScreenOverlay()">
+        <div class="row p-3 border grey darken-4">
+            <div class="col-sm-12" align="center">
+                <div class="profilePhoto float-sm-left" @click="openScreenOverlay()">
                     <div style="width:100%; height:100%; position:relative;">
                         <img :src="profilePhoto" class="profileImg" />
                         <div class="profilePhotoOverlay"></div>
                     </div>
                 </div>
-                <p class="userName h3 float-left ml-3">
+                <p class="userName h3 float-sm-left ml-sm-3 grey--text text--lighten-4">
                     {{user.name}}
                     <br />
-                    <v-btn-toggle v-if="profileRelationType=='friend'" class="ml-4">
-                        <span class="blue darken-1 px-2 white--text subheading">
+                    <v-btn-toggle v-if="profileRelationType=='friend'" class="ml-sm-4">
+                        <span class="grey lighten-4 pr-3 grey--text text--darken-2 subheading">
                             <v-icon class="px-1 white--text subheading mt-2">fa-check-square</v-icon>friends
                         </span>
                         <v-btn flat>
@@ -45,17 +45,29 @@
         </div>
 
         <div class="row p-3 border justify-content-center">
-            <router-link class="p-3" :to="'/profile/'+this.$route.params.id" exact>timeline</router-link>
+            <router-link
+                class="p-3 indigo--text text--darken-3"
+                :to="'/profile/'+this.$route.params.id"
+                exact
+            >timeline</router-link>
             <hr />
             <router-link
-                class="p-3"
+                class="p-3 indigo--text text--darken-3"
                 :to="'/profile/'+this.$route.params.id+'/friends'"
                 exact
             >friends</router-link>
             <hr />
-            <router-link class="p-3" :to="'/profile/'+this.$route.params.id+'/photos'" exact>photos</router-link>
+            <router-link
+                class="p-3 indigo--text text--darken-3"
+                :to="'/profile/'+this.$route.params.id+'/photos'"
+                exact
+            >photos</router-link>
             <hr />
-            <router-link class="p-3" :to="'/profile/'+this.$route.params.id+'/about'" exact>about</router-link>
+            <router-link
+                class="p-3 indigo--text text--darken-3"
+                :to="'/profile/'+this.$route.params.id+'/about'"
+                exact
+            >about</router-link>
         </div>
     </div>
 </template>
@@ -134,7 +146,7 @@ export default {
     left: 0px;
     width: 100px;
     height: 100px;
-    border: 5px solid white;
+    border: 3px solid white;
     box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);
 }
 .profilePhotoOverlay {

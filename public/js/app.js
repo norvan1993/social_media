@@ -3522,6 +3522,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["id", "user", "profileRelationType", "screenOverlay", "profilePhoto"],
@@ -9264,7 +9276,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profilePhoto[data-v-7d5ecb36] {\n    width: 100px;\n    height: 100px;\n}\n.profileImg[data-v-7d5ecb36] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n    border: 5px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profilePhotoOverlay[data-v-7d5ecb36] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n}\n.profilePhotoOverlay[data-v-7d5ecb36]:hover {\n    background-color: rgba(255, 255, 255, 0.4);\n    cursor: pointer;\n}\n.userName[data-v-7d5ecb36] {\n    position: relative;\n    top: 25px;\n    text-transform: capitalize;\n}\n.router-link-active[data-v-7d5ecb36] {\n    background-color: rgb(234, 234, 234);\n}\n", ""]);
+exports.push([module.i, "\n.profilePhoto[data-v-7d5ecb36] {\n    width: 100px;\n    height: 100px;\n}\n.profileImg[data-v-7d5ecb36] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n    border: 3px solid white;\n    box-shadow: 0px 0px 10px 0.5px rgb(159, 159, 159);\n}\n.profilePhotoOverlay[data-v-7d5ecb36] {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n}\n.profilePhotoOverlay[data-v-7d5ecb36]:hover {\n    background-color: rgba(255, 255, 255, 0.4);\n    cursor: pointer;\n}\n.userName[data-v-7d5ecb36] {\n    position: relative;\n    top: 25px;\n    text-transform: capitalize;\n}\n.router-link-active[data-v-7d5ecb36] {\n    background-color: rgb(234, 234, 234);\n}\n", ""]);
 
 // exports
 
@@ -42715,142 +42727,140 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.user
     ? _c("div", [
-        _c("div", { staticClass: "row p-3 border" }, [
-          _c(
-            "div",
-            { staticClass: "col-sm-6 p-3", attrs: { align: "center" } },
-            [
-              _c(
-                "div",
-                {
-                  staticClass: "profilePhoto float-left",
-                  on: {
-                    click: function($event) {
-                      return _vm.openScreenOverlay()
-                    }
+        _c("div", { staticClass: "row p-3 border grey darken-4" }, [
+          _c("div", { staticClass: "col-sm-12", attrs: { align: "center" } }, [
+            _c(
+              "div",
+              {
+                staticClass: "profilePhoto float-sm-left",
+                on: {
+                  click: function($event) {
+                    return _vm.openScreenOverlay()
                   }
-                },
-                [
-                  _c(
-                    "div",
-                    {
-                      staticStyle: {
-                        width: "100%",
-                        height: "100%",
-                        position: "relative"
-                      }
-                    },
-                    [
-                      _c("img", {
-                        staticClass: "profileImg",
-                        attrs: { src: _vm.profilePhoto }
-                      }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "profilePhotoOverlay" })
-                    ]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "p",
-                { staticClass: "userName h3 float-left ml-3" },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.user.name) +
-                      "\n                "
-                  ),
-                  _c("br"),
-                  _vm._v(" "),
-                  _vm.profileRelationType == "friend"
-                    ? _c(
-                        "v-btn-toggle",
-                        { staticClass: "ml-4" },
-                        [
-                          _c(
-                            "span",
-                            {
-                              staticClass:
-                                "blue darken-1 px-2 white--text subheading"
-                            },
-                            [
-                              _c(
-                                "v-icon",
-                                {
-                                  staticClass:
-                                    "px-1 white--text subheading mt-2"
-                                },
-                                [_vm._v("fa-check-square")]
-                              ),
-                              _vm._v("friends\n                    ")
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            { attrs: { flat: "" } },
-                            [
-                              _c("v-icon", { attrs: { small: "" } }, [
-                                _vm._v("fa-chevron-down")
-                              ])
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.profileRelationType == "not_friend"
-                    ? _c(
-                        "v-btn",
-                        {
-                          staticClass: "ml-3",
-                          attrs: { color: "success" },
-                          on: {
-                            click: function($event) {
-                              return _vm.sendFriendRequest()
-                            }
-                          }
-                        },
-                        [_vm._v("send friend request")]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.profileRelationType == "sender"
-                    ? _c("respond-dailog", {
+                }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      width: "100%",
+                      height: "100%",
+                      position: "relative"
+                    }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "profileImg",
+                      attrs: { src: _vm.profilePhoto }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "profilePhotoOverlay" })
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                staticClass:
+                  "userName h3 float-sm-left ml-sm-3 grey--text text--lighten-4"
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.user.name) +
+                    "\n                "
+                ),
+                _c("br"),
+                _vm._v(" "),
+                _vm.profileRelationType == "friend"
+                  ? _c(
+                      "v-btn-toggle",
+                      { staticClass: "ml-sm-4" },
+                      [
+                        _c(
+                          "span",
+                          {
+                            staticClass:
+                              "grey lighten-4 pr-3 grey--text text--darken-2 subheading"
+                          },
+                          [
+                            _c(
+                              "v-icon",
+                              {
+                                staticClass: "px-1 white--text subheading mt-2"
+                              },
+                              [_vm._v("fa-check-square")]
+                            ),
+                            _vm._v("friends\n                    ")
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          { attrs: { flat: "" } },
+                          [
+                            _c("v-icon", { attrs: { small: "" } }, [
+                              _vm._v("fa-chevron-down")
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.profileRelationType == "not_friend"
+                  ? _c(
+                      "v-btn",
+                      {
                         staticClass: "ml-3",
-                        attrs: { user: _vm.user, color: "success" },
+                        attrs: { color: "success" },
                         on: {
                           click: function($event) {
-                            return _vm.respondTofriendRequest()
+                            return _vm.sendFriendRequest()
                           }
                         }
-                      })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.profileRelationType == "receiver"
-                    ? _c(
-                        "v-btn",
-                        {
-                          staticClass: "ml-3",
-                          attrs: { color: "error" },
-                          on: {
-                            click: function($event) {
-                              return _vm.cancelFriendRequest()
-                            }
+                      },
+                      [_vm._v("send friend request")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.profileRelationType == "sender"
+                  ? _c("respond-dailog", {
+                      staticClass: "ml-3",
+                      attrs: { user: _vm.user, color: "success" },
+                      on: {
+                        click: function($event) {
+                          return _vm.respondTofriendRequest()
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.profileRelationType == "receiver"
+                  ? _c(
+                      "v-btn",
+                      {
+                        staticClass: "ml-3",
+                        attrs: { color: "error" },
+                        on: {
+                          click: function($event) {
+                            return _vm.cancelFriendRequest()
                           }
-                        },
-                        [_vm._v("reomove friend request")]
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ]
-          )
+                        }
+                      },
+                      [_vm._v("reomove friend request")]
+                    )
+                  : _vm._e()
+              ],
+              1
+            )
+          ])
         ]),
         _vm._v(" "),
         _c(
@@ -42860,7 +42870,7 @@ var render = function() {
             _c(
               "router-link",
               {
-                staticClass: "p-3",
+                staticClass: "p-3 indigo--text text--darken-3",
                 attrs: { to: "/profile/" + this.$route.params.id, exact: "" }
               },
               [_vm._v("timeline")]
@@ -42871,7 +42881,7 @@ var render = function() {
             _c(
               "router-link",
               {
-                staticClass: "p-3",
+                staticClass: "p-3 indigo--text text--darken-3",
                 attrs: {
                   to: "/profile/" + this.$route.params.id + "/friends",
                   exact: ""
@@ -42885,7 +42895,7 @@ var render = function() {
             _c(
               "router-link",
               {
-                staticClass: "p-3",
+                staticClass: "p-3 indigo--text text--darken-3",
                 attrs: {
                   to: "/profile/" + this.$route.params.id + "/photos",
                   exact: ""
@@ -42899,7 +42909,7 @@ var render = function() {
             _c(
               "router-link",
               {
-                staticClass: "p-3",
+                staticClass: "p-3 indigo--text text--darken-3",
                 attrs: {
                   to: "/profile/" + this.$route.params.id + "/about",
                   exact: ""

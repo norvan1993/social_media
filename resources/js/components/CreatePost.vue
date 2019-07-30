@@ -1,7 +1,7 @@
 <template>
     <div class="card mt-3">
         <div class="card-header">
-            <img :src="profilePhoto" class="profileImg">
+            <img :src="profilePhoto" class="profileImg" />
             <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
             <post-privacy-icon class="float-right privacyIcon"></post-privacy-icon>
         </div>
@@ -13,8 +13,8 @@
                     class="d-block border-0"
                     style="width:100%;"
                     v-model="title"
-                >
-                <hr>
+                />
+                <hr />
             </h4>
             <div class="card-text">
                 <textarea
@@ -32,16 +32,16 @@
                     :style="{backgroundImage:'url('+convertToData(file)+')'}"
                 >
                     <div class="imageOverlay"></div>
-                    <img src="/ic/cancel.png" class="m-auto optionsArrow" @click="removeImage(key)">
+                    <img src="/ic/cancel.png" class="m-auto optionsArrow" @click="removeImage(key)" />
                 </div>
             </div>
-            <hr>
+            <hr />
             <button
                 type="button"
                 class="btn btn-outline-success d-block mr-3 float-right"
                 @click="post()"
             >Post</button>
-            <input @change="appendPhotos()" type="file" ref="filesSelector" hidden multiple>
+            <input @change="appendPhotos()" type="file" ref="filesSelector" hidden multiple />
             <button
                 type="button"
                 class="btn btn-outline-success d-block mr-3 float-right"
