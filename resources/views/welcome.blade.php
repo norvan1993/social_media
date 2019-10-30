@@ -16,7 +16,7 @@
         <!--fontawesome icons-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"/>
         <!--vuetify styles-->
-        <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+
         <!-----------------------------------scripts----------------------------------->
         <!--vue js-->
         <script src="/js/app.js" defer></script>
@@ -34,8 +34,8 @@
         </head>
     <body>
 
-    <div id='app'>
-    <v-app>
+
+    <v-app id='app'>
 
      <distributor>
          <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" appear>
@@ -44,7 +44,7 @@
     </distributor>
 </v-app>
 
-    </div>
+
 
 
     </body>

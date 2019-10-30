@@ -1,19 +1,7 @@
 <template>
     <div>
-        <div v-if="public">
-            <post-privacy-dailog ic="fa-globe" :postPrivacy="postPrivacy"></post-privacy-dailog>
-        </div>
-
-        <div v-if="friends">
-            <post-privacy-dailog ic="fa-user-friends" :postPrivacy="postPrivacy"></post-privacy-dailog>
-        </div>
-
-        <div v-if="private">
-            <post-privacy-dailog ic="fa-lock" :postPrivacy="postPrivacy"></post-privacy-dailog>
-        </div>
-
-        <div v-if="custom">
-            <post-privacy-dailog v-if="postPrivacy" ic="fa-star-of-life" :postPrivacy="postPrivacy"></post-privacy-dailog>
+        <div v-if="postPrivacy">
+            <post-privacy-dailog :postPrivacy="postPrivacy"></post-privacy-dailog>
         </div>
     </div>
 </template>
@@ -24,10 +12,6 @@ import PostPrivacyDailog from "./PostPrivacyDailog.vue";
 export default {
     data() {
         return {
-            public: false,
-            private: false,
-            friends: false,
-            custom: false,
             postPrivacy: false
         };
     },
@@ -41,11 +25,13 @@ export default {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("access_token")
             }
-        }).then(res => this.handlePostPrivacy(res.data));
+        }).then(res => (this.postPrivacy = res.data));
     },
 
     methods: {
+        /*
         handlePostPrivacy(data) {
+            this.postPrivacy = data;
             if (data.status == "public") {
                 this.public = true;
             }
@@ -58,8 +44,8 @@ export default {
             if (data.status == "friends") {
                 this.friends = true;
             }
-            this.postPrivacy = this.data;
         }
+        */
     }
 };
 </script>

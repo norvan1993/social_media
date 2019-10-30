@@ -3,13 +3,11 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
+import "vuetify/dist/vuetify.min.css";
 require("./bootstrap");
 
 window.Vue = require("vue");
-import Vuetify from "vuetify";
 
-Vue.use(Vuetify);
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
@@ -17,6 +15,8 @@ Vue.use(VueRouter);
 import Vuex from "vuex";
 Vue.use(Vuex);
 
+import Vuetify from "vuetify";
+Vue.use(Vuetify);
 let routes = [
     {
         path: "/",

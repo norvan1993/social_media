@@ -3,8 +3,8 @@
         <v-icon flat slot="activator" small>{{ic}}</v-icon>
 
         <v-card>
-            <v-card-title primary-title>
-                <h3 class="headline mb-0">who can see your post</h3>
+            <v-card-title>
+                <p class="title font-weight-thin mb-0">who can see your post ?</p>
             </v-card-title>
             <hr class="black--text" />
             <v-card-text>
@@ -14,6 +14,7 @@
                         label="Status"
                         append-icon="fas fa-caret-down"
                         v-model="status"
+                        @change="changePostPrivacyIcon(status)"
                     ></v-select>
                 </v-form>
             </v-card-text>
@@ -23,18 +24,46 @@
 
 <script>
 export default {
-    props: ["ic", "postPrivacy"],
+    props: ["postPrivacy"],
     data() {
         return {
+            ic: "",
             items: ["private", "public", "friends", "custom"],
             status: ""
         };
     },
 
-    methods: {},
+    methods: {
+        changePostPrivacyIcon(status) {
+            switch (status) {
+                case "public":
+                    this.ic = "fa-globe";
+                    break;
+                case "private":
+                    this.ic = "fa-lock";
+                    break;
+                case "friends":
+                    this.ic = "fa-user-friends";
+                    break;
+                case "custom":
+                    this.ic = "fa-star-of-life";
+                    break;
+            }
+        }
+    },
     created: function() {
         this.status = this.postPrivacy.status;
-        console.log("hello");
+        this.changePostPrivacyIcon(this.status);
+
+        //this.status = this.postPrivacy.status;
+        console.log(this.postPrivacy);
+    },
+    watch: {
+        /*
+        status: function(val) {
+            changePostPrivacyIcon(val);
+        }
+        */
     }
 };
 </script>
