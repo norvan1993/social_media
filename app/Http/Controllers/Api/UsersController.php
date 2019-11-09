@@ -20,7 +20,7 @@ class UsersController extends Controller
     {
 
         $this->middleware(['guest:api'])->only('store');
-        $this->middleware(['auth:api', 'is_auth'])->only(['update', 'updateProfilePhoto', 'oldPassword', 'resetPassword']);
+        $this->middleware(['auth:api', 'is_auth'])->only(['update', 'updateProfilePhoto', 'oldPassword', 'resetPassword', 'defaultPrivacy']);
         $this->middleware(['auth:api', 'is_admin'])->only(['updateAdmin']);
         $this->middleware(['auth:api', 'is_admin_or_auth'])->only(['destroy']);
     }

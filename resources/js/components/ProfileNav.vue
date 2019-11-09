@@ -1,6 +1,6 @@
 <template>
     <div v-if="user">
-        <div class="row p-3 border grey darken-4">
+        <div class="row p-5 border grey darken-4">
             <div class="col-sm-12" align="center">
                 <div class="profilePhoto float-sm-left" @click="openScreenOverlay()">
                     <div style="width:100%; height:100%; position:relative;">

@@ -54,9 +54,6 @@ export default {
     created: function() {
         this.status = this.postPrivacy.status;
         this.changePostPrivacyIcon(this.status);
-
-        //this.status = this.postPrivacy.status;
-        console.log(this.postPrivacy);
     },
     watch: {
         /*

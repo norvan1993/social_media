@@ -3,7 +3,7 @@
         <div class="card-header">
             <img :src="profilePhoto" class="profileImg" />
             <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
-            <post-privacy-icon class="float-right privacyIcon"></post-privacy-icon>
+            <post-privacy-icon class="float-right privacyIcon" :postPrivacy="postPrivacy"></post-privacy-icon>
         </div>
         <div class="card-body">
             <h4>
@@ -55,17 +55,30 @@
 import axios from "axios";
 import PostPrivacyIcon from "./PostPrivacyIcon.vue";
 export default {
+    /*************************************************************************************
+     * props
+     *************************************************************************************/
     props: ["profilePhoto", "user"],
+    /*************************************************************************************
+     * data
+     *************************************************************************************/
     data() {
         return {
             files: [],
             body: "",
-            title: ""
+            title: "",
+            postPrivacy: false
         };
     },
+    /*************************************************************************************
+     *components
+     *************************************************************************************/
     components: {
         "post-privacy-icon": PostPrivacyIcon
     },
+    /*************************************************************************************
+     *methods
+     *************************************************************************************/
     methods: {
         //append the selected files to the files array in the structure of data
         appendPhotos() {
@@ -81,9 +94,11 @@ export default {
         convertToData(file) {
             return URL.createObjectURL(file);
         },
+        //removeImage
         removeImage(key) {
             this.files.splice(key, 1);
         },
+        //post
         post() {
             let privacy = {
                 status: "public"
@@ -111,9 +126,37 @@ export default {
                 .then(res => this.handlePost(res.data[0]))
                 .catch(error => alert(JSON.stringify(error.response)));
         },
+        //handlePost
         handlePost(data) {
             alert(data.message);
+        },
+        //handlePrivacy
+        handlePrivacy(data) {
+            this.postPrivacy = data;
+        },
+        //getDefaultPrivacy
+        getDefaultPrivacy() {
+            axios({
+                method: "get",
+                url:
+                    "http://carmeer.com/api/users/" +
+                    this.user.id +
+                    "/default_privacy",
+
+                headers: {
+                    Authorization:
+                        "Bearer " + localStorage.getItem("access_token")
+                }
+            })
+                .then(res => this.handlePrivacy(res.data))
+                .catch(error => alert(JSON.stringify(error.response)));
         }
+    },
+    /*************************************************************************************
+     *created
+     *************************************************************************************/
+    created: function() {
+        this.getDefaultPrivacy();
     }
 };
 </script>

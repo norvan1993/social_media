@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::get('/auth', 'Api\UsersController@authId')->middleware('auth:api');
 //users routes
 Route::resource('/users', 'Api\UsersController')->except(['edit', 'create']);
-Route::get('/default_privacy', 'Api\UsersController@defaultPrivacy')->middleware('auth:api');
+Route::get('users/{user}/default_privacy', 'Api\UsersController@defaultPrivacy');
 Route::get('/users/{user}/profile_photo', 'Api\UsersController@getProfilePhoto');
 Route::put('/users/{user}/update_profile_photo', 'Api\UsersController@updateProfilePhoto');
 

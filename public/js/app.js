@@ -1923,17 +1923,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  /*************************************************************************************
+   * props
+   *************************************************************************************/
   props: ["profilePhoto", "user"],
+
+  /*************************************************************************************
+   * data
+   *************************************************************************************/
   data: function data() {
     return {
       files: [],
       body: "",
-      title: ""
+      title: "",
+      postPrivacy: false
     };
   },
+
+  /*************************************************************************************
+   *components
+   *************************************************************************************/
   components: {
     "post-privacy-icon": _PostPrivacyIcon_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+
+  /*************************************************************************************
+   *methods
+   *************************************************************************************/
   methods: {
     //append the selected files to the files array in the structure of data
     appendPhotos: function appendPhotos() {
@@ -1949,9 +1965,11 @@ __webpack_require__.r(__webpack_exports__);
     convertToData: function convertToData(file) {
       return URL.createObjectURL(file);
     },
+    //removeImage
     removeImage: function removeImage(key) {
       this.files.splice(key, 1);
     },
+    //post
     post: function post() {
       var _this = this;
 
@@ -1983,9 +2001,37 @@ __webpack_require__.r(__webpack_exports__);
         return alert(JSON.stringify(error.response));
       });
     },
+    //handlePost
     handlePost: function handlePost(data) {
       alert(data.message);
+    },
+    //handlePrivacy
+    handlePrivacy: function handlePrivacy(data) {
+      this.postPrivacy = data;
+    },
+    //getDefaultPrivacy
+    getDefaultPrivacy: function getDefaultPrivacy() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        method: "get",
+        url: "http://carmeer.com/api/users/" + this.user.id + "/default_privacy",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token")
+        }
+      }).then(function (res) {
+        return _this2.handlePrivacy(res.data);
+      }).catch(function (error) {
+        return alert(JSON.stringify(error.response));
+      });
     }
+  },
+
+  /*************************************************************************************
+   *created
+   *************************************************************************************/
+  created: function created() {
+    this.getDefaultPrivacy();
   }
 });
 
@@ -2924,9 +2970,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.status = this.postPrivacy.status;
-    this.changePostPrivacyIcon(this.status); //this.status = this.postPrivacy.status;
-
-    console.log(this.postPrivacy);
+    this.changePostPrivacyIcon(this.status);
   },
   watch: {
     /*
@@ -2962,47 +3006,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["postPrivacy"],
   data: function data() {
-    return {
-      postPrivacy: false
-    };
+    return {};
   },
   components: {
     "post-privacy-dailog": _PostPrivacyDailog_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  created: function created() {
-    var _this = this;
-
-    axios__WEBPACK_IMPORTED_MODULE_0___default()({
-      method: "get",
-      //you can set what request you want to be
-      url: "http://carmeer.com/api/default_privacy",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("access_token")
-      }
-    }).then(function (res) {
-      return _this.postPrivacy = res.data;
-    });
-  },
-  methods: {
-    /*
-    handlePostPrivacy(data) {
-        this.postPrivacy = data;
-        if (data.status == "public") {
-            this.public = true;
-        }
-        if (data.status == "custom") {
-            this.custom = true;
-        }
-        if (data.status == "private") {
-            this.private = true;
-        }
-        if (data.status == "friends") {
-            this.friends = true;
-        }
-    }
-    */
-  }
+  methods: {}
 });
 
 /***/ }),
@@ -41120,7 +41131,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-toolbar-title",
-    { staticClass: "brand indigo--text text--darken-3" },
+    { staticClass: "brand black--text text--darken-3" },
     [_vm._v("Carmeer")]
   )
 }
@@ -41162,7 +41173,10 @@ var render = function() {
           [_vm._v(_vm._s(_vm.user.name))]
         ),
         _vm._v(" "),
-        _c("post-privacy-icon", { staticClass: "float-right privacyIcon" })
+        _c("post-privacy-icon", {
+          staticClass: "float-right privacyIcon",
+          attrs: { postPrivacy: _vm.postPrivacy }
+        })
       ],
       1
     ),
@@ -42726,7 +42740,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.user
     ? _c("div", [
-        _c("div", { staticClass: "row p-3 border grey darken-4" }, [
+        _c("div", { staticClass: "row p-5 border grey darken-4" }, [
           _c("div", { staticClass: "col-sm-12", attrs: { align: "center" } }, [
             _c(
               "div",
@@ -43405,7 +43419,7 @@ var staticRenderFns = [
         "div",
         {
           staticClass:
-            "row mt-1 justify-content-center align-items-center indigo darken-3",
+            "row mt-1 justify-content-center align-items-center black darken-3",
           attrs: { dark: "" }
         },
         [

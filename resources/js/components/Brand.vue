@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar-title class="brand indigo--text text--darken-3">Carmeer</v-toolbar-title>
+    <v-toolbar-title class="brand black--text text--darken-3">Carmeer</v-toolbar-title>
 </template>
 
 <script>
