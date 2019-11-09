@@ -2938,6 +2938,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["postPrivacy"],
   data: function data() {
@@ -2948,6 +2956,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    //changePostPrivacy
+    changePostPrivacy: function changePostPrivacy() {},
+    //changePostPrivacyIcon
     changePostPrivacyIcon: function changePostPrivacyIcon(status) {
       switch (status) {
         case "public":
@@ -42224,11 +42235,6 @@ var render = function() {
                       label: "Status",
                       "append-icon": "fas fa-caret-down"
                     },
-                    on: {
-                      change: function($event) {
-                        return _vm.changePostPrivacyIcon(_vm.status)
-                      }
-                    },
                     model: {
                       value: _vm.status,
                       callback: function($$v) {
@@ -42236,7 +42242,38 @@ var render = function() {
                       },
                       expression: "status"
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _vm.status == "custom"
+                    ? _c("v-select", {
+                        attrs: {
+                          items: _vm.friends,
+                          label: "Status",
+                          "append-icon": "fas fa-caret-down"
+                        },
+                        model: {
+                          value: _vm.status,
+                          callback: function($$v) {
+                            _vm.status = $$v
+                          },
+                          expression: "status"
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-btn", [_vm._v("cancel")]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.changePostPrivacy()
+                        }
+                      }
+                    },
+                    [_vm._v("ok")]
+                  )
                 ],
                 1
               )

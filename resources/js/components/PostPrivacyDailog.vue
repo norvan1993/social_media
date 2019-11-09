@@ -14,8 +14,16 @@
                         label="Status"
                         append-icon="fas fa-caret-down"
                         v-model="status"
-                        @change="changePostPrivacyIcon(status)"
                     ></v-select>
+                    <v-select
+                        v-if="status=='custom'"
+                        :items="friends"
+                        label="Status"
+                        append-icon="fas fa-caret-down"
+                        v-model="status"
+                    ></v-select>
+                    <v-btn>cancel</v-btn>
+                    <v-btn @click="changePostPrivacy()">ok</v-btn>
                 </v-form>
             </v-card-text>
         </v-card>
@@ -34,6 +42,9 @@ export default {
     },
 
     methods: {
+        //changePostPrivacy
+        changePostPrivacy() {},
+        //changePostPrivacyIcon
         changePostPrivacyIcon(status) {
             switch (status) {
                 case "public":
