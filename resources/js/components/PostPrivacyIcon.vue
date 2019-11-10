@@ -1,7 +1,10 @@
 <template>
     <div>
         <div v-if="postPrivacy">
-            <post-privacy-dailog :postPrivacy="postPrivacy"></post-privacy-dailog>
+            <post-privacy-dailog
+                :postPrivacy="postPrivacy"
+                @postPrivacyUpdated="changePostPrivacy($event)"
+            ></post-privacy-dailog>
         </div>
     </div>
 </template>
@@ -18,7 +21,11 @@ export default {
         "post-privacy-dailog": PostPrivacyDailog
     },
 
-    methods: {}
+    methods: {
+        changePostPrivacy(postPrivacyUpdated) {
+            this.$emit("postPrivacyUpdated", postPrivacyUpdated);
+        }
+    }
 };
 </script>
 

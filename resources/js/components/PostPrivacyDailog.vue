@@ -1,5 +1,5 @@
 <template>
-    <v-dialog max-width="300px" full-width>
+    <v-dialog max-width="300px" full-width v-model="dialog">
         <v-icon flat slot="activator" small>{{ic}}</v-icon>
 
         <v-card>
@@ -13,16 +13,15 @@
                         :items="items"
                         label="Status"
                         append-icon="fas fa-caret-down"
-                        v-model="status"
+                        v-model="postPrivacyUpdated.status"
                     ></v-select>
                     <v-select
-                        v-if="status=='custom'"
+                        v-if="postPrivacyUpdated.status=='custom'"
                         :items="friends"
                         label="Status"
                         append-icon="fas fa-caret-down"
-                        v-model="status"
                     ></v-select>
-                    <v-btn>cancel</v-btn>
+                    <v-btn @click="dialog=false">cancel</v-btn>
                     <v-btn @click="changePostPrivacy()">ok</v-btn>
                 </v-form>
             </v-card-text>
@@ -35,15 +34,23 @@ export default {
     props: ["postPrivacy"],
     data() {
         return {
+            dialog: false,
             ic: "",
             items: ["private", "public", "friends", "custom"],
-            status: ""
+            postPrivacyUpdated: {
+                status: "",
+                id_list: ""
+            }
         };
     },
 
     methods: {
         //changePostPrivacy
-        changePostPrivacy() {},
+        changePostPrivacy() {
+            this.$emit("postPrivacyUpdated", this.postPrivacyUpdated);
+            //this.changePostPrivacyIcon(this.postPrivacyUpdated.status);
+            this.dialog = false;
+        },
         //changePostPrivacyIcon
         changePostPrivacyIcon(status) {
             switch (status) {
@@ -63,8 +70,8 @@ export default {
         }
     },
     created: function() {
-        this.status = this.postPrivacy.status;
-        this.changePostPrivacyIcon(this.status);
+        this.postPrivacyUpdated.status = this.postPrivacy.status;
+        this.changePostPrivacyIcon(this.postPrivacyUpdated.status);
     },
     watch: {
         /*

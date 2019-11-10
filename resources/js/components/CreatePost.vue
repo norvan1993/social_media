@@ -3,7 +3,11 @@
         <div class="card-header">
             <img :src="profilePhoto" class="profileImg" />
             <span class="ml-2" style="cursor:pointer;">{{user.name}}</span>
-            <post-privacy-icon class="float-right privacyIcon" :postPrivacy="postPrivacy"></post-privacy-icon>
+            <post-privacy-icon
+                class="float-right privacyIcon"
+                :postPrivacy="postPrivacy"
+                @postPrivacyUpdated="changePostPrivacy($event)"
+            ></post-privacy-icon>
         </div>
         <div class="card-body">
             <h4>
@@ -150,6 +154,10 @@ export default {
             })
                 .then(res => this.handlePrivacy(res.data))
                 .catch(error => alert(JSON.stringify(error.response)));
+        },
+        //changePostPrivacy
+        changePostPrivacy(postprivacyUpdated) {
+            this.postPrivacy = postprivacyUpdated;
         }
     },
     /*************************************************************************************

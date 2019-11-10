@@ -1920,6 +1920,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2024,6 +2028,10 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function (error) {
         return alert(JSON.stringify(error.response));
       });
+    },
+    //changePostPrivacy
+    changePostPrivacy: function changePostPrivacy(postprivacyUpdated) {
+      this.postPrivacy = postprivacyUpdated;
     }
   },
 
@@ -2945,19 +2953,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["postPrivacy"],
   data: function data() {
     return {
+      dialog: false,
       ic: "",
       items: ["private", "public", "friends", "custom"],
-      status: ""
+      postPrivacyUpdated: {
+        status: "",
+        id_list: ""
+      }
     };
   },
   methods: {
     //changePostPrivacy
-    changePostPrivacy: function changePostPrivacy() {},
+    changePostPrivacy: function changePostPrivacy() {
+      this.$emit("postPrivacyUpdated", this.postPrivacyUpdated); //this.changePostPrivacyIcon(this.postPrivacyUpdated.status);
+
+      this.dialog = false;
+    },
     //changePostPrivacyIcon
     changePostPrivacyIcon: function changePostPrivacyIcon(status) {
       switch (status) {
@@ -2980,8 +2995,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.status = this.postPrivacy.status;
-    this.changePostPrivacyIcon(this.status);
+    this.postPrivacyUpdated.status = this.postPrivacy.status;
+    this.changePostPrivacyIcon(this.postPrivacyUpdated.status);
   },
   watch: {
     /*
@@ -3014,6 +3029,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3024,7 +3042,11 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     "post-privacy-dailog": _PostPrivacyDailog_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  methods: {}
+  methods: {
+    changePostPrivacy: function changePostPrivacy(postPrivacyUpdated) {
+      this.$emit("postPrivacyUpdated", postPrivacyUpdated);
+    }
+  }
 });
 
 /***/ }),
@@ -41186,7 +41208,12 @@ var render = function() {
         _vm._v(" "),
         _c("post-privacy-icon", {
           staticClass: "float-right privacyIcon",
-          attrs: { postPrivacy: _vm.postPrivacy }
+          attrs: { postPrivacy: _vm.postPrivacy },
+          on: {
+            postPrivacyUpdated: function($event) {
+              return _vm.changePostPrivacy($event)
+            }
+          }
         })
       ],
       1
@@ -42200,7 +42227,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-dialog",
-    { attrs: { "max-width": "300px", "full-width": "" } },
+    {
+      attrs: { "max-width": "300px", "full-width": "" },
+      model: {
+        value: _vm.dialog,
+        callback: function($$v) {
+          _vm.dialog = $$v
+        },
+        expression: "dialog"
+      }
+    },
     [
       _c(
         "v-icon",
@@ -42236,32 +42272,35 @@ var render = function() {
                       "append-icon": "fas fa-caret-down"
                     },
                     model: {
-                      value: _vm.status,
+                      value: _vm.postPrivacyUpdated.status,
                       callback: function($$v) {
-                        _vm.status = $$v
+                        _vm.$set(_vm.postPrivacyUpdated, "status", $$v)
                       },
-                      expression: "status"
+                      expression: "postPrivacyUpdated.status"
                     }
                   }),
                   _vm._v(" "),
-                  _vm.status == "custom"
+                  _vm.postPrivacyUpdated.status == "custom"
                     ? _c("v-select", {
                         attrs: {
                           items: _vm.friends,
                           label: "Status",
                           "append-icon": "fas fa-caret-down"
-                        },
-                        model: {
-                          value: _vm.status,
-                          callback: function($$v) {
-                            _vm.status = $$v
-                          },
-                          expression: "status"
                         }
                       })
                     : _vm._e(),
                   _vm._v(" "),
-                  _c("v-btn", [_vm._v("cancel")]),
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("cancel")]
+                  ),
                   _vm._v(" "),
                   _c(
                     "v-btn",
@@ -42315,7 +42354,12 @@ var render = function() {
           "div",
           [
             _c("post-privacy-dailog", {
-              attrs: { postPrivacy: _vm.postPrivacy }
+              attrs: { postPrivacy: _vm.postPrivacy },
+              on: {
+                postPrivacyUpdated: function($event) {
+                  return _vm.changePostPrivacy($event)
+                }
+              }
             })
           ],
           1
