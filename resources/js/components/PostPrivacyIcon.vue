@@ -22,8 +22,8 @@ export default {
     },
 
     methods: {
-        changePostPrivacy(postPrivacyUpdated) {
-            this.$emit("postPrivacyUpdated", postPrivacyUpdated);
+        changePostPrivacy(status, id_list) {
+            this.$emit("postPrivacyUpdated", status, id_list);
         }
     }
 };

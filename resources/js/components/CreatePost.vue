@@ -156,8 +156,9 @@ export default {
                 .catch(error => alert(JSON.stringify(error.response)));
         },
         //changePostPrivacy
-        changePostPrivacy(postprivacyUpdated) {
-            this.postPrivacy = postprivacyUpdated;
+        changePostPrivacy(status, id_list) {
+            this.postPrivacy.status = status;
+            this.postPrivacy.id_list = id_list;
         }
     },
     /*************************************************************************************

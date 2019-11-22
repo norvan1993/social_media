@@ -1,6 +1,6 @@
 <template>
     <v-dialog max-width="300px" full-width v-model="dialog">
-        <v-icon flat slot="activator" small>{{ic}}</v-icon>
+        <v-icon flat slot="activator" small>{{icon}}</v-icon>
 
         <v-card>
             <v-card-title>
@@ -15,12 +15,20 @@
                         append-icon="fas fa-caret-down"
                         v-model="postPrivacyUpdated.status"
                     ></v-select>
-                    <v-select
-                        v-if="postPrivacyUpdated.status=='custom'"
-                        :items="friends"
-                        label="Status"
-                        append-icon="fas fa-caret-down"
-                    ></v-select>
+                    <div class="d-block filesContainer" v-if="postPrivacyUpdated.status=='custom'">
+                        <div
+                            v-for="(file, key)  in files"
+                            class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
+                            :style="{backgroundImage:'url('+convertToData(file)+')'}"
+                        >
+                            <div class="imageOverlay"></div>
+                            <img
+                                src="/ic/cancel.png"
+                                class="m-auto optionsArrow"
+                                @click="removeImage(key)"
+                            />
+                        </div>
+                    </div>
                     <v-btn @click="dialog=false">cancel</v-btn>
                     <v-btn @click="changePostPrivacy()">ok</v-btn>
                 </v-form>
@@ -35,7 +43,6 @@ export default {
     data() {
         return {
             dialog: false,
-            ic: "",
             items: ["private", "public", "friends", "custom"],
             postPrivacyUpdated: {
                 status: "",
@@ -47,41 +54,63 @@ export default {
     methods: {
         //changePostPrivacy
         changePostPrivacy() {
-            this.$emit("postPrivacyUpdated", this.postPrivacyUpdated);
-            //this.changePostPrivacyIcon(this.postPrivacyUpdated.status);
+            this.$emit(
+                "postPrivacyUpdated",
+                this.postPrivacyUpdated.status,
+                this.postPrivacyUpdated.id_list
+            );
+
             this.dialog = false;
         },
         //changePostPrivacyIcon
         changePostPrivacyIcon(status) {
             switch (status) {
                 case "public":
-                    this.ic = "fa-globe";
+                    return "fa-globe";
                     break;
                 case "private":
-                    this.ic = "fa-lock";
+                    return "fa-lock";
                     break;
                 case "friends":
-                    this.ic = "fa-user-friends";
+                    return "fa-user-friends";
                     break;
                 case "custom":
-                    this.ic = "fa-star-of-life";
+                    return "fa-star-of-life";
                     break;
             }
         }
     },
     created: function() {
-        this.postPrivacyUpdated.status = this.postPrivacy.status;
-        this.changePostPrivacyIcon(this.postPrivacyUpdated.status);
+        var status = this.postPrivacy.status;
+        this.postPrivacyUpdated.status = status;
+    },
+    computed: {
+        // a computed getter
+        icon: function() {
+            return this.changePostPrivacyIcon(this.postPrivacy.status);
+        }
     },
     watch: {
-        /*
-        status: function(val) {
-            changePostPrivacyIcon(val);
-        }
-        */
+        postPrivacyUpdated: function() {}
     }
 };
 </script>
 <style lang="scss" scoped>
+.filesContainer {
+    width: 100%;
+    height: 150px;
+    background-color: white;
+    padding-left: 10px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+.filesContainer:after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 10px;
+}
 </style>
 
