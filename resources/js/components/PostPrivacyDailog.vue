@@ -17,16 +17,14 @@
                     ></v-select>
                     <div class="d-block filesContainer" v-if="postPrivacyUpdated.status=='custom'">
                         <div
-                            v-for="(file, key)  in files"
-                            class="mt-3 mb-3 ml-3 rounded shadow imageBlock"
-                            :style="{backgroundImage:'url('+convertToData(file)+')'}"
+                            v-for="friendId in friendsList"
+                            class="mt-3 mb-3 ml-3 friendBlock black--text"
                         >
-                            <div class="imageOverlay"></div>
-                            <img
-                                src="/ic/cancel.png"
-                                class="m-auto optionsArrow"
-                                @click="removeImage(key)"
-                            />
+                            <friend
+                                :friendId="friendId"
+                                :selectStatus="selectStatus"
+                                @click="changeSelectStatus()"
+                            ></friend>
                         </div>
                     </div>
                     <v-btn @click="dialog=false">cancel</v-btn>
@@ -38,19 +36,24 @@
 </template>
 
 <script>
+import Friend from "./Friend.vue";
 export default {
-    props: ["postPrivacy"],
+    props: ["postPrivacy", "user"],
     data() {
         return {
             dialog: false,
             items: ["private", "public", "friends", "custom"],
             postPrivacyUpdated: {
                 status: "",
-                id_list: ""
-            }
+                id_list: "",
+                friendsList: []
+            },
+            selectStatus: false
         };
     },
-
+    components: {
+        friend: Friend
+    },
     methods: {
         //changePostPrivacy
         changePostPrivacy() {
@@ -78,11 +81,37 @@ export default {
                     return "fa-star-of-life";
                     break;
             }
+        },
+        //handle Friend list
+        handleFriendsList(friendsList) {
+            this.friendsList = friendsList;
+        },
+        //changeBgColor
+        changeSelectStatus() {
+            if (this.selectStatus == false) {
+                this.selectStatus = true;
+            } else {
+                this.selectStatus = false;
+            }
         }
     },
     created: function() {
         var status = this.postPrivacy.status;
         this.postPrivacyUpdated.status = status;
+        //get friendlist
+        axios
+            .get(
+                "http://carmeer.com/api/friendship/" +
+                    this.user.id +
+                    "/friends_list",
+                {
+                    headers: {
+                        Authorization:
+                            "Bearer " + localStorage.getItem("access_token")
+                    }
+                }
+            )
+            .then(res => this.handleFriendsList(res.data.friendsList));
     },
     computed: {
         // a computed getter
@@ -111,6 +140,10 @@ export default {
     display: inline-block;
     height: 100%;
     width: 10px;
+}
+.friendBlock {
+    display: inline-block;
+    cursor: pointer;
 }
 </style>
 

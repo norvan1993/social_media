@@ -6,6 +6,7 @@
             <post-privacy-icon
                 class="float-right privacyIcon"
                 :postPrivacy="postPrivacy"
+                :user="user"
                 @postPrivacyUpdated="changePostPrivacy($event)"
             ></post-privacy-icon>
         </div>

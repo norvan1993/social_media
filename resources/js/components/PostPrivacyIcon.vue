@@ -3,6 +3,7 @@
         <div v-if="postPrivacy">
             <post-privacy-dailog
                 :postPrivacy="postPrivacy"
+                :user="user"
                 @postPrivacyUpdated="changePostPrivacy($event)"
             ></post-privacy-dailog>
         </div>
@@ -13,7 +14,7 @@
 import axios from "axios";
 import PostPrivacyDailog from "./PostPrivacyDailog.vue";
 export default {
-    props: ["postPrivacy"],
+    props: ["postPrivacy", "user"],
     data() {
         return {};
     },

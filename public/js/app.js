@@ -1924,6 +1924,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2923,6 +2924,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Friend_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Friend.vue */ "./resources/js/components/Friend.vue");
 //
 //
 //
@@ -2956,23 +2958,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["postPrivacy"],
+  props: ["postPrivacy", "user"],
   data: function data() {
     return {
       dialog: false,
       items: ["private", "public", "friends", "custom"],
       postPrivacyUpdated: {
         status: "",
-        id_list: ""
+        id_list: "",
+        friendsList: []
       }
     };
+  },
+  components: {
+    friend: _Friend_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   methods: {
     //changePostPrivacy
@@ -2999,11 +3000,25 @@ __webpack_require__.r(__webpack_exports__);
           return "fa-star-of-life";
           break;
       }
+    },
+    //handle Friend list
+    handleFriendsList: function handleFriendsList(friendsList) {
+      this.friendsList = friendsList;
     }
   },
   created: function created() {
+    var _this = this;
+
     var status = this.postPrivacy.status;
-    this.postPrivacyUpdated.status = status;
+    this.postPrivacyUpdated.status = status; //get friendlist
+
+    axios.get("http://carmeer.com/api/friendship/" + this.user.id + "/friends_list", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("access_token")
+      }
+    }).then(function (res) {
+      return _this.handleFriendsList(res.data.friendsList);
+    });
   },
   computed: {
     // a computed getter
@@ -3041,10 +3056,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["postPrivacy"],
+  props: ["postPrivacy", "user"],
   data: function data() {
     return {};
   },
@@ -9152,7 +9168,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".filesContainer[data-v-651f0645] {\n  width: 100%;\n  height: 150px;\n  background-color: white;\n  padding-left: 10px;\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n.filesContainer[data-v-651f0645]:after {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  width: 10px;\n}", ""]);
+exports.push([module.i, ".filesContainer[data-v-651f0645] {\n  width: 100%;\n  height: 150px;\n  background-color: white;\n  padding-left: 10px;\n  overflow-x: auto;\n  overflow-y: hidden;\n  white-space: nowrap;\n}\n.filesContainer[data-v-651f0645]:after {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  width: 10px;\n}\n.friendBlock[data-v-651f0645] {\n  display: inline-block;\n  cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -41266,7 +41282,7 @@ var render = function() {
         _vm._v(" "),
         _c("post-privacy-icon", {
           staticClass: "float-right privacyIcon",
-          attrs: { postPrivacy: _vm.postPrivacy },
+          attrs: { postPrivacy: _vm.postPrivacy, user: _vm.user },
           on: {
             postPrivacyUpdated: function($event) {
               return _vm.changePostPrivacy($event)
@@ -42342,30 +42358,15 @@ var render = function() {
                     ? _c(
                         "div",
                         { staticClass: "d-block filesContainer" },
-                        _vm._l(_vm.files, function(file, key) {
+                        _vm._l(_vm.friendsList, function(friendId) {
                           return _c(
                             "div",
                             {
                               staticClass:
-                                "mt-3 mb-3 ml-3 rounded shadow imageBlock",
-                              style: {
-                                backgroundImage:
-                                  "url(" + _vm.convertToData(file) + ")"
-                              }
+                                "mt-3 mb-3 ml-3 friendBlock black--text"
                             },
-                            [
-                              _c("div", { staticClass: "imageOverlay" }),
-                              _vm._v(" "),
-                              _c("img", {
-                                staticClass: "m-auto optionsArrow",
-                                attrs: { src: "/ic/cancel.png" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removeImage(key)
-                                  }
-                                }
-                              })
-                            ]
+                            [_c("friend", { attrs: { friendId: friendId } })],
+                            1
                           )
                         }),
                         0
@@ -42436,7 +42437,7 @@ var render = function() {
           "div",
           [
             _c("post-privacy-dailog", {
-              attrs: { postPrivacy: _vm.postPrivacy },
+              attrs: { postPrivacy: _vm.postPrivacy, user: _vm.user },
               on: {
                 postPrivacyUpdated: function($event) {
                   return _vm.changePostPrivacy($event)
